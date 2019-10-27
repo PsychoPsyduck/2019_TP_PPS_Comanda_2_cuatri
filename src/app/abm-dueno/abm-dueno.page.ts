@@ -53,8 +53,6 @@ export class AbmDuenoPage implements OnInit {
         if (imgData !== 'No Image Selected') {
           this.saveFoto(imgData);
           this.foto = `data:image/jpeg;base64,${imgData}`;
-        } else {
-          this.toastServ.errorToast("No se pudo tomar la foto");
         }
       })
       .catch(error => {
@@ -75,7 +73,6 @@ export class AbmDuenoPage implements OnInit {
 
     this.events.subscribe('urlFotoGuardada', url => {
       this.spinnerServ.hideLoadingSpinner();
-      console.info("evento url", url);
       this.urlFoto = url;
       this.fotoGuardada = true;
     });

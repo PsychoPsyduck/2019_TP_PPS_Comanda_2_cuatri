@@ -21,7 +21,6 @@ export class UsuariosService {
   saveUsuario(usuario) {
     let id = this.objFirebase.createId();
     usuario.id = id;
-    console.info("saveUsuario usuario", usuario);
     return this.dbRef.doc(id).set(usuario);
 
   }
