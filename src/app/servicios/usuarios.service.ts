@@ -18,11 +18,23 @@ export class UsuariosService {
     this.dbRef = this.objFirebase.collection("usuarios");
   }
 
-  saveUsuario(usuario: Usuario){
+  saveUsuario(usuario: Usuario) {
+    
     let id = this.objFirebase.createId();
     usuario.id = id;
-    console.info("this.dbRef", this.dbRef)
-    return this.dbRef.doc(id).set(usuario);
+    console.info("saveUsuario usuario", usuario);
+    return this.dbRef.doc(id).set({
+      id : usuario.id,
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      clave: usuario.clave,
+      correo: usuario.correo,
+      dni: usuario.dni,
+      cuil: usuario.cuil,
+      puesto: usuario.puesto,
+      tipo: usuario.tipo,
+      foto: usuario.foto,
+    });
   }
 
   TraerUsuarios() {

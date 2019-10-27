@@ -18,6 +18,7 @@ export class AbmDuenoPage implements OnInit {
   altaDuenoForm: FormGroup;
   foto: any = null;
   urlFoto: string;
+  fotoGuardada: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -62,15 +63,16 @@ export class AbmDuenoPage implements OnInit {
   saveFoto(data: any) {
     var res = this.camServ.uploadPhoto(data)
       .then((res) => {
-
         this.toastServ.confirmationToast("Foto guardada")
       })
       .catch(err => {
         this.toastServ.errorToast('Error: No se ha podido guardar la foto. ' + err.message);
       })
+
     this.events.subscribe('urlFotoGuardada', url => {
       console.info("evento url", url);
       this.urlFoto = url;
+      this.fotoGuardada = true;
     });
   }
 
@@ -106,9 +108,11 @@ export class AbmDuenoPage implements OnInit {
 
     this.userServ.saveUsuario(usuario)
       .then(res => {
+        this.toastServ.confirmationToast("Alta realizada");
         console.info("save user res", res)
       })
       .catch(err => {
+        this.toastServ.errorToast("Error al intentar dar de alta" + err);
         console.error(err)
       })
   }

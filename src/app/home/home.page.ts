@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UsuariosService } from '../servicios/usuarios.service';
+import { Usuario } from '../clases/Usuario';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +11,16 @@ import { Router } from '@angular/router';
 })
 export class HomePage {
 
-  constructor(private router: Router, public actionSheetController: ActionSheetController) {}
+  constructor(
+    private router: Router,
+    public actionSheetController: ActionSheetController,
+    private userServ: UsuariosService) { }
 
-  OnLogOut(){
+  OnLogOut() {
     this.router.navigate(['/login']);
+  }
+
+  ngOnInit() {
   }
 
 }
