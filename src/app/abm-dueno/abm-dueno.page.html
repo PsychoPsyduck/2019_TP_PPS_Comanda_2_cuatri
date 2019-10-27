@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Alta Dueño / Supervisor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="ion-text-center">
+      <img class="icon" *ngIf="!foto" src="../../assets/img/altaDue.jpg" alt="">
+    <img class="icon" *ngIf="foto" [src]="foto" alt="">
+  </div>
+
+  <form [formGroup]="altaDuenoForm" (ngSubmit)="altaDueno()">
+
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" formControlName="nombre"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Apellido</ion-label>
+      <ion-input type="text" formControlName="apellido"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input type="email" formControlName="correo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">DNI</ion-label>
+      <ion-input type="number" formControlName="dni"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">CUIL</ion-label>
+      <ion-input type="number" formControlName="cuil"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Clave</ion-label>
+      <ion-input type="password" formControlName="clave"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Perfil</ion-label>
+      <ion-select (ionChange)="setPerfil($event.target.value)" placeholder="Seleccione su perfil: ">
+        <ion-select-option value="dueno">Dueño</ion-select-option>
+        <ion-select-option value="supervisor">Supervisor</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="full" (click)="takeFoto()">
+      Tomar Foto de Perfil
+    </ion-button>
+
+    <ion-button expand="full" (click)="scanDNI()">
+      Scanear DNI
+    </ion-button>
+
+
+    <ion-button expand="full" type="submit" [disabled]="!altaDuenoForm.valid">Registrarse</ion-button>
+
+  </form>
+</ion-content>
+
+
+<!-- Se cargarán: nombre, apellido, DNI, CUIL, foto y perfil.
+La foto se tomará del celular.
+Brindar la posibilidad de contar con un lector de código QR para el DNI, 
+que cargará la información disponible (sólo aplicable a aquellos documentos que lo posean).
+Esta acción la podrá realizar el supervisor o el dueño. -->

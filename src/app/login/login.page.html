@@ -1,5 +1,3 @@
-
-
 <ion-content padding="true">
 
 
@@ -8,14 +6,22 @@
     </ion-row>
 
     <ion-input type="email" placeholder="Correo" [(ngModel)]="correo"></ion-input>
-  
+
 
     <ion-input type="password" placeholder="Clave" [(ngModel)]="clave"></ion-input>
-  
-    
-    <ion-button   expand="block" (click)="Ingresar()">Ingresar</ion-button>
 
 
-    <ion-button   expand="block" (click)="IrARegistro()">Registrase</ion-button>
+    <ion-button expand="block" (click)="Ingresar()">Ingresar</ion-button>
+
+
+    <ion-button expand="block" (click)="IrARegistro()">Registrase</ion-button>
+
+    <ion-item>
+        <ion-label position="stacked">Usuario</ion-label>
+        <ion-select (ionChange)="onChange($event.target.value)" placeholder="Seleccione uno: ">
+            <ion-select-option *ngFor="let usuario of usuariosLogin" value={{usuario.id}}>{{usuario.nombre}}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
 
 </ion-content>

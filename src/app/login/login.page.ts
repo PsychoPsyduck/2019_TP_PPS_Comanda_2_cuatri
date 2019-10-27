@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../clases/Usuario';
-import { UsuariosService } from '../usuarios.service';
-import { ToastController } from '@ionic/angular';
+import { UsuariosService } from '../servicios/usuarios.service';
+import { ToastController, Events } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,66 +11,82 @@ import { ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  correo:string;
-  clave:string;
-  usuarios: Usuario[];
-  procesando:boolean;
-  constructor(private usrService: UsuariosService, private toastController: ToastController) {
-    this.procesando=false;
-    this.TraerUsuarios();
-   }
+  usuariosLogin: Array<any> = [
+    { id: 0, nombre: "admin", correo: "admin@gmail.com", clave: "admin" },
+    { id: 1, nombre: "supervisor", correo: "supervisor@gmail.com", clave: "supervisor" },
+  ]
 
-  TraerUsuarios()
-  {
-    this.usrService.TraerUsuarios().subscribe((arrayUsuarios: Usuario[])=>
-  {
-    this.usuarios= arrayUsuarios.map(usr=>{
-      return usr
-    })
-    console.log(this.usuarios);
-  })
+  correo: string;
+  clave: string;
+  usuarios: Usuario[];
+  procesando: boolean;
+  constructor(
+    private usrService: UsuariosService,
+    private toastController: ToastController,
+    private router: Router,
+    public events: Events) {
+    this.procesando = false;
+    this.TraerUsuarios();
   }
 
-  Ingresar()
-  {
-    let toas= this.toastController.create(
-      {message:"Usuario o contraseña inválidos.", 
-      duration: 3000,
-      position: 'top'});
+  TraerUsuarios() {
+    this.usrService.TraerUsuarios().subscribe((arrayUsuarios: Usuario[]) => {
+      this.usuarios = arrayUsuarios.map(usr => {
+        return usr
+      })
+      console.log(this.usuarios);
+    })
+  }
 
-    this.procesando=true;
-    let ok:boolean =false;
-    this.usuarios.map(usr=>
-    {
-      if(usr.correo == this.correo && usr.clave == this.clave)
+  Ingresar() {
+    let toas = this.toastController.create(
       {
-        ok=true;
+        message: "Usuario o contraseña inválidos.",
+        duration: 3000,
+        position: 'top'
+      });
+
+    this.procesando = true;
+    let ok: boolean = false;
+    this.usuarios.map(usr => {
+      if (usr.correo == this.correo && usr.clave == this.clave) {
+        ok = true;
         sessionStorage.setItem("usuario", JSON.stringify(usr));
         console.log("estas logueado: ", usr);
-        this.procesando=false;
+        this.procesando = false;
+        this.events.publish('usuarioLogueado', usr.puesto);
+        this.router.navigate(['/home']);
       }
 
     })
-    if(!ok)
-    {
+    if (!ok) {
 
       this.presentToast();
-    
+
     }
 
-    
 
+
+  }
+
+  onChange(id) {
+    this.correo = this.usuariosLogin[id].correo;
+    this.clave = this.usuariosLogin[id].clave;
   }
 
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Usuario o contraseña invalidos.',
-      position:"middle",
+      position: "middle",
       duration: 2000
     });
     toast.present();
   }
+
   ngOnInit() {
+    if (sessionStorage.getItem("usuario")) {
+      sessionStorage.removeItem("usuario");
+    }
   }
 
 }

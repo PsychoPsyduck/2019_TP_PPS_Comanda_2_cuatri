@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,10 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(private router: Router, public actionSheetController: ActionSheetController) {}
+
+  OnLogOut(){
+    this.router.navigate(['/login']);
+  }
 
 }
