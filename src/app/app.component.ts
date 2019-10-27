@@ -5,6 +5,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
+import { SpinnerService } from './servicios/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent {
     private statusBar: StatusBar,
     private menu: MenuController,
     public events: Events,
-    private router: Router
+    private router: Router,
+    public spinnerServ: SpinnerService
   ) {
     this.initializeApp();
 

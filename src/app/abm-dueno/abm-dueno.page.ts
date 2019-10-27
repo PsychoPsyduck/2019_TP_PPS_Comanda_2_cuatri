@@ -6,6 +6,7 @@ import { ToastService } from '../servicios/toast.service';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Usuario } from '../clases/Usuario';
 import { Events } from '@ionic/angular';
+import { SpinnerService } from '../servicios/spinner.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class AbmDuenoPage implements OnInit {
     private barcodeServ: BarcodeService,
     private toastServ: ToastService,
     private userServ: UsuariosService,
-    public events: Events) {
+    public events: Events,
+    public spinnerServ: SpinnerService) {
   }
 
   ngOnInit() {
@@ -61,15 +63,18 @@ export class AbmDuenoPage implements OnInit {
   }
 
   saveFoto(data: any) {
+    this.spinnerServ.showLoadingSpinner();
     var res = this.camServ.uploadPhoto(data)
       .then((res) => {
-        this.toastServ.confirmationToast("Foto guardada")
+        // this.toastServ.confirmationToast("Foto guardada")
       })
       .catch(err => {
         this.toastServ.errorToast('Error: No se ha podido guardar la foto. ' + err.message);
+        this.spinnerServ.hideLoadingSpinner();
       })
 
     this.events.subscribe('urlFotoGuardada', url => {
+      this.spinnerServ.hideLoadingSpinner();
       console.info("evento url", url);
       this.urlFoto = url;
       this.fotoGuardada = true;
@@ -93,29 +98,30 @@ export class AbmDuenoPage implements OnInit {
   }
 
   altaDueno() {
-
-    console.warn(this.altaDuenoForm.value);
-
-    const usuario = new Usuario();
-    usuario.nombre = this.altaDuenoForm.value.nombre;
-    usuario.apellido = this.altaDuenoForm.value.apellido;
-    usuario.dni = this.altaDuenoForm.value.dni;
-    usuario.cuil = this.altaDuenoForm.value.cuil;
-    usuario.correo = this.altaDuenoForm.value.correo;
-    usuario.clave = this.altaDuenoForm.value.clave;
-    usuario.tipo = this.altaDuenoForm.value.perfil;
-    usuario.foto = this.urlFoto;
-
+    this.spinnerServ.showLoadingSpinner();
+    const usuario = {
+      nombre : this.altaDuenoForm.value.nombre,
+      apellido : this.altaDuenoForm.value.apellido,
+      dni : this.altaDuenoForm.value.dni,
+      cuil : this.altaDuenoForm.value.cuil,
+      correo : this.altaDuenoForm.value.correo,
+      clave : this.altaDuenoForm.value.clave,
+      tipo : this.altaDuenoForm.value.perfil,
+      foto : this.urlFoto
+    }
     this.userServ.saveUsuario(usuario)
       .then(res => {
         this.toastServ.confirmationToast("Alta realizada");
-        console.info("save user res", res)
+        this.spinnerServ.hideLoadingSpinner();
       })
       .catch(err => {
+        this.spinnerServ.hideLoadingSpinner();
         this.toastServ.errorToast("Error al intentar dar de alta" + err);
         console.error(err)
       })
   }
+
+
 
 }
 

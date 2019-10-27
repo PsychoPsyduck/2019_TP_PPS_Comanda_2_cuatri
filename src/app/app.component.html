@@ -20,4 +20,13 @@
   </ion-menu>
 
   <ion-router-outlet id="content1" main></ion-router-outlet>
+
+  <div id="custom-overlay" *ngIf="spinnerServ.showSpinner">
+    <div class="flb">
+      <div class="Aligner-item Aligner-item--top"></div>
+      <img src="../assets/img/icon.png">
+      <div class="Aligner-item Aligner-item--bottom"></div>
+    </div>
+  </div>
+
 </ion-app>
