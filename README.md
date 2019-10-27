@@ -5,10 +5,9 @@
 <h3>
 Para registrarse: https://forms.gle/MQudzzZkWsfpihy27
 </h3>
-<b>
-Descripción:
-</b>
-<h3>
+
+<b>Descripción:</b>
+
 <p>
 Se utilizará github para el trabajo en equipo. Creando una rama para cada integrante que luego se fusionarán para integrar los cambios.
 Como motor de base de datos se utilizará firebase, para persistir la información.
