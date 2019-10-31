@@ -83,6 +83,11 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
+  IrARegistro()
+  {
+    this.router.navigate(['/registro-cliente']);
+  }
+
   ngOnInit() {
     if (sessionStorage.getItem("usuario")) {
       sessionStorage.removeItem("usuario");

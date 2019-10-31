@@ -8,6 +8,7 @@ export class Usuario {
     apellido: string;
     dni: number;
     cuil: number;
+    estado:string;
     foto: string;
 
 
