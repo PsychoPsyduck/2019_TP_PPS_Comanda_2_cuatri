@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
+  splash = true;
+
   usuariosLogin: Array<any> = [
     { id: 0, nombre: "admin", correo: "admin@gmail.com", clave: "admin" },
     { id: 1, nombre: "supervisor", correo: "supervisor@gmail.com", clave: "supervisor" },
@@ -54,7 +56,7 @@ export class LoginPage implements OnInit {
         sessionStorage.setItem("usuario", JSON.stringify(usr));
         console.log("estas logueado: ", usr);
         this.procesando = false;
-        this.events.publish('usuarioLogueado', usr.puesto);
+        this.events.publish('usuarioLogueado', usr);
         this.router.navigate(['/home']);
       }
 
@@ -83,7 +85,13 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
+  IrARegistro()
+  {
+    this.router.navigate(['/registro-cliente']);
+  }
+
   ngOnInit() {
+    setTimeout(() => this.splash = false, 4000);
     if (sessionStorage.getItem("usuario")) {
       sessionStorage.removeItem("usuario");
     }

@@ -22,6 +22,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage'
 
+import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
 
 @NgModule({
   declarations: [AppComponent],

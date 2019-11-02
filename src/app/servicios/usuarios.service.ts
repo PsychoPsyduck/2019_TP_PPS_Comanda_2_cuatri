@@ -36,11 +36,7 @@ export class UsuariosService {
     let id = this.objFirebase.createId();
     usuario.id = id;
 
-    return this.objFirebase.collection<any>("usuarios").doc(id).set(usuario).then((data) => {
-      console.log(data);
-    }).catch((data) => {
-      console.log(data);
-    })
+   return this.objFirebase.collection<any>("usuarios").doc(id).set(usuario);
 
   }
 }

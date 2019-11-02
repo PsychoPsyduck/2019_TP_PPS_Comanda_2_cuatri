@@ -4,7 +4,6 @@ import { CamaraService } from '../servicios/camara.service';
 import { BarcodeService } from '../servicios/barcode.service';
 import { ToastService } from '../servicios/toast.service';
 import { UsuariosService } from '../servicios/usuarios.service';
-import { Usuario } from '../clases/Usuario';
 import { Events } from '@ionic/angular';
 import { SpinnerService } from '../servicios/spinner.service';
 
@@ -33,10 +32,10 @@ export class AbmDuenoPage implements OnInit {
 
   ngOnInit() {
     this.altaDuenoForm = this.formBuilder.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      dni: ['', Validators.required],
-      cuil: ['', Validators.required],
+      nombre: ['', [Validators.required, Validators.pattern("^[a-zA-Z]+$")]],
+      apellido: ['', [Validators.required, Validators.pattern("^[a-zA-Z]+$")]],
+      dni: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      cuil: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       correo: ['', [Validators.required, Validators.email]],
       clave: ['', Validators.required],
       perfil: ['', Validators.required]
@@ -79,7 +78,7 @@ export class AbmDuenoPage implements OnInit {
   }
 
   scanDNI() {
-    this.barcodeServ.scan()
+    this.barcodeServ.scan("PDF_417")
       .then(barcodeData => {
         if (barcodeData != "") {
           var dataSlpit = barcodeData.text.split("@");

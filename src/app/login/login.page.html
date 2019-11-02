@@ -1,8 +1,22 @@
+<div id="custom-overlay" [style.display]="splash ? 'block': 'none'">
+    <div id="datos">
+        <h1><b>La Comanda</b></h1>
+        <h4> Marcos Cardona </h4>
+        <h4> Augusto Morelli </h4>
+        <h4> Gastón Pesoa </h4>
+    </div>
+    <div class="flb">
+        <div class="Aligner-item Aligner-item--top"></div>
+        <img src="../../assets/img/icon.png">
+        <div class="Aligner-item Aligner-item--bottom"></div>
+    </div>
+</div>
+
 <ion-content padding="true">
 
 
-    <ion-row justify-content-center>
-        <img style="height: 100px; width: 100px;" src="../../assets/img/icon.png">
+    <ion-row class="icono" justify-content-center>
+        <img src="../../assets/img/icon.png">
     </ion-row>
 
     <ion-input type="email" placeholder="Correo" [(ngModel)]="correo"></ion-input>
@@ -17,8 +31,7 @@
     <ion-button expand="block" (click)="IrARegistro()">Registrase</ion-button>
 
     <ion-item>
-        <ion-label position="stacked">Usuario</ion-label>
-        <ion-select (ionChange)="onChange($event.target.value)" placeholder="Seleccione uno: ">
+        <ion-select (ionChange)="onChange($event.target.value)" placeholder="Usuario">
             <ion-select-option *ngFor="let usuario of usuariosLogin" value={{usuario.id}}>{{usuario.nombre}}
             </ion-select-option>
         </ion-select>

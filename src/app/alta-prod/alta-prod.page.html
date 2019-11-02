@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Alta de Platos y Bebidas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="ion-text-center">
+      <p>Imágenes del producto</p>
+    <ion-slides *ngIf="urlsFoto">
+      <ion-slide *ngFor="let foto of urlsFoto; let i = index">
+        <img [src]="foto" />
+      </ion-slide>
+    </ion-slides>
+    <img class="icon" *ngIf="urlsFoto.length==0" src="../../assets/img/altaProd.jpg" alt="">
+  </div>
+
+  <form [formGroup]="altaProdForm" (ngSubmit)="altaProd()">
+
+    <ion-item>
+      <ion-input placeholder="Nombre" type="text" formControlName="nombre"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Descripcion" type="text" formControlName="descripcion"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Tiempo de elaboración (min)" type="number" formControlName="tiempo">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Precio" type="number" formControlName="precio"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="!altaProdForm.valid||!fotosCargadas">Registrar</ion-button>
+
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-fab vertical="bottom" horizontal="end" *ngIf="urlsFoto.length<3">
+    <ion-fab-button color="primary" (click)="takeFoto()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="start">
+    <ion-fab-button color="primary" (click)="scanQR()">
+      <ion-icon name="qr-scanner"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-footer>
+

@@ -15,6 +15,7 @@ import { SpinnerService } from './servicios/spinner.service';
 export class AppComponent {
 
   public pages = [];
+  noLogin: boolean = false;
 
   constructor(
     private platform: Platform,
@@ -26,31 +27,26 @@ export class AppComponent {
     public spinnerServ: SpinnerService
   ) {
     this.initializeApp();
-
-    this.pages.push(
-      {
-        title: 'Home',
-        url: '/home',
-        icon: 'home'
-      },
-      {
-        title: 'Cerrar Sesion',
-        url: '/login',
-        icon: 'log-out'
-      }
-    )
-
+    this.noLogin = false;
     this.events.subscribe('usuarioLogueado', data => {
-      console.log('event received');
-      console.log('perfil recibidos:', data);
-
       // SUSCRIPCIONs
       console.log('perfil recibidos:', data);
+      this.noLogin = true;
+      this.pages = [];
+      this.pages.push(
+        {
+          title: 'Home',
+          url: '/home',
+          icon: 'home'
+        },
+        {
+          title: 'Cerrar Sesion',
+          url: '/login',
+          icon: 'log-out'
+        }
+      )
       // ROUTING DEL MENU
-      switch (data) {
-
-        // console.log('Entro en Switch', data);
-
+      switch (data.tipo) {
         // SUPERVISOR - DUEÑO
         case 'supervisor':
         case 'admin':
@@ -69,7 +65,13 @@ export class AppComponent {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
               icon: 'key'
-            });
+            },
+            {
+              title: 'Alta de Platos y Bebidas',
+              url: '/alta-prod',
+              icon: 'key'
+            }
+            );
           break;
       }
     });
