@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Usuario } from '../clases/Usuario';
+import { MailService } from './mail.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,7 @@ export class UsuariosService {
 
     let id = this.objFirebase.createId();
     usuario.id = id;
+
 
    return this.objFirebase.collection<any>("usuarios").doc(id).set(usuario);
 
