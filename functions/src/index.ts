@@ -1,3 +1,4 @@
+
 import * as functions from 'firebase-functions';
 const admin = require('firebase-admin');
 const cors = require('cors')({origin: true});
@@ -28,7 +29,7 @@ let transporter = nodemailer.createTransport({
             from: 'La comanda <duenolacomanda@gmail.com>', // Something like: Jane Doe <janedoe@gmail.com>
             to: dest,
             subject: 'Verificacion de correo', // email subject
-            html:" <p style='font-size: 16px;'>Te damos la bienvenida a la comanda. <br>Por favor haz click en el siguiente enlace para terminar el proceso de registro de usuario:<br><a href='https://us-central1-practicaprofesional-dbd4e.cloudfunctions.net/validarMail?id="+idUsr+"'>Validar Mail</a></p>"
+            html:" <p style='font-size: 16px;'>Te damos la bienvenida a la comanda. <br>Por favor haz click en el siguiente enlace para terminar el proceso de registro de usuario:<br><a href='https://us-central1-lacomanda-91df5.cloudfunctions.net/validarMail?id="+idUsr+"'>Click aquí para validar Mail</a></p>"
   
         };
   
@@ -41,6 +42,18 @@ let transporter = nodemailer.createTransport({
         });
     });    
   });
+
+
+  exports.validarMail= functions.https.onRequest((req, res)=>{
+
+    const db = admin.firestore()
+     db.collection("usuarios").doc(req.query.id).update("estado","activo").then((data:any)=>{
+         return res.send('Registro completo!');
+    }).catch((data:any)=>{
+     return res.send(' Error!');
+    });
+ 
+ })
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //

@@ -51,6 +51,17 @@ export class AppComponent {
 
         // SUPERVISOR - DUEÑO
         case 'supervisor':
+        case 'dueño':
+         console.log("sos el dueño");
+        this.pages.push(
+          // (A) ALTA DUEÑO
+          {
+            title: 'Lista usuarios pendientes',
+            url: '/lista-usuarios-pendientes',
+            icon: 'people'
+          });
+        break;
+    
         case 'admin':
           // (A) ALTA DUEÑO
           // (B) ALTA EMPLEADO

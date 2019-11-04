@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MailService {
 
+
   url="https://us-central1-lacomanda-91df5.cloudfunctions.net/sendMail?dest=" ;
   //"https://us-central1-practicaprofesional-dbd4e.cloudfunctions.net/sendMail?dest="
 

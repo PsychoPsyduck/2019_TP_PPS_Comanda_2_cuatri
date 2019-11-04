@@ -26,6 +26,20 @@ export class UsuariosService {
     return this.dbRef.doc(id).set(usuario);
   }
 
+  TraerUsuariosPendientes()
+  {
+    this.usuariosFirebase = this.objFirebase.collection<Usuario>("usuarios", ref => ref.where("estado", "==", "pendiente"));
+    this.usuariosObservable = this.usuariosFirebase.valueChanges();
+    return this.usuariosObservable;
+
+  }
+
+  BorrarUsuario(usr:Usuario)
+  {
+    return this.objFirebase.collection<any>("usuarios").doc(usr.id).delete();
+  }
+
+
   TraerUsuarios() {
     this.usuariosFirebase = this.objFirebase.collection<Usuario>("usuarios", ref => ref.orderBy('correo', 'asc'));
     this.usuariosObservable = this.usuariosFirebase.valueChanges();
@@ -40,5 +54,11 @@ export class UsuariosService {
 
    return this.objFirebase.collection<any>("usuarios").doc(id).set(usuario);
 
+  }
+
+  CambiarEstado(usr:Usuario)
+  {
+    usr.estado="pendiente";
+    return this.objFirebase.collection<any>("usuarios").doc(usr.id).update(usr);
   }
 }
