@@ -67,6 +67,18 @@ export class AppComponent {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
               icon: 'key'
+            },
+            // (B) ALTA EMPLEADO
+            {
+              title: 'Alta Empleado',
+              url: '/abm-empleado',
+              icon: 'add-circle-outline'
+            },
+            // (E) ALTA MESAS
+            {
+              title: 'Alta Mesa',
+              url: '/abm-mesa',
+              icon: 'add-circle-outline'
             });
           break;
       }

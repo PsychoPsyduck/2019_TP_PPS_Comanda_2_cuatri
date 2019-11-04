@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Alta de Empleados</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="AgregarEmpleado()" [disabled]="!this.puedeGuardar" routerLink="/home" strong>
+        <span color="primary" showWhen="ios">Listo</span>
+        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="scroll-content">
+  <form *ngIf="form" [formGroup]="form">
+    <input type="file" #fileInput style="visibility: hidden; height: 0rem" name="files[]"
+      (change)="processWebImage($event)">
+    <div class="profile-image-wrapper" (click)="getPicture()">
+      <div class="profile-image-placeholder" *ngIf="!this.form.controls.foto.value">
+        <ion-icon name="add"></ion-icon>
+        <div>Añadir Foto</div>
+      </div>
+      <div class="profile-image" [style.backgroundImage]="getProfileImageStyle()" *ngIf="this.form.controls.foto.value">
+      </div>
+    </div>
+
+    <ion-list>
+      <ion-item class="noPadding">
+        <ion-label>Nombre</ion-label>
+        <ion-input type="text" formControlName="nombre"></ion-input>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>Apellido</ion-label>
+        <ion-input type="text" formControlName="apellido">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>DNI</ion-label>
+        <ion-input type="number" formControlName="dni"></ion-input>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>CUIL</ion-label>
+        <ion-input formControlName="cuil"></ion-input>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>Perfil</ion-label>
+        <ion-select formControlName="perfil" placeholder="Seleccione">
+          <ion-select-option value="mozo">Mozo</ion-select-option>
+          <ion-select-option value="cocinero">Cocinero</ion-select-option>
+          <ion-select-option value="bartender">Bar Tender</ion-select-option>
+          <ion-select-option value="delivery">Delivery</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>Correo</ion-label>
+        <ion-input type="email" formControlName="correo"></ion-input>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>Contraseña</ion-label>
+        <ion-input type="password" formControlName="clave"></ion-input>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>Repita su contraseña</ion-label>
+        <ion-input type="password" formControlName="claveConfirmada"></ion-input>
+      </ion-item>
+
+      <ion-item text-center>
+        <ion-button color="light" (click)="escanearDni()">
+          <ion-icon color="secondary" name="qr-scanner" style="margin-right:5px;"></ion-icon>
+          Escanear DNI
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
