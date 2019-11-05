@@ -16,6 +16,7 @@ export class LoginPage implements OnInit {
   usuariosLogin: Array<any> = [
     { id: 0, nombre: "admin", correo: "admin@gmail.com", clave: "admin" },
     { id: 1, nombre: "supervisor", correo: "supervisor@gmail.com", clave: "supervisor" },
+    { id: 2, nombre: "dueño", correo: "dueño@gmail.com", clave: "dueño" },
   ]
 
   correo: string;

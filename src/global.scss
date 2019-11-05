@@ -28,3 +28,19 @@
 ion-content{
     --background: #fff url('./assets/img/fondo.jpg') no-repeat center center / cover;
 }
+:root {
+    --ion-color-secondary: #00000096;
+    --ion-color-secondary-rgb: 0,102,0;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255,255,255;
+    --ion-color-secondary-shade: #2a2b2a9d;
+    --ion-color-secondary-tint: #080808;
+  }
+  :root {
+    --ion-color-pendiente: #a2f8017a;
+    --ion-color-pendiente-rgb: 0,102,0;
+    --ion-color-pendiente-contrast: #ffffff;
+    --ion-color-pendiente-contrast-rgb: 255,255,255;
+    --ion-color-pendiente-shade: #2a2b2a9d;
+    --ion-color-pendiente-tint: #080808;
+  }

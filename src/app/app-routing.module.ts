@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'abm-dueno', loadChildren: './abm-dueno/abm-dueno.module#AbmDuenoPageModule' },
   { path: 'registro-cliente', loadChildren: './registro-cliente/registro-cliente.module#RegistroClientePageModule' },
   { path: 'alta-prod', loadChildren: './alta-prod/alta-prod.module#AltaProdPageModule' },
+  { path: 'lista-usuarios-pendientes', loadChildren: './lista-usuarios-pendientes/lista-usuarios-pendientes.module#ListaUsuariosPendientesPageModule' },
 
 ];
 

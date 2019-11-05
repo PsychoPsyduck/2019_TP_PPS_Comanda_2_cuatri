@@ -49,6 +49,23 @@ export class AppComponent {
       switch (data.tipo) {
         // SUPERVISOR - DUEÑO
         case 'supervisor':
+        case 'dueño':
+          console.log("sos el dueño");
+          this.pages.push(
+            // (A) ALTA DUEÑO
+            {
+              title: 'Lista usuarios pendientes',
+              url: '/lista-usuarios-pendientes',
+              icon: 'people'
+            },
+            {
+              title: 'Alta Dueño/Supervisor',
+              url: '/abm-dueno',
+              icon: 'key'
+            }
+          );
+          break;
+
         case 'admin':
           // (A) ALTA DUEÑO
           // (B) ALTA EMPLEADO
@@ -60,7 +77,11 @@ export class AppComponent {
           // (Q) NPUSH - HACER RESERVA / DELIVERY (VA PARA EL MOZO / DELIVERY)
           // this.fcm.subscribeToTopic('notificacionReservas');
           this.pages.push(
-            // (A) ALTA DUEÑO
+            {
+              title: 'Lista usuarios pendientes',
+              url: '/lista-usuarios-pendientes',
+              icon: 'people'
+            },
             {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
@@ -71,7 +92,18 @@ export class AppComponent {
               url: '/alta-prod',
               icon: 'key'
             }
-            );
+          );
+          break;
+
+        case 'bartender':
+        case 'cocinero':
+          this.pages.push(
+            {
+              title: 'Alta de Platos y Bebidas',
+              url: '/alta-prod',
+              icon: 'key'
+            }
+          );
           break;
       }
     });
