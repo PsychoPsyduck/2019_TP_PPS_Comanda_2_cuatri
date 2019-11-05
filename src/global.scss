@@ -44,3 +44,213 @@ ion-content{
     --ion-color-pendiente-shade: #2a2b2a9d;
     --ion-color-pendiente-tint: #080808;
   }
+
+.noPadding {
+    padding: 0rem !important;
+    margin: 0rem !important;
+  }
+  
+  .profile-image-wrapper {
+    text-align: center;
+    margin: 20px 0;
+  
+    .profile-image {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+  
+      display: inline-block;
+  
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  
+    .profile-image-placeholder {
+      display: inline-block;
+  
+      background-color: #eee;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+  
+      font-size: 12px;
+  
+      ion-icon {
+        font-size: 44px;
+        margin-bottom: -10px;
+        margin-top: 10px;
+      }
+    }
+  }
+  
+  .scroll-content {
+    height: 100vh;
+    // background-color: $first-detail-color;
+  }
+  
+  .flex {
+    &-v {
+      display: flex;
+      flex-direction: column;
+    }
+    &-h {
+      display: flex;
+      flex-direction: row;
+    }
+    &-10 {
+      flex: 10%;
+    }
+    &-20 {
+      flex: 20%;
+    }
+    &-30 {
+      flex: 30%;
+    }
+    &-40 {
+      flex: 40%;
+    }
+    &-50 {
+      flex: 50%;
+    }
+    &-80 {
+      flex: 80%;
+    }
+  }
+  
+  .height {
+    &-10 {
+      height: 10%;
+    }
+    &-20 {
+      height: 20%;
+    }
+    &-30 {
+      height: 30%;
+    }
+    &-40 {
+      height: 40%;
+    }
+    &-50 {
+      height: 50%;
+    }
+    &-60 {
+      height: 60%;
+    }
+    &-70 {
+      height: 70%;
+    }
+    &-80 {
+      height: 80%;
+    }
+    &-90 {
+      height: 90%;
+    }
+    &-100 {
+      height: 100%;
+    }
+  }
+  
+  .width {
+    &-10 {
+      width: 10%;
+    }
+    &-20 {
+      width: 20%;
+    }
+    &-25 {
+      width: 25%;
+    }
+    &-30 {
+      width: 30%;
+    }
+    &-35 {
+      width: 35%;
+    }
+    &-40 {
+      width: 40%;
+    }
+    &-50 {
+      width: 50%;
+    }
+    &-60 {
+      width: 60%;
+    }
+    &-70 {
+      width: 70%;
+    }
+    &-75 {
+      width: 75%;
+    }
+    &-80 {
+      width: 80%;
+    }
+    &-90 {
+      width: 90%;
+    }
+    &-100 {
+      width: 100%;
+    }
+  }
+  
+  .sin-resultados {
+    color: blue !important;
+    font-size: 1.6rem !important;
+    font-weight: bold;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .end-horizontal {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .spinner-class {
+    --background: transparent;
+    ion-backdrop {
+      background-color: #fff;
+      opacity: 0.9 !important;
+    }
+    .loading-wrapper {
+      //background-image: url("./assets/la-comanda-logo.jpg");
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+      min-width: 90px;
+      min-height: 90px;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  }
+  
+  
+  .splash {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+  }
+  
+  .titulo {
+    position: absolute;
+    font-size: 120%;
+    color: white;
+    animation: bounce 0.5s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes bounce {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(0, -100px, 0);
+    }
+  }
+  

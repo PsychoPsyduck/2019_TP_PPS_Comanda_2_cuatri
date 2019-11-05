@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Agregar Mesa</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="AgregarMesa()" [disabled]="!this.puedeGuardar" routerLink="/home" strong>
+        <span color="primary" showWhen="ios">Listo</span>
+        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="scroll-content">
+  <form *ngIf="form" [formGroup]="form">
+    <input type="file" #fileInput style="visibility: hidden; height: 0rem" name="files[]"
+      (change)="processWebImage($event)">
+    <div class="profile-image-wrapper" (click)="getPicture()">
+      <div class="profile-image-placeholder" *ngIf="!this.form.controls.foto.value">
+        <ion-icon name="add"></ion-icon>
+        <div>Añadir Foto</div>
+      </div>
+      <div *ngIf="this.form.controls.foto.value" class="profile-image" [style.backgroundImage]="getProfileImageStyle()">
+      </div>
+    </div>
+
+    <ion-list>
+      <ion-item class="noPadding">
+        <ion-label>Codigo de Mesa</ion-label>
+        <ion-input type="text" formControlName="id"></ion-input>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>Comensales</ion-label>
+        <ion-input type="number" formControlName="comensales">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="noPadding">
+        <ion-label>Tipo</ion-label>
+        <ion-select type="text" formControlName="tipo" placeholder="Seleccione">
+          <ion-select-option value="estándar">Estándar</ion-select-option>
+          <ion-select-option value="barra">Barra</ion-select-option>
+          <ion-select-option value="discapacitados">Para Discapacitados</ion-select-option>
+          <ion-select-option value="sector fumadores">Sector de Fumadores</ion-select-option>
+          <ion-select-option value="terraza">Terraza</ion-select-option>
+          <ion-select-option value="vip">VIP</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <!-- Esto es para generar un codigo para una mesa nueva -->
+
+      <ion-item *ngIf="createdCode">
+        <ngx-qrcode [qrc-value]="createdCode" qrc-element-type="canvas" style="width:40vw"></ngx-qrcode>
+        <ion-card-content>
+          <p>Value:<br> {{createdCode}}</p>
+        </ion-card-content>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
