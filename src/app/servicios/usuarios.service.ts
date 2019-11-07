@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Observable } from 'rxjs';
 import { Usuario } from '../clases/Usuario';
 import { MailService } from './mail.service';
+import { RegistroEspera } from '../clases/RegistroEspera';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +61,25 @@ export class UsuariosService {
   {
     usr.estado="pendiente";
     return this.objFirebase.collection<any>("usuarios").doc(usr.id).update(usr);
+  }
+
+   async TraerListaEsperaMesa()
+  {
+
+    this.usuariosFirebase = this.objFirebase.collection<RegistroEspera>("esperaMesa", ref => ref.orderBy('fecha', 'asc'));
+    this.usuariosObservable = this.usuariosFirebase.valueChanges();
+    return this.usuariosObservable;
+  }
+
+  AgregarListaEsperaMesa(usr)
+  {
+   let registro= {
+      fecha: Date.now(),
+      nombre: usr.nombre,
+      apellido: usr.apellido,
+      correo: usr.correo,
+      foto:usr.foto
+    }
+   return this.objFirebase.collection<any>("esperaMesa").add(registro);
   }
 }
