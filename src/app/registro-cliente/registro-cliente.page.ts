@@ -109,7 +109,7 @@ export class RegistroClientePage implements OnInit {
 
   LeerDni(){ 
 
-    this.barcode.scan().then(barcodeData => {
+    this.barcode.scan("PDF_417").then(barcodeData => {
 
       var split = barcodeData.text.split("@");
       console.log(split);

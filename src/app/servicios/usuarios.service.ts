@@ -20,11 +20,11 @@ export class UsuariosService {
     this.dbRef = this.objFirebase.collection("usuarios");
   }
 
-  saveUsuario(usuario: Usuario){
+  saveUsuario(usuario) {
     let id = this.objFirebase.createId();
     usuario.id = id;
-    console.info("this.dbRef", this.dbRef)
     return this.dbRef.doc(id).set(usuario);
+
   }
 
   TraerUsuariosPendientes()

@@ -1,66 +1,68 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>registroCliente</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Registro de Cliente</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  
+
   <ion-row justify-content-center>
-   <ion-card style="border-style: ridge; border-width: 2px; border-radius: 50px; border-color: rgba(25, 161, 36, 0.712)">
-    <img  *ngIf="!fotoCliente" style="height: 100px; width: 100px;" src="../../assets/img/user-icon.png">
-    <img  *ngIf="fotoCliente" style="height: 100px; width: 100px; border-radius: 50px;" src={{fotoCliente}}>
-   </ion-card>
-      
-   
-   
-</ion-row>
-
-  <form  [formGroup]="registroForm" (ngSubmit)="Registrar()">
-     
-        <ion-item>
-        <ion-input type="text" name="nombre" [formControl]="nombre" required placeholder="Nombre">
-        </ion-input>
-      </ion-item>
-          
-      <ion-item> 
-          <ion-input type="text" name="apellido" [formControl]="apellido" required placeholder="Apellido">
-          </ion-input>
-        </ion-item>
-
-          <ion-item>    
-            <ion-input type="number" placeholder="DNI" name="dni"  [formControl]="dni" required>
-            </ion-input>
-          </ion-item>
+    <ion-card
+      style="border-style: ridge; border-width: 2px; border-radius: 50px; border-color: rgba(25, 161, 36, 0.712)">
+      <img *ngIf="!fotoCliente" style="height: 100px; width: 100px;" src="../../assets/img/user-icon.png">
+      <img *ngIf="fotoCliente" style="height: 100px; width: 100px; border-radius: 50px;" src={{fotoCliente}}>
+    </ion-card>
 
 
-          <ion-item>
-          <ion-input type="email" name="email" [formControl]="email" placeholder="Correo" required  >
-          </ion-input>
-        </ion-item>
 
-          <ion-item>
-          <ion-input type="password" name="clave"  [formControl]="clave" placeholder="Clave" required>
-          </ion-input>
-        </ion-item>
+  </ion-row>
+
+  <form [formGroup]="registroForm" (ngSubmit)="Registrar()">
+
+    <ion-item>
+      <ion-input type="text" name="nombre" [formControl]="nombre" required placeholder="Nombre">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" name="apellido" [formControl]="apellido" required placeholder="Apellido">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="number" placeholder="DNI" name="dni" [formControl]="dni" required>
+      </ion-input>
+    </ion-item>
 
 
-         
-      <ion-button type="submit" class="loginButton" expand="block"  [disabled]="!registroForm.valid" block>Enviar</ion-button>
-        
-    
+    <ion-item>
+      <ion-input type="email" name="email" [formControl]="email" placeholder="Correo" required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="password" name="clave" [formControl]="clave" placeholder="Clave" required>
+      </ion-input>
+    </ion-item>
+
+
+
+    <ion-button type="submit" class="loginButton" expand="block" [disabled]="!registroForm.valid" block>Enviar
+    </ion-button>
+
+
   </form>
 
-  <ion-button class="loginButton" expand="block"  (click)="LeerDni()" block>Leer dni</ion-button>
-   
- 
+  <ion-button class="loginButton" expand="block" (click)="LeerDni()" block>Leer dni</ion-button>
 
 
-  </ion-content>
-  <ion-footer>
-    <ion-fab vertical="bottom" horizontal="end">
-      <ion-fab-button style="--background: rgb(75, 129, 98); " (click)="SacarFoto()">
-        <ion-icon name="camera"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
-  </ion-footer>
+
+
+</ion-content>
+<ion-footer>
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button style="--background: rgb(75, 129, 98); " (click)="SacarFoto()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-footer>

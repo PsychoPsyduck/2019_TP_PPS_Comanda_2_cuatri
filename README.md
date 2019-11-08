@@ -21,9 +21,10 @@ Sprint 1 26/10 - 2/11
   <li>Generación de repositorio</li>
   <li>Creación de estructura general de la aplicacion</li>
   <li>Login</li>
+  <li>Registro de cliente</li>
+  <li>Listado de usuarios pendientes de alta</li>
   <li>Icono</li>
   <li>Splash Screen animado con Logo de la aplicación</li>
-  <li>Menu Layout</li>
   <li>Menu Layout</li>
   <li>Configuración de Servicios
     <ul>
@@ -45,4 +46,19 @@ Sprint 1 26/10 - 2/11
     </ul>
   </li>
 </ol>
+</br>
+<b>
+Sprint 2 2/11 - 9/11
+</b>
+<ol>
+  <li>Correcciones primer sprint</li>
+  <li>Gestión
+    <ul>
+      <li>Pedir platos y bebidas</li>
+      <li>Tomar pedido</li>
+      <li>Hacer reservas agendadas</li>
+    </ul>
+  </li>
+</ol>
+
 

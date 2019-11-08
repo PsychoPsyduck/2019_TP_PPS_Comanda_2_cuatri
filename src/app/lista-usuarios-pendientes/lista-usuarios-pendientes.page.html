@@ -1,36 +1,44 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title color="primary" >Usuarios pendientes de aprobacion</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Usuarios pendientes de aprobacion</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding="true">
-<ion-list justify-content-center style="background-color:rgba(255, 255, 255, 0) ">
-  <ion-card color="secondary" *ngFor="let u of listaUsuarios">
+  <ion-list justify-content-center style="background-color:rgba(255, 255, 255, 0) ">
+    <ion-card color="secondary" *ngFor="let u of listaUsuarios">
 
-<ion-card-content>
-   
-              <img style="width: 100px; height: 100px; border-radius: 50px; float: left;"  *ngIf="!u.foto" src="../../assets/img/user-icon.png">
-              <img  style="width: 100px; height: 100px; border-radius: 50px; float: left;" *ngIf="u.foto"  src={{u.foto}}>
-           
+      <ion-card-content>
 
-<p>
-    Nombre: {{u.nombre}}
-
-  </p>
-<p>
-   Apellido: {{u.apellido}}
-  </p>
-
-      
-  <ion-button color="success" size="large" (click)="EnviarMail(u)"><ion-icon name="checkmark"></ion-icon></ion-button>
-  <ion-button color="danger" size="large" (click)="BorrarUsuario(u)" ><ion-icon name="trash"></ion-icon></ion-button>
-
-</ion-card-content>
-  </ion-card>
+        <img style="width: 100px; height: 100px; border-radius: 50px; float: left;" *ngIf="!u.foto"
+          src="../../assets/img/user-icon.png">
+        <img style="width: 100px; height: 100px; border-radius: 50px; float: left;" *ngIf="u.foto" src={{u.foto}}>
 
 
+        <p>
+          Nombre: {{u.nombre}}
 
-  
-</ion-list>
+        </p>
+        <p>
+          Apellido: {{u.apellido}}
+        </p>
+
+
+        <ion-button color="success" size="large" (click)="EnviarMail(u)">
+          <ion-icon name="checkmark"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" size="large" (click)="BorrarUsuario(u)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+
+
+
+
+  </ion-list>
 </ion-content>

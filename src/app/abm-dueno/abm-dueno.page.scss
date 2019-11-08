@@ -4,3 +4,34 @@
     justify-content: center;
     text-align: center;
 }
+
+ion-content{
+    --background: #fff url('../../assets/img/fondo.jpg') no-repeat center center / cover;
+}
+
+ion-input{
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);
+
+border-radius: 5px;
+font-size: x-large;
+}
+ion-item{
+    --background: rgba(0, 0, 0, 0.356);
+    --padding: 0%;
+    margin-bottom: 2px;
+    border-radius: 5px;
+}
+
+
+ion-button{
+--background: rgb(75, 129, 98);
+color: white;
+height: 60px;
+}
+
+
+.text-input[disabled] {
+    opacity: 1;
+  }
+  

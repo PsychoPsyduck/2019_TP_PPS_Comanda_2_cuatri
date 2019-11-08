@@ -4,8 +4,8 @@ import { CamaraService } from '../servicios/camara.service';
 import { BarcodeService } from '../servicios/barcode.service';
 import { ToastService } from '../servicios/toast.service';
 import { UsuariosService } from '../servicios/usuarios.service';
-import { Usuario } from '../clases/Usuario';
 import { Events } from '@ionic/angular';
+import { SpinnerService } from '../servicios/spinner.service';
 
 
 @Component({
@@ -18,6 +18,7 @@ export class AbmDuenoPage implements OnInit {
   altaDuenoForm: FormGroup;
   foto: any = null;
   urlFoto: string;
+  fotoGuardada: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,15 +26,16 @@ export class AbmDuenoPage implements OnInit {
     private barcodeServ: BarcodeService,
     private toastServ: ToastService,
     private userServ: UsuariosService,
-    public events: Events) {
+    public events: Events,
+    public spinnerServ: SpinnerService) {
   }
 
   ngOnInit() {
     this.altaDuenoForm = this.formBuilder.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      dni: ['', Validators.required],
-      cuil: ['', Validators.required],
+      nombre: ['', [Validators.required, Validators.pattern("^[a-zA-Z]+$")]],
+      apellido: ['', [Validators.required, Validators.pattern("^[a-zA-Z]+$")]],
+      dni: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
+      cuil: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       correo: ['', [Validators.required, Validators.email]],
       clave: ['', Validators.required],
       perfil: ['', Validators.required]
@@ -50,8 +52,6 @@ export class AbmDuenoPage implements OnInit {
         if (imgData !== 'No Image Selected') {
           this.saveFoto(imgData);
           this.foto = `data:image/jpeg;base64,${imgData}`;
-        } else {
-          this.toastServ.errorToast("No se pudo tomar la foto");
         }
       })
       .catch(error => {
@@ -60,22 +60,25 @@ export class AbmDuenoPage implements OnInit {
   }
 
   saveFoto(data: any) {
+    this.spinnerServ.showLoadingSpinner();
     var res = this.camServ.uploadPhoto(data)
       .then((res) => {
-
-        this.toastServ.confirmationToast("Foto guardada")
+        // this.toastServ.confirmationToast("Foto guardada")
       })
       .catch(err => {
         this.toastServ.errorToast('Error: No se ha podido guardar la foto. ' + err.message);
+        this.spinnerServ.hideLoadingSpinner();
       })
+
     this.events.subscribe('urlFotoGuardada', url => {
-      console.info("evento url", url);
+      this.spinnerServ.hideLoadingSpinner();
       this.urlFoto = url;
+      this.fotoGuardada = true;
     });
   }
 
   scanDNI() {
-    this.barcodeServ.scan()
+    this.barcodeServ.scan("PDF_417")
       .then(barcodeData => {
         if (barcodeData != "") {
           var dataSlpit = barcodeData.text.split("@");
@@ -91,27 +94,30 @@ export class AbmDuenoPage implements OnInit {
   }
 
   altaDueno() {
-
-    console.warn(this.altaDuenoForm.value);
-
-    const usuario = new Usuario();
-    usuario.nombre = this.altaDuenoForm.value.nombre;
-    usuario.apellido = this.altaDuenoForm.value.apellido;
-    usuario.dni = this.altaDuenoForm.value.dni;
-    usuario.cuil = this.altaDuenoForm.value.cuil;
-    usuario.correo = this.altaDuenoForm.value.correo;
-    usuario.clave = this.altaDuenoForm.value.clave;
-    usuario.tipo = this.altaDuenoForm.value.perfil;
-    usuario.foto = this.urlFoto;
-
+    this.spinnerServ.showLoadingSpinner();
+    const usuario = {
+      nombre : this.altaDuenoForm.value.nombre,
+      apellido : this.altaDuenoForm.value.apellido,
+      dni : this.altaDuenoForm.value.dni,
+      cuil : this.altaDuenoForm.value.cuil,
+      correo : this.altaDuenoForm.value.correo,
+      clave : this.altaDuenoForm.value.clave,
+      tipo : this.altaDuenoForm.value.perfil,
+      foto : this.urlFoto
+    }
     this.userServ.saveUsuario(usuario)
       .then(res => {
-        console.info("save user res", res)
+        this.toastServ.confirmationToast("Alta realizada");
+        this.spinnerServ.hideLoadingSpinner();
       })
       .catch(err => {
+        this.spinnerServ.hideLoadingSpinner();
+        this.toastServ.errorToast("Error al intentar dar de alta" + err);
         console.error(err)
       })
   }
+
+
 
 }
 

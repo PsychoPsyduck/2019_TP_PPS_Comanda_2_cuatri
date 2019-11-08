@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
@@ -17,51 +17,48 @@
   <form [formGroup]="altaDuenoForm" (ngSubmit)="altaDueno()">
 
     <ion-item>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input type="text" formControlName="nombre"></ion-input>
+      <ion-input placeholder="Nombre" type="text" formControlName="nombre"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Apellido</ion-label>
-      <ion-input type="text" formControlName="apellido"></ion-input>
+      <ion-input placeholder="Apellido" type="text" formControlName="apellido"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Correo Electrónico</ion-label>
-      <ion-input type="email" formControlName="correo"></ion-input>
+      <ion-input placeholder="Correo Electrónico" type="email" formControlName="correo"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">DNI</ion-label>
-      <ion-input type="number" formControlName="dni"></ion-input>
+      <ion-input placeholder="DNI" type="number" formControlName="dni"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">CUIL</ion-label>
-      <ion-input type="number" formControlName="cuil"></ion-input>
+      <ion-input placeholder="CUIL" type="number" formControlName="cuil"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Clave</ion-label>
-      <ion-input type="password" formControlName="clave"></ion-input>
+      <ion-input placeholder="Clave" type="password" formControlName="clave"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Perfil</ion-label>
-      <ion-select (ionChange)="setPerfil($event.target.value)" placeholder="Seleccione su perfil: ">
+      <ion-select (ionChange)="setPerfil($event.target.value)" placeholder="Perfil">
         <ion-select-option value="dueno">Dueño</ion-select-option>
         <ion-select-option value="supervisor">Supervisor</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-button expand="full" (click)="takeFoto()">
-      Tomar Foto de Perfil
-    </ion-button>
-
-    <ion-button expand="full" (click)="scanDNI()">
-      Scanear DNI
-    </ion-button>
-
-
-    <ion-button expand="full" type="submit" [disabled]="!altaDuenoForm.valid">Registrarse</ion-button>
+    <ion-button expand="full" type="submit" [disabled]="!altaDuenoForm.valid||!fotoGuardada">Registrarse</ion-button>
 
   </form>
 </ion-content>
+
+<ion-footer>
+    <ion-fab vertical="bottom" horizontal="end" >
+      <ion-fab-button color="primary" (click)="takeFoto()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-fab vertical="bottom" horizontal="start">
+      <ion-fab-button color="primary" (click)="scanDNI()">
+        <ion-icon name="qr-scanner"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-footer>
 
 
 <!-- Se cargarán: nombre, apellido, DNI, CUIL, foto y perfil.

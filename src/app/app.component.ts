@@ -5,6 +5,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
+import { SpinnerService } from './servicios/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
 
   public pages = [];
+  noLogin: boolean = false;
 
   constructor(
     private platform: Platform,
@@ -21,34 +23,30 @@ export class AppComponent {
     private statusBar: StatusBar,
     private menu: MenuController,
     public events: Events,
-    private router: Router
+    private router: Router,
+    public spinnerServ: SpinnerService
   ) {
     this.initializeApp();
-
-    this.pages.push(
-      {
-        title: 'Home',
-        url: '/home',
-        icon: 'home'
-      },
-      {
-        title: 'Cerrar Sesion',
-        url: '/login',
-        icon: 'log-out'
-      }
-    )
-
+    this.noLogin = false;
     this.events.subscribe('usuarioLogueado', data => {
-      console.log('event received');
-      console.log('perfil recibidos:', data);
-
       // SUSCRIPCIONs
       console.log('perfil recibidos:', data);
+      this.noLogin = true;
+      this.pages = [];
+      this.pages.push(
+        {
+          title: 'Home',
+          url: '/home',
+          icon: 'home'
+        },
+        {
+          title: 'Cerrar Sesion',
+          url: '/login',
+          icon: 'log-out'
+        }
+      )
       // ROUTING DEL MENU
-      switch (data) {
-
-        // console.log('Entro en Switch', data);
-
+      switch (data.tipo) {
         // SUPERVISOR - DUEÑO
         case 'supervisor':
 
@@ -60,7 +58,14 @@ export class AppComponent {
             title: 'Lista usuarios pendientes',
             url: '/lista-usuarios-pendientes',
             icon: 'people'
-          });
+          },
+
+          {
+            title: 'Alta Dueño/Supervisor',
+            url: '/abm-dueno',
+            icon: 'key'
+          }
+        );
         break;
 
         case 'cliente':
@@ -84,6 +89,7 @@ export class AppComponent {
             icon: 'people'
           });
           
+
           break;
 
         case 'admin':
@@ -97,12 +103,57 @@ export class AppComponent {
           // (Q) NPUSH - HACER RESERVA / DELIVERY (VA PARA EL MOZO / DELIVERY)
           // this.fcm.subscribeToTopic('notificacionReservas');
           this.pages.push(
-            // (A) ALTA DUEÑO
+            {
+              title: 'Lista usuarios pendientes',
+              url: '/lista-usuarios-pendientes',
+              icon: 'people'
+            },
             {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
               icon: 'key'
-            });
+            },
+            {
+              title: 'Alta de Platos y Bebidas',
+              url: '/alta-prod',
+              icon: 'key'
+            },
+            // (B) ALTA EMPLEADO
+            {
+              title: 'Alta Empleado',
+              url: '/abm-empleado',
+              icon: 'add-circle-outline'
+            },
+            // (E) ALTA MESAS
+            {
+              title: 'Alta Mesa',
+              url: '/abm-mesa',
+              icon: 'add-circle-outline'
+            }
+          );
+          break;
+
+        case 'bartender':
+        case 'cocinero':
+          this.pages.push(
+            {
+              title: 'Alta de Platos y Bebidas',
+              url: '/alta-prod',
+              icon: 'key'
+            },
+            // (B) ALTA EMPLEADO
+            {
+              title: 'Alta Empleado',
+              url: '/abm-empleado',
+              icon: 'add-circle-outline'
+            },
+            // (E) ALTA MESAS
+            {
+              title: 'Alta Mesa',
+              url: '/abm-mesa',
+              icon: 'add-circle-outline'
+            }
+          );
           break;
       }
     });
