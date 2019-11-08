@@ -79,7 +79,14 @@ export class AppComponent {
               title: 'Alta Mesa',
               url: '/abm-mesa',
               icon: 'add-circle-outline'
+            },
+            {
+              title: 'Lista de pedidos',
+              url: '/lista-pedidos',
+              icon: 'list-box'
             });
+          break;
+          case 'mozo':
           break;
       }
     });
