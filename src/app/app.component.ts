@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { SpinnerService } from './servicios/spinner.service';
+import { Usuario } from './clases/Usuario';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import { SpinnerService } from './servicios/spinner.service';
 export class AppComponent {
 
   public pages = [];
-  noLogin: boolean = false;
+  logeado: boolean = false;
+  usuario: Usuario = null;
 
   constructor(
     private platform: Platform,
@@ -27,11 +29,11 @@ export class AppComponent {
     public spinnerServ: SpinnerService
   ) {
     this.initializeApp();
-    this.noLogin = false;
+    this.logeado = false;
     this.events.subscribe('usuarioLogueado', data => {
+      this.menu.enable(true);
       // SUSCRIPCIONs
-      console.log('perfil recibidos:', data);
-      this.noLogin = true;
+      this.logeado = true;
       this.pages = [];
       this.pages.push(
         {
@@ -49,21 +51,47 @@ export class AppComponent {
       switch (data.tipo) {
         // SUPERVISOR - DUEÑO
         case 'supervisor':
+
         case 'dueño':
           console.log("sos el dueño");
           this.pages.push(
-            // (A) ALTA DUEÑO
+
             {
               title: 'Lista usuarios pendientes',
               url: '/lista-usuarios-pendientes',
               icon: 'people'
             },
+
             {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
               icon: 'key'
             }
           );
+          break;
+
+        case 'cliente':
+
+          this.pages.push(
+
+            {
+              title: 'Poner en lista de espera',
+              url: '/lista-espera-cliente',
+              icon: 'people',
+
+            });
+          break;
+
+        case 'mozo':
+          this.pages.push(
+
+            {
+              title: 'Lista de espera',
+              url: '/lista-espera-mesa',
+              icon: 'people'
+            });
+
+
           break;
 
         case 'admin':
@@ -141,7 +169,11 @@ export class AppComponent {
   }
 
   navegoPagina(pagina) {
-    this.router.navigateByUrl(pagina);
+    if (pagina === '/login') {
+      this.menu.enable(false);
+      sessionStorage.removeItem("usuario");
+    }
+    this.router.navigate([pagina]);
   }
 
   openFirst() {

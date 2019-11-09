@@ -9,8 +9,10 @@ const routes: Routes = [
   { path: 'splash', loadChildren: './splash/splash.module#SplashPageModule' },
   { path: 'abm-dueno', loadChildren: './abm-dueno/abm-dueno.module#AbmDuenoPageModule' },
   { path: 'registro-cliente', loadChildren: './registro-cliente/registro-cliente.module#RegistroClientePageModule' },
-  { path: 'alta-prod', loadChildren: './alta-prod/alta-prod.module#AltaProdPageModule' },
   { path: 'lista-usuarios-pendientes', loadChildren: './lista-usuarios-pendientes/lista-usuarios-pendientes.module#ListaUsuariosPendientesPageModule' },
+  { path: 'lista-espera-mesa', loadChildren: './lista-espera-mesa/lista-espera-mesa.module#ListaEsperaMesaPageModule' },
+  { path: 'lista-espera-cliente', loadChildren: './lista-espera-cliente/lista-espera-cliente.module#ListaEsperaClientePageModule' },
+  { path: 'alta-prod', loadChildren: './alta-prod/alta-prod.module#AltaProdPageModule' },
   { path: 'abm-empleado', loadChildren: './abm-empleado/abm-empleado.module#AbmEmpleadoPageModule' },
   { path: 'abm-mesa', loadChildren: './abm-mesa/abm-mesa.module#AbmMesaPageModule' },
 ];

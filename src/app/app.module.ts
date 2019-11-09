@@ -43,7 +43,7 @@ import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms'
   providers: [
     StatusBar,
     SplashScreen,
-    UsuariosService,
+    UsuariosService, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera, ImagePicker, BarcodeScanner
   ],
