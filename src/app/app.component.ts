@@ -131,31 +131,14 @@ export class AppComponent {
               title: 'Alta Mesa',
               url: '/abm-mesa',
               icon: 'add-circle-outline'
-            }
-          );
+            },
+            {
+              title: 'Lista de pedidos',
+              url: '/lista-pedidos',
+              icon: 'list-box'
+            });
           break;
-
-        case 'bartender':
-        case 'cocinero':
-          this.pages.push(
-            {
-              title: 'Alta de Platos y Bebidas',
-              url: '/alta-prod',
-              icon: 'key'
-            },
-            // (B) ALTA EMPLEADO
-            {
-              title: 'Alta Empleado',
-              url: '/abm-empleado',
-              icon: 'add-circle-outline'
-            },
-            // (E) ALTA MESAS
-            {
-              title: 'Alta Mesa',
-              url: '/abm-mesa',
-              icon: 'add-circle-outline'
-            }
-          );
+          case 'mozo':
           break;
       }
     });
