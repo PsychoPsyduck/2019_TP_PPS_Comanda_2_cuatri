@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Observable } from 'rxjs';
 import { Usuario } from '../clases/Usuario';
 import { MailService } from './mail.service';
+import { json } from 'functions/node_modules/@types/body-parser';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,13 @@ export class UsuariosService {
     let id = this.objFirebase.createId();
     usuario.id = id;
     return this.dbRef.doc(id).set(usuario);
+  }
 
+  getUsuarioStorage(){
+    if (sessionStorage.getItem("usuario"))
+      return JSON.parse(sessionStorage.getItem("usuario")) 
+    else
+      return false;
   }
 
   TraerUsuariosPendientes()
