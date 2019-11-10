@@ -20,6 +20,12 @@
           <img *ngIf="u.foto" src={{u.foto}}>
         </ion-avatar>
 
+        <div class="flev-h">
+          <ion-button (click)=asignarMesa(u)>
+            Confirmar y Asignar Mesa</ion-button>
+          <ion-button (click)=cancalarEspera(u)>
+            Cancelar Reserva</ion-button>
+        </div>
 
       </ion-card-content>
     </ion-card>
