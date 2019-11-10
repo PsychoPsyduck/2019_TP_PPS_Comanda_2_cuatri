@@ -1,5 +1,5 @@
 import { ProductoPedido } from '../clases/producto-pedido'
-import { Mesa } from '../clases/Mesa'
+import { Mesa } from '../clases/mesa'
 
 export class Pedido {
   public key: string;

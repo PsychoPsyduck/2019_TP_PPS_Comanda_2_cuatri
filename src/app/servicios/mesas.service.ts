@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ManejarDatosFoto } from './funcionesExtra';
-import { Mesa } from '../clases/Mesa';
+import { Mesa } from '../clases/mesa';
 import { map } from 'rxjs/operators';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 import { diccionario } from '../clases/diccionario';

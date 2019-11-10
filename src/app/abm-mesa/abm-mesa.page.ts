@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera/ngx';
-import { Mesa } from '../clases/Mesa';
+import { Mesa } from '../clases/mesa';
 import { QrService } from '../servicios/qr.service';
 import { MesasService } from '../servicios/mesas.service';
 import { ToastService } from '../servicios/toast.service';
