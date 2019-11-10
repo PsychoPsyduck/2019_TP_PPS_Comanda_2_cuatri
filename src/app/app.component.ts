@@ -29,11 +29,13 @@ export class AppComponent {
     public spinnerServ: SpinnerService
   ) {
     this.initializeApp();
+
     this.logeado = false;
     this.events.subscribe('usuarioLogueado', data => {
+
       this.menu.enable(true);
-      // SUSCRIPCIONs
       this.logeado = true;
+
       this.pages = [];
       this.pages.push(
         {
@@ -47,11 +49,12 @@ export class AppComponent {
           icon: 'log-out'
         }
       )
+
       // ROUTING DEL MENU
       switch (data.tipo) {
-        // SUPERVISOR - DUEÑO
-        case 'supervisor':
 
+        // **************  SUPERVISOR - DUEÑO ****************/
+        case 'supervisor':
         case 'dueño':
           console.log("sos el dueño");
           this.pages.push(
@@ -65,11 +68,12 @@ export class AppComponent {
             {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
-              icon: 'key'
+              icon: 'add'
             }
           );
           break;
 
+        // **************  CLIENTE ****************/
         case 'cliente':
 
           this.pages.push(
@@ -79,9 +83,16 @@ export class AppComponent {
               url: '/lista-espera-cliente',
               icon: 'people',
 
-            });
+            },
+            {
+              title: 'Pedir',
+              url: '/alta-pedido',
+              icon: 'bonfire'
+            }
+          );
           break;
 
+        //************** MOZOS ****************/
         case 'mozo':
           this.pages.push(
 
@@ -89,11 +100,20 @@ export class AppComponent {
               title: 'Lista de espera',
               url: '/lista-espera-mesa',
               icon: 'people'
-            });
-
-
+            },
+            {
+              title: 'Pedir',
+              url: '/alta-pedido',
+              icon: 'bonfire'
+            },
+          );
           break;
 
+        //************** EMPLEADOS ****************/
+        case 'empleado':
+          break;
+
+        //************** ADMIN ****************/
         case 'admin':
           // (A) ALTA DUEÑO
           // (B) ALTA EMPLEADO
@@ -110,35 +130,40 @@ export class AppComponent {
               url: '/lista-usuarios-pendientes',
               icon: 'people'
             },
+            // ----------- ALTAS ---------------
             {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
-              icon: 'key'
+              icon: 'add'
             },
             {
               title: 'Alta de Platos y Bebidas',
               url: '/alta-prod',
-              icon: 'key'
+              icon: 'add'
             },
             // (B) ALTA EMPLEADO
             {
               title: 'Alta Empleado',
               url: '/abm-empleado',
-              icon: 'add-circle-outline'
+              icon: 'add'
             },
             // (E) ALTA MESAS
             {
               title: 'Alta Mesa',
               url: '/abm-mesa',
-              icon: 'add-circle-outline'
+              icon: 'add'
             },
             {
+              title: 'Pedir',
+              url: '/alta-pedido',
+              icon: 'bonfire'
+            },
+            // --------- LISTADOS -----------
+            {
               title: 'Lista de pedidos',
-              url: '/lista-pedidos',
+              url: '/lista-pedidos-productos',
               icon: 'list-box'
             });
-          break;
-          case 'mozo':
           break;
       }
     });

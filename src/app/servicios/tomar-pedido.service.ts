@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { FirebaseService } from "./firebase.service";
 import { map } from "rxjs/operators";
-import { Pedido } from "../clases/Pedido";
+import { Pedido } from "../clases/pedido";
 import { AuthService } from "../servicios/auth.service";
 import { QueryFn } from "@angular/fire/firestore";
 import { diccionario } from '../clases/diccionario';

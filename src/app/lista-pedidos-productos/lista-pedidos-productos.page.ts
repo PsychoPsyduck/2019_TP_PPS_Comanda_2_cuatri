@@ -4,7 +4,7 @@ import { ModalController } from "@ionic/angular";
 import { TomarPedidoService } from "../servicios/tomar-pedido.service";
 import { AuthService } from "../servicios/auth.service";
 import { diccionario } from "../clases/diccionario";
-import { Pedido } from "../clases/Pedido";
+import { Pedido } from "../clases/pedido";
 
 @Component({
   selector: "app-lista-pedidos-productos",

@@ -3,10 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { ProductosService } from '../servicios/productos.service';
-import { ProductoPedido } from '../clases/producto-pedido';
+import { ProductoPedido } from '../clases/producto-pedido'
 import { diccionario } from '../clases/diccionario';
-import { Producto } from '../clases/Producto';
 import { MesasService } from '../servicios/mesas.service';
+import { Producto } from '../clases/producto';
+
 @Component({
   selector: 'app-alta-pedido',
   templateUrl: './alta-pedido.page.html',
@@ -18,7 +19,7 @@ export class AltaPedidoPage implements OnInit {
   public errorClaves;
   public productos: any;
   public mesas: any;
-  public itemsPedido: Array<ProductoPedido>;
+  public itemsPedido: Array<ProductoPedido>; 
   public mesaDoc;
 
   constructor(
