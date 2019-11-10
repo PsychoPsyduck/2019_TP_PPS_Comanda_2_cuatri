@@ -5,6 +5,8 @@ import { Usuario } from '../clases/Usuario';
 import { MailService } from './mail.service';
 import { json } from 'functions/node_modules/@types/body-parser';
 import { RegistroEspera } from '../clases/RegistroEspera';
+import { userInfo } from 'os';
+import { diccionario } from '../clases/diccionario';
 
 @Injectable({
   providedIn: 'root'
@@ -27,23 +29,21 @@ export class UsuariosService {
     return this.dbRef.doc(id).set(usuario);
   }
 
-  getUsuarioStorage(){
+  getUsuarioStorage() {
     if (sessionStorage.getItem("usuario"))
-      return JSON.parse(sessionStorage.getItem("usuario")) 
+      return JSON.parse(sessionStorage.getItem("usuario"))
     else
       return false;
   }
 
-  TraerUsuariosPendientes()
-  {
+  TraerUsuariosPendientes() {
     this.usuariosFirebase = this.objFirebase.collection<Usuario>("usuarios", ref => ref.where("estado", "==", "pendiente"));
     this.usuariosObservable = this.usuariosFirebase.valueChanges();
     return this.usuariosObservable;
 
   }
 
-  BorrarUsuario(usr:Usuario)
-  {
+  BorrarUsuario(usr: Usuario) {
     return this.objFirebase.collection<any>("usuarios").doc(usr.id).delete();
   }
 
@@ -60,27 +60,24 @@ export class UsuariosService {
     usuario.id = id;
 
 
-   return this.objFirebase.collection<any>("usuarios").doc(id).set(usuario);
+    return this.objFirebase.collection<any>("usuarios").doc(id).set(usuario);
 
   }
 
-  CambiarEstado(usr:Usuario)
-  {
-    usr.estado="pendiente";
+  CambiarEstado(usr: Usuario) {
+    usr.estado = "pendiente";
     return this.objFirebase.collection<any>("usuarios").doc(usr.id).update(usr);
   }
 
-   async TraerListaEsperaMesa()
-  {
+  async TraerListaEsperaMesa() {
 
     this.usuariosFirebase = this.objFirebase.collection<RegistroEspera>("esperaMesa", ref => ref.orderBy('fecha', 'asc'));
     this.usuariosObservable = this.usuariosFirebase.valueChanges();
     return this.usuariosObservable;
   }
 
-  AgregarListaEsperaMesa(usr)
-  {
-   let registro= {
+  AgregarListaEsperaMesa(usr) {
+    let registro= {
       fecha: Date.now(),
       nombre: usr.nombre,
       apellido: usr.apellido,

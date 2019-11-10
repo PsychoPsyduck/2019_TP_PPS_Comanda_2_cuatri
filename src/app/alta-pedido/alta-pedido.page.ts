@@ -19,7 +19,7 @@ export class AltaPedidoPage implements OnInit {
   public errorClaves;
   public productos: any;
   public mesas: any;
-  public itemsPedido: Array<ProductoPedido>; 
+  public itemsPedido: Array<ProductoPedido>;
   public mesaDoc;
 
   constructor(
@@ -28,7 +28,7 @@ export class AltaPedidoPage implements OnInit {
     public barcodeScanner: BarcodeScanner,
     public productosServ: ProductosService,
     public mesasServ: MesasService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.itemsPedido = new Array<ProductoPedido>();
@@ -48,6 +48,7 @@ export class AltaPedidoPage implements OnInit {
       this.productos = productos;
     });
     this.mesasServ.ObtenerMesas().subscribe(mesas => {
+      console.info('mesas', mesas);
       this.mesas = mesas;
     });
   }

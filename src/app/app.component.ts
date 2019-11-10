@@ -69,7 +69,12 @@ export class AppComponent {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
               icon: 'add'
-            }
+            },
+            {
+              title: 'Lista de espera',
+              url: '/lista-espera-mesa',
+              icon: 'people'
+            },
           );
           break;
 
@@ -86,9 +91,9 @@ export class AppComponent {
             },
             {
               title: 'Pedir',
-              url: '/alta-pedido',
+              url: '/principal-cliente',
               icon: 'bonfire'
-            }
+            },
           );
           break;
 
@@ -153,17 +158,24 @@ export class AppComponent {
               url: '/abm-mesa',
               icon: 'add'
             },
+            // --------- PEDIDOS -----------
             {
               title: 'Pedir',
-              url: '/alta-pedido',
+              url: '/principal-cliente',
               icon: 'bonfire'
             },
-            // --------- LISTADOS -----------
             {
               title: 'Lista de pedidos',
               url: '/lista-pedidos-productos',
               icon: 'list-box'
-            });
+            },
+            //----------- RESERVAS - ESPERA DE MESAS ---------------
+            {
+              title: 'Lista de espera',
+              url: '/lista-espera-mesa',
+              icon: 'people'
+            },
+          );
           break;
       }
     });

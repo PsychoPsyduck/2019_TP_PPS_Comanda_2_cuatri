@@ -17,6 +17,7 @@ export class AuthService implements OnInit {
   }
 
   public obtenerUID() {
-    return "ESTE ES UN UID";
+    // return "ESTE ES UN UID";
+    return this.user.id;
   }
 }

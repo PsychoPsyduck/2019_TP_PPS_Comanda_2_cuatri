@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  splash = true;
+  // splash = true;
+  splash = false;
   correo: string;
   clave: string;
   usuarios: Usuario[];
