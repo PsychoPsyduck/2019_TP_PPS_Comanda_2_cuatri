@@ -1,5 +1,5 @@
 import { ProductoPedido } from "./producto-pedido";
-import { Mesa } from './mesa';
+import { Mesa } from './Mesa';
 
 export class Pedido {
          public key: string;
