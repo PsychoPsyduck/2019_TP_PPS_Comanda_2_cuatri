@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { SpinnerService } from './servicios/spinner.service';
+import { Usuario } from './clases/Usuario';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import { SpinnerService } from './servicios/spinner.service';
 export class AppComponent {
 
   public pages = [];
-  noLogin: boolean = false;
+  logeado: boolean = false;
+  usuario: Usuario = null;
 
   constructor(
     private platform: Platform,
@@ -27,11 +29,13 @@ export class AppComponent {
     public spinnerServ: SpinnerService
   ) {
     this.initializeApp();
-    this.noLogin = false;
+
+    this.logeado = false;
     this.events.subscribe('usuarioLogueado', data => {
-      // SUSCRIPCIONs
-      console.log('perfil recibidos:', data);
-      this.noLogin = true;
+
+      this.menu.enable(true);
+      this.logeado = true;
+
       this.pages = [];
       this.pages.push(
         {
@@ -45,6 +49,7 @@ export class AppComponent {
           icon: 'log-out'
         }
       )
+
       // ROUTING DEL MENU
       switch (data.tipo) {
         // SUPERVISOR - DUEÑO
@@ -59,7 +64,10 @@ export class AppComponent {
         );
         break;
 
+        // **************  SUPERVISOR - DUEÑO ****************/
+        case 'supervisor':
         case 'dueño':
+
          console.log("sos el dueño");
         this.pages.push(
           
@@ -82,6 +90,8 @@ export class AppComponent {
         );
         break;
 
+
+        // **************  CLIENTE ****************/
         case 'cliente':
 
         this.pages.push(
@@ -97,22 +107,39 @@ export class AppComponent {
             url: '/reservar-mesa',
             icon: 'time',
             
+          },
+          {
+            title: 'Pedir',
+            url: '/alta-pedido',
+            icon: 'bonfire'
           }
+          
         );
         break;
 
-        case 'mozo':
-        this.pages.push(
-          
-          {
-            title: 'Lista de espera',
-            url: '/lista-espera-mesa',
-            icon: 'people'
-          });
-          
 
+        //************** MOZOS ****************/
+        case 'mozo':
+          this.pages.push(
+
+            {
+              title: 'Lista de espera',
+              url: '/lista-espera-mesa',
+              icon: 'people'
+            },
+            {
+              title: 'Pedir',
+              url: '/alta-pedido',
+              icon: 'bonfire'
+            },
+          );
           break;
 
+        //************** EMPLEADOS ****************/
+        case 'empleado':
+          break;
+
+        //************** ADMIN ****************/
         case 'admin':
           // (A) ALTA DUEÑO
           // (B) ALTA EMPLEADO
@@ -129,52 +156,40 @@ export class AppComponent {
               url: '/lista-usuarios-pendientes',
               icon: 'people'
             },
+            // ----------- ALTAS ---------------
             {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
-              icon: 'key'
+              icon: 'add'
             },
             {
               title: 'Alta de Platos y Bebidas',
               url: '/alta-prod',
-              icon: 'key'
+              icon: 'add'
             },
             // (B) ALTA EMPLEADO
             {
               title: 'Alta Empleado',
               url: '/abm-empleado',
-              icon: 'add-circle-outline'
+              icon: 'add'
             },
             // (E) ALTA MESAS
             {
               title: 'Alta Mesa',
               url: '/abm-mesa',
-              icon: 'add-circle-outline'
-            }
-          );
-          break;
-
-        case 'bartender':
-        case 'cocinero':
-          this.pages.push(
-            {
-              title: 'Alta de Platos y Bebidas',
-              url: '/alta-prod',
-              icon: 'key'
+              icon: 'add'
             },
-            // (B) ALTA EMPLEADO
             {
-              title: 'Alta Empleado',
-              url: '/abm-empleado',
-              icon: 'add-circle-outline'
+              title: 'Pedir',
+              url: '/alta-pedido',
+              icon: 'bonfire'
             },
-            // (E) ALTA MESAS
+            // --------- LISTADOS -----------
             {
-              title: 'Alta Mesa',
-              url: '/abm-mesa',
-              icon: 'add-circle-outline'
-            }
-          );
+              title: 'Lista de pedidos',
+              url: '/lista-pedidos-productos',
+              icon: 'list-box'
+            });
           break;
       }
     });
@@ -188,7 +203,11 @@ export class AppComponent {
   }
 
   navegoPagina(pagina) {
-    this.router.navigateByUrl(pagina);
+    if (pagina === '/login') {
+      this.menu.enable(false);
+      sessionStorage.removeItem("usuario");
+    }
+    this.router.navigate([pagina]);
   }
 
   openFirst() {
