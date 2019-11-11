@@ -49,6 +49,15 @@ export class AppComponent {
       switch (data.tipo) {
         // SUPERVISOR - DUEÑO
         case 'supervisor':
+        this.pages.push(
+
+          {
+            title: 'Reservas pendientes',
+            url: '/reservas-pendientes',
+            icon: 'time'
+          }
+        );
+        break;
 
         case 'dueño':
          console.log("sos el dueño");
@@ -64,6 +73,11 @@ export class AppComponent {
             title: 'Alta Dueño/Supervisor',
             url: '/abm-dueno',
             icon: 'key'
+          },
+          {
+            title: 'Reservas pendientes',
+            url: '/reservas-pendientes',
+            icon: 'time'
           }
         );
         break;
@@ -77,7 +91,14 @@ export class AppComponent {
             url: '/lista-espera-cliente',
             icon: 'people',
             
-          });
+          },
+          {
+            title: 'Reservar mesa',
+            url: '/reservar-mesa',
+            icon: 'time',
+            
+          }
+        );
         break;
 
         case 'mozo':

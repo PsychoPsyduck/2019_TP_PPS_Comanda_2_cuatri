@@ -19,10 +19,11 @@ import { FIREBASE_CONFIG } from '../environments/environment';
 import { UsuariosService } from './servicios/usuarios.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage'
-
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
+
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms'
     FormsModule,
     ReactiveFormsModule,
     NgxQRCodeModule
+
   ],
   providers: [
     StatusBar,
