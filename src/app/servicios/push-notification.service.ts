@@ -32,29 +32,33 @@ export class PushNotificationService {
         });
       })
   }
-  subscribeToTopic() {
-    this.fcm.subscribeToTopic('enappd');
-  }
+  
   actualizarTokenDispositivo() {
     this.fcm.getToken().then(token => {
       this.actualizarToken(token);
     });
   }
-  unsubscribeFromTopic() {
-    this.fcm.unsubscribeFromTopic('enappd');
+
+  suscribirseATopico(topico:string) {
+    this.fcm.subscribeToTopic(topico);
+  }
+
+  desuscribirseATopico(topico:string) {
+    this.fcm.unsubscribeFromTopic(topico);
   }
 
   actualizarToken(token) {
     let usuario = this.usuarioServ.getUsuarioStorage();
     if (usuario != null) {
       usuario.token = token;
-      this.firebaseServ.actualizar('usuarios', usuario.id, usuario)
+      this.firebaseServ.actualizar('usuarios', usuario.id, usuario).then(() => {
+        this.suscribirseATopico(usuario.tipo)
+      })
     }
   }
 
-  EnviarNotificacion(tipo: string, data:any): Promise<Object>
-  {
-    let direccion= this.url + tipo + "&data=" + JSON.stringify(data);
-    return this.http.post(direccion, {"tipo": tipo, "data": data}).toPromise();
+  EnviarNotificacion(tipo: string, mensaje: string): Promise<Object> {
+    let enlace = this.url + tipo + "&mensaje=" + mensaje;
+    return this.http.get(enlace).toPromise();
   }
 }

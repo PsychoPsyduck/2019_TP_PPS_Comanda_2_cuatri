@@ -56,33 +56,38 @@ exports.validarMail = functions.https.onRequest((req, res) => {
 })
 
 exports.enviarNotificacion = functions.https.onRequest((req, res) => {
-    const db = admin.firestore()    
-    db.collection("usuarios").get().then((snapshot: any) : any => {
-        let tokens: any[] = [];
 
-        snapshot.forEach((doc: any) => {
-            let usuario = doc.data();
-            if (usuario.tipo == req.params.tipo && usuario.token != null) {
-                tokens.push(usuario.token);
-            }
-        });
+    const db = admin.firestore()
+    db.collection("usuarios").get().then((snapshot: any): any => {
+        // let tokens: any[] = [];
+        
+        // snapshot.forEach((doc: any) => {
+        //     let usuario = doc.data();
+        //     if (usuario.tipo == req.query.tipo && usuario.token != null) {
+        //         tokens.push(usuario.token);
+        //     }
+        // });
 
-        if (tokens.length != 0) {
+        // if (tokens.length != 0) {
             let mensaje = {
-                data: req.params.data,
-                tokens: tokens
+                notification: {
+                    title: req.query.mensaje,
+                    body: 'ejemplo'
+                  },
+                //tokens: tokens
+                topic: req.query.tipo
             };
 
-            admin.messaging().send(mensaje)
+            admin.messaging().sendMulticast(mensaje)
                 .then((response: any) => {
                     return res.send('Notificación enviada correctamente:' + response);
                 })
                 .catch((error: any) => {
                     return res.send('Error al enviar notificación:' + error);
                 });
-        } else {
-            return res.send('No se envió ninguna notificación');
-        }
+        // } else {
+        //     return res.send('No se envió ninguna notificación');
+        // }
     })
 })
 
