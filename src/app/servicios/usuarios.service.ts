@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Observable } from 'rxjs';
 import { Usuario } from '../clases/Usuario';
 import { MailService } from './mail.service';
-import { json } from 'functions/node_modules/@types/body-parser';
+//import { json } from 'functions/node_modules/@types/body-parser';
 import { RegistroEspera } from '../clases/RegistroEspera';
 
 @Injectable({

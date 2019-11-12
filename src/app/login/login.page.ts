@@ -3,8 +3,8 @@ import { Usuario } from '../clases/Usuario';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { ToastController, Events, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { FcmService } from '../servicios/fcm.service';
 import { ToastService } from '../servicios/toast.service';
+import { PushNotificationService } from '../servicios/push-notification.service';
 
 
 @Component({
@@ -37,8 +37,7 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     private router: Router,
     public events: Events,
-  private platform: Platform,
-private fcm: FcmService) {
+    private notifServ: PushNotificationService) {
     this.procesando = false;
     this.TraerUsuarios();
   }
@@ -72,13 +71,14 @@ private fcm: FcmService) {
        
 
 
-          if(this.platform.is('cordova')){
+          // if(this.platform.is('cordova')){
           
-            this.fcm.getToken()
-          }
+          //   this.fcm.getToken()
+          // }
         }
         console.log("estas logueado: ", usr);
         this.procesando = false;
+        this.notifServ.actualizarTokenDispositivo();
         this.events.publish('usuarioLogueado', usr);
         this.router.navigate(['/home']);
       }

@@ -22,6 +22,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 
@@ -40,12 +41,12 @@ import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms'
     FormsModule,
     ReactiveFormsModule,
     NgxQRCodeModule
-
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    UsuariosService, 
+    UsuariosService,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera, ImagePicker, BarcodeScanner
   ],
