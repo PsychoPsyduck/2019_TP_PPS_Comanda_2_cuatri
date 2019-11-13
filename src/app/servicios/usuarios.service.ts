@@ -58,11 +58,15 @@ export class UsuariosService {
 
     let id = this.objFirebase.createId();
     usuario.id = id;
-
+    if(usuario.tipo=="anonimo")
+    {
+      sessionStorage.setItem("usuario",JSON.stringify(usuario));
+    }
 
    return this.objFirebase.collection<any>("usuarios").doc(id).set(usuario);
 
   }
+
 
   CambiarEstado(usr:Usuario)
   {
@@ -80,13 +84,31 @@ export class UsuariosService {
 
   AgregarListaEsperaMesa(usr)
   {
-   let registro= {
-      fecha: Date.now(),
-      nombre: usr.nombre,
-      apellido: usr.apellido,
-      correo: usr.correo,
-      foto:usr.foto
+    let id = this.objFirebase.createId();
+    let registro;
+    if(usr.tipo =="anonimo")
+    {
+       registro= {
+        id:id,
+        fecha: Date.now(),
+        nombre: usr.nombre,
+        idUsuario: usr.id,
+        foto:usr.foto
+      }
     }
-   return this.objFirebase.collection<any>("esperaMesa").add(registro);
+    else
+    {
+      registro= {
+        id:id,
+        fecha: Date.now(),
+        nombre: usr.nombre,
+        apellido: usr.apellido,
+        correo: usr.correo,
+        idUsuario: usr.id,
+        foto:usr.foto
+      }
+    }
+
+   return this.objFirebase.collection<any>("esperaMesa").doc(id).set(registro);
   }
 }

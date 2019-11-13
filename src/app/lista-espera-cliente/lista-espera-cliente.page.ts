@@ -43,7 +43,7 @@ async traerUsuario()
     registro.forEach(element => {
 
       console.log("ele", element)
-      if(element.correo==this.usuario.correo)
+      if(element.idUsuario==this.usuario.id)
       {
        console.log("esta en la lista");
        this.enLista=true;

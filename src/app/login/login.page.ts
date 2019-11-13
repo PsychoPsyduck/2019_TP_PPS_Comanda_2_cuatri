@@ -63,7 +63,8 @@ private fcm: FcmService) {
     this.procesando = true;
     let ok: boolean = false;
     this.usuarios.map(usr => {
-      if (usr.correo == this.correo && usr.clave == this.clave) {
+      if (usr.correo == this.correo && usr.clave == this.clave && usr.estado =="activo") {
+
         ok = true;
         sessionStorage.setItem("usuario", JSON.stringify(usr));
                 if (usr !== undefined) {
@@ -86,6 +87,11 @@ private fcm: FcmService) {
     if (!ok) {
       this.presentToast();
     }
+  }
+
+  IngresarAnonimo()
+  {
+    this.router.navigate(['/ingreso-anonimo']);
   }
 
   onChange(id) {

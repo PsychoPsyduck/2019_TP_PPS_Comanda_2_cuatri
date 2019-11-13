@@ -34,7 +34,8 @@ export class ReservasService {
        mesa: reserva.mesa,
        fecha: reserva.fecha,
        comensales: reserva.comensales,
-       estado: reserva.estado
+       estado: reserva.estado,
+       tipo: reserva.tipo
        
      }
     return this.objFirebase.collection<any>("reservas").doc(reserva.id).set(registro);
