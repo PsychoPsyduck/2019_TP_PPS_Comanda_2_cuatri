@@ -57,8 +57,8 @@ exports.validarMail = functions.https.onRequest((req, res) => {
 
 exports.enviarNotificacion = functions.https.onRequest((req, res) => {
 
-    const db = admin.firestore()
-    db.collection("usuarios").get().then((snapshot: any): any => {
+    // const db = admin.firestore()
+    // db.collection("usuarios").get().then((snapshot: any): any => {
         // let tokens: any[] = [];
         
         // snapshot.forEach((doc: any) => {
@@ -71,24 +71,24 @@ exports.enviarNotificacion = functions.https.onRequest((req, res) => {
         // if (tokens.length != 0) {
             let mensaje = {
                 notification: {
-                    title: req.query.mensaje,
-                    body: 'ejemplo'
+                    title: req.query.titulo,
+                    body: req.query.mensaje
                   },
                 //tokens: tokens
                 topic: req.query.tipo
             };
 
-            admin.messaging().sendMulticast(mensaje)
+            admin.messaging().send(mensaje)
                 .then((response: any) => {
-                    return res.send('Notificación enviada correctamente:' + response);
+                    return res.send('Notificación enviada correctamente: ' + response);
                 })
                 .catch((error: any) => {
-                    return res.send('Error al enviar notificación:' + error);
+                    return res.send('Error al enviar notificación: ' + error);
                 });
         // } else {
         //     return res.send('No se envió ninguna notificación');
         // }
-    })
+    // })
 })
 
 // // Start writing Firebase Functions
