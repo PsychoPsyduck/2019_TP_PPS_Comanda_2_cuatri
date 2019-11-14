@@ -72,7 +72,7 @@ exports.enviarNotificacion = functions.https.onRequest((req, res) => {
             let mensaje = {
                 notification: {
                     title: req.query.titulo,
-                    body: req.query.mensaje
+                    body: req.query.mensaje,
                   },
                 //tokens: tokens
                 topic: req.query.tipo

@@ -57,8 +57,8 @@ export class PushNotificationService {
     }
   }
 
-  EnviarNotificacion(tipo: string, mensaje: string): Promise<Object> {
-    let enlace = this.url + tipo + "&mensaje=" + mensaje;
+  EnviarNotificacion(tipo: string, titulo: string, mensaje: string): Promise<Object> {
+    let enlace = this.url + tipo +  "&titulo=" + titulo + "&mensaje=" + mensaje;
     return this.http.get(enlace).toPromise();
   }
 }

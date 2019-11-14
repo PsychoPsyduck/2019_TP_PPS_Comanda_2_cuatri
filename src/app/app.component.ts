@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { SpinnerService } from './servicios/spinner.service';
 import { Usuario } from './clases/Usuario';
+import { PushNotificationService } from './servicios/push-notification.service';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +27,14 @@ export class AppComponent {
     private menu: MenuController,
     public events: Events,
     private router: Router,
-    public spinnerServ: SpinnerService
+    public spinnerServ: SpinnerService,
+    private notifServ: PushNotificationService
   ) {
     this.initializeApp();
 
     this.logeado = false;
     this.events.subscribe('usuarioLogueado', data => {
+      this.usuario = data;
 
       this.menu.enable(true);
       this.logeado = true;
@@ -43,79 +46,79 @@ export class AppComponent {
           url: '/home',
           icon: 'home'
         },
-        {
-          title: 'Cerrar Sesion',
-          url: '/login',
-          icon: 'log-out'
-        }
+        // {
+        //   title: 'Cerrar Sesion',
+        //   url: '/login',
+        //   icon: 'log-out'
+        // }
       )
 
       // ROUTING DEL MENU
       switch (data.tipo) {
         // SUPERVISOR - DUEÑO
         case 'supervisor':
-        this.pages.push(
+          this.pages.push(
 
-          {
-            title: 'Reservas pendientes',
-            url: '/reservas-pendientes',
-            icon: 'time'
-          }
-        );
-        break;
+            {
+              title: 'Reservas pendientes',
+              url: '/reservas-pendientes',
+              icon: 'time'
+            }
+          );
+          break;
 
         // **************  SUPERVISOR - DUEÑO ****************/
         case 'supervisor':
         case 'dueño':
 
-         console.log("sos el dueño");
-        this.pages.push(
-          
-          {
-            title: 'Lista usuarios pendientes',
-            url: '/lista-usuarios-pendientes',
-            icon: 'people'
-          },
+          console.log("sos el dueño");
+          this.pages.push(
 
-          {
-            title: 'Alta Dueño/Supervisor',
-            url: '/abm-dueno',
-            icon: 'key'
-          },
-          {
-            title: 'Reservas pendientes',
-            url: '/reservas-pendientes',
-            icon: 'time'
-          }
-        );
-        break;
+            {
+              title: 'Lista usuarios pendientes',
+              url: '/lista-usuarios-pendientes',
+              icon: 'people'
+            },
+
+            {
+              title: 'Alta Dueño/Supervisor',
+              url: '/abm-dueno',
+              icon: 'key'
+            },
+            {
+              title: 'Reservas pendientes',
+              url: '/reservas-pendientes',
+              icon: 'time'
+            }
+          );
+          break;
 
 
         // **************  CLIENTE ****************/
         case 'cliente':
 
-        this.pages.push(
-          
-          {
-            title: 'Poner en lista de espera',
-            url: '/lista-espera-cliente',
-            icon: 'people',
-            
-          },
-          {
-            title: 'Reservar mesa',
-            url: '/reservar-mesa',
-            icon: 'time',
-            
-          },
-          {
-            title: 'Pedir',
-            url: '/alta-pedido',
-            icon: 'bonfire'
-          }
-          
-        );
-        break;
+          this.pages.push(
+
+            {
+              title: 'Poner en lista de espera',
+              url: '/lista-espera-cliente',
+              icon: 'people',
+
+            },
+            {
+              title: 'Reservar mesa',
+              url: '/reservar-mesa',
+              icon: 'time',
+
+            },
+            {
+              title: 'Pedir',
+              url: '/alta-pedido',
+              icon: 'bonfire'
+            }
+
+          );
+          break;
 
 
         //************** MOZOS ****************/
@@ -222,5 +225,13 @@ export class AppComponent {
   openCustom() {
     this.menu.enable(true, 'custom');
     this.menu.open('custom');
+  }
+
+  cerrarSesion() {
+    if (this.usuario != null) {
+      this.notifServ.desuscribirseATopico(this.usuario.tipo)
+      this.menu.enable(false);
+      sessionStorage.removeItem("usuario");
+    }
   }
 }
