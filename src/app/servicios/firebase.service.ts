@@ -4,7 +4,8 @@ import {
   AngularFirestore,
   DocumentChangeAction,
   DocumentReference,
-  QueryFn
+  QueryFn,
+  AngularFirestoreCollection
 } from "@angular/fire/firestore";
 import { ToastController } from "@ionic/angular";
 import { Observable } from "rxjs";
@@ -15,15 +16,20 @@ import { ManejarDatosFoto } from "./funcionesExtra";
   providedIn: 'root'
 })
 export class FirebaseService {
+
+  dbRef: AngularFirestoreCollection<any>;
+
   constructor(
     public http: HttpClient,
     public db: AngularFirestore,
     public afs: AngularFireStorage,
     public toastController: ToastController
-  ) {}
+  ) {
+    this.dbRef = this.db.collection("pedidos");
+  }
 
   traerColeccion(path: string, query: QueryFn = null): Observable<DocumentChangeAction<unknown>[]> {
-    if(query == null)
+    if (query == null)
       return this.db.collection(path).snapshotChanges();
     else
       return this.db.collection(path, query).snapshotChanges();
@@ -44,8 +50,14 @@ export class FirebaseService {
       });
   }
 
+  public savePedido(objeto: any) {
+    let id = this.db.createId();
+    objeto.id = id;
+    console.info("a guardar", objeto, this.dbRef)
+    return this.dbRef.doc(id).set(objeto);
+  }
+
   public crear(path: string, objeto: any): Promise<DocumentReference> {
-    // console.log('Entro al crear');
     return this.db.collection(path).add(objeto);
   }
 

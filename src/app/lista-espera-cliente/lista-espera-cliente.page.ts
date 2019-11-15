@@ -33,44 +33,29 @@ export class ListaEsperaClientePage implements OnInit {
   }
 
   async verificar() {
-    // this.traerUsuario();
+
     this.usuario = JSON.parse(sessionStorage.getItem("usuario"));
-
-
     await this.usrServ.TraerListaEsperaMesa().then(async (data) => {
-
       await data.forEach((registro) => {
-
         registro.forEach(element => {
-
           console.log("ele", element)
           if (element.correo == this.usuario.correo) {
             console.log("esta en la lista");
             this.enLista = true;
-
             this.navCtrl.navigateRoot('/principal-cliente').then(() => {
               this.toast.confirmationToast("Ya estas en la lista de espera.");
             })
-
           }
-
         });
-
-        console.log(this.enLista)
         if (!this.enLista) {
-
           this.Scan();
         }
       });
-
-
     })
-
-
-
   }
 
   async Scan() {
+
     this.barcode.scan({ prompt: "Scanee el código QR para agregarse a la lista de espera" }).then(barcodeData => {
       this.mensaje = barcodeData.text;
       if (barcodeData.text == 'laComanda') {
@@ -83,10 +68,7 @@ export class ListaEsperaClientePage implements OnInit {
     }).catch(err => {
       console.log('Error', err);
     })
-    //console.log("scan!!!");
   }
-
-
 
   ngOnInit() {
   }

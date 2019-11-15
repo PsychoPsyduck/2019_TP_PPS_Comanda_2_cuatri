@@ -29,7 +29,7 @@
 
   <!-- <ion-row *ngIf="puedeHacerPedido || puedeVerPedido">
     <ion-col text-center>El codigo de su mesa es: {{mesa}}.</ion-col>
-  </ion-row>
+  </ion-row> -->
 
   <ion-row *ngIf="puedeHacerPedido">
     <ion-col text-center>
@@ -39,13 +39,13 @@
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="puedeVerPedido">
+  <!-- <ion-row *ngIf="puedeVerPedido">
     <ion-col text-center>
       <ion-button color="light" (click)="escanearQR('verPedido')">
         <ion-icon color="secondary" name="qr-scanner" style="margin-right: 0.5rem"></ion-icon>Ver estado del pedido
       </ion-button>
     </ion-col>
-  </ion-row> -->
+  </ion-row>  -->
 
   <ion-row *ngIf="puedeSolicitarMesa">
     <ion-col class="ion-text-center">
@@ -63,8 +63,8 @@
     </ion-col>
   </ion-row> -->
 
-  <ion-row *ngIf="esperandoAsignacion">
+  <!-- <ion-row *ngIf="esperandoAsignacion">
     <p>Se le asignará una mesa en unos momentos</p>
-  </ion-row>
+  </ion-row> -->
 
 </ion-content>

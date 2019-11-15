@@ -52,10 +52,22 @@ export class AppComponent {
 
       // ROUTING DEL MENU
       switch (data.tipo) {
+        // SUPERVISOR - DUEÑO
+        case 'supervisor':
+          this.pages.push(
+
+            {
+              title: 'Reservas pendientes',
+              url: '/reservas-pendientes',
+              icon: 'time'
+            }
+          );
+          break;
 
         // **************  SUPERVISOR - DUEÑO ****************/
         case 'supervisor':
         case 'dueño':
+
           console.log("sos el dueño");
           this.pages.push(
 
@@ -68,7 +80,12 @@ export class AppComponent {
             {
               title: 'Alta Dueño/Supervisor',
               url: '/abm-dueno',
-              icon: 'add'
+              icon: 'key'
+            },
+            {
+              title: 'Reservas pendientes',
+              url: '/reservas-pendientes',
+              icon: 'time'
             },
             {
               title: 'Lista de espera',
@@ -89,6 +106,17 @@ export class AppComponent {
               icon: 'people',
 
             },
+            {
+              title: 'Reservar mesa',
+              url: '/reservar-mesa',
+              icon: 'time',
+
+            },
+            // {
+            //   title: 'Pedir',
+            //   url: '/alta-pedido',
+            //   icon: 'bonfire'
+            // },
             {
               title: 'Pedir',
               url: '/principal-cliente',

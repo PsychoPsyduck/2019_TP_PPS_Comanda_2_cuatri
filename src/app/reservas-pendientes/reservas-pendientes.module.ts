@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPage } from './login.page';
-//import { Firebase } from '@ionic-native/firebase/ngx';
+import { ReservasPendientesPage } from './reservas-pendientes.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginPage
+    component: ReservasPendientesPage
   }
 ];
 
@@ -22,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [LoginPage]
+  declarations: [ReservasPendientesPage]
 })
-export class LoginPageModule {}
+export class ReservasPendientesPageModule {}

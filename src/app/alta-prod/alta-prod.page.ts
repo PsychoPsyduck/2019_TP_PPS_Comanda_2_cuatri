@@ -75,7 +75,8 @@ export class AltaProdPage implements OnInit {
   }
 
   scanQR() {
-    this.barcodeScanner.scan("QR_CODE")
+    const options = { prompt: 'Escaneé el codigo de producto', format: "QR_CODE" };
+    this.barcodeScanner.scan(options)
       .then(barcodeData => {
         if (barcodeData != "") {
           console.info("qr data", barcodeData.text)

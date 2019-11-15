@@ -31,6 +31,7 @@ export class AltaPedidoPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.info("alta pedido");
     this.itemsPedido = new Array<ProductoPedido>();
 
     this.form = this.formBuilder.group({
@@ -47,6 +48,7 @@ export class AltaPedidoPage implements OnInit {
     this.productosServ.TraerTodosLosProductos().subscribe(productos => {
       this.productos = productos;
     });
+
     this.mesasServ.ObtenerMesas().subscribe(mesas => {
       console.info('mesas', mesas);
       this.mesas = mesas;

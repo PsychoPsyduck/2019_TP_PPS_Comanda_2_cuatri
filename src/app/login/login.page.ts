@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../clases/Usuario';
 import { UsuariosService } from '../servicios/usuarios.service';
-import { ToastController, Events } from '@ionic/angular';
+import { ToastController, Events, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { FcmService } from '../servicios/fcm.service';
+import { ToastService } from '../servicios/toast.service';
 
 
 @Component({
@@ -31,10 +33,13 @@ export class LoginPage implements OnInit {
   ]
 
   constructor(
+    private toastSrv: ToastService,
     private usrService: UsuariosService,
     private toastController: ToastController,
     private router: Router,
-    public events: Events) {
+    public events: Events,
+  private platform: Platform,
+private fcm: FcmService) {
     this.procesando = false;
     this.TraerUsuarios();
   }
@@ -62,6 +67,17 @@ export class LoginPage implements OnInit {
       if (usr.correo == this.correo && usr.clave == this.clave) {
         ok = true;
         sessionStorage.setItem("usuario", JSON.stringify(usr));
+                if (usr !== undefined) {
+                let toast;
+          //Si estoy en el dispositivo guardo el token para push
+       
+
+
+          if(this.platform.is('cordova')){
+          
+            this.fcm.getToken()
+          }
+        }
         console.log("estas logueado: ", usr);
         this.procesando = false;
         this.events.publish('usuarioLogueado', usr);

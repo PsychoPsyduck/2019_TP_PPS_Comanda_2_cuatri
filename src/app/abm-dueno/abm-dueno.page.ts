@@ -78,7 +78,8 @@ export class AbmDuenoPage implements OnInit {
   }
 
   scanDNI() {
-    this.barcodeServ.scan("PDF_417")
+    const options = { prompt: 'Escaneé su DNI', format: "PDF_417" };
+    this.barcodeServ.scan(options)
       .then(barcodeData => {
         if (barcodeData != "") {
           var dataSlpit = barcodeData.text.split("@");

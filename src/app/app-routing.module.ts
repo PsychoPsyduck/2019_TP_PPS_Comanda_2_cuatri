@@ -21,6 +21,8 @@ const routes: Routes = [
   { path: 'lista-pedidos-productos', loadChildren: './lista-pedidos-productos/lista-pedidos-productos.module#ListaPedidosProductosPageModule' },
   { path: 'principal-cliente', loadChildren: './principal-cliente/principal-cliente.module#PrincipalClientePageModule' },
   { path: 'reserva-mesa', loadChildren: './reserva-mesa/reserva-mesa.module#ReservaMesaPageModule' },
+  { path: 'reservar-mesa', loadChildren: './reservar-mesa/reservar-mesa.module#ReservarMesaPageModule' },
+  { path: 'reservas-pendientes', loadChildren: './reservas-pendientes/reservas-pendientes.module#ReservasPendientesPageModule' },
 ];
 
 @NgModule({

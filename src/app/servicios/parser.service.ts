@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -50,22 +50,22 @@ export class ParserService {
     return parserReserva < unAnio;
   }
 
-  public hayDiferenciaDe40Minutos(fecha1: string, fecha2: string) {
-    const fecha1Date = this.parseStringDateToDateTime(fecha1);
-    const fecha2Date = this.parseStringDateToDateTime(fecha2);
+  // public hayDiferenciaDe40Minutos(fecha1: string, fecha2: string) {
+  //   const fecha1Date = this.parseStringDateToDateTime(fecha1);
+  //   const fecha2Date = this.parseStringDateToDateTime(fecha2);
 
-    if (fecha1Date.getFullYear() === fecha2Date.getFullYear()) {
-      if (fecha1Date.getMonth() === fecha2Date.getMonth()) {
-        if (fecha1Date.getDate() === fecha2Date.getDate()) {
-          const fecha1Aux = moment(fecha1Date);
-          const fecha2Aux = moment(fecha2Date);
-          const diferencia = fecha1Aux.diff(fecha2Aux, 'minutes');
-          if (diferencia <= 40) {
-            return false;
-          }
-        }
-      }
-    }
-    return true;
-  }
+  //   if (fecha1Date.getFullYear() === fecha2Date.getFullYear()) {
+  //     if (fecha1Date.getMonth() === fecha2Date.getMonth()) {
+  //       if (fecha1Date.getDate() === fecha2Date.getDate()) {
+  //         const fecha1Aux = moment(fecha1Date);
+  //         const fecha2Aux = moment(fecha2Date);
+  //         const diferencia = fecha1Aux.diff(fecha2Aux, 'minutes');
+  //         if (diferencia <= 40) {
+  //           return false;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return true;
+  // }
 }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "426902647363",
+    "firebase_url": "https://lacomanda-91df5.firebaseio.com",
+    "project_id": "lacomanda-91df5",
+    "storage_bucket": "lacomanda-91df5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426902647363:android:dbc039c74bc335d2881af6",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426902647363-jb1q54869p0d80k3itd9hf5od7aepffu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDstzFCImDXRNTvdO81WUXLriSBXZeJYWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426902647363-jb1q54869p0d80k3itd9hf5od7aepffu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

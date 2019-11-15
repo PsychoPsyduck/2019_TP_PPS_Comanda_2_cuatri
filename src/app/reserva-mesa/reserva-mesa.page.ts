@@ -58,88 +58,88 @@ export class ReservaMesaPage implements OnInit {
     }));
   }
 
-  public obtenerMesa(idMesa: string) {
-    return this.db.collection('mesas').snapshotChanges().pipe(map((mesas) => {
-      const auxMesas: any = mesas.map((a) => {
-        const data: any = a.payload.doc.data();
-        data.key = a.payload.doc.id;
-        return data;
-      });
+  // public obtenerMesa(idMesa: string) {
+  //   return this.db.collection('mesas').snapshotChanges().pipe(map((mesas) => {
+  //     const auxMesas: any = mesas.map((a) => {
+  //       const data: any = a.payload.doc.data();
+  //       data.key = a.payload.doc.id;
+  //       return data;
+  //     });
 
-      const auxRetorno: Array<any> = new Array<any>();
-      for (const mesaA of auxMesas) {
-        // console.log(user, valor);
-        if ((mesaA.id as string) === idMesa) {
-          auxRetorno.push(mesaA);
-          console.log('Añadido a la lista proveniente de la base de datos para mesas');
-        }
-      }
+  //     const auxRetorno: Array<any> = new Array<any>();
+  //     for (const mesaA of auxMesas) {
+  //       // console.log(user, valor);
+  //       if ((mesaA.id as string) === idMesa) {
+  //         auxRetorno.push(mesaA);
+  //         console.log('Añadido a la lista proveniente de la base de datos para mesas');
+  //       }
+  //     }
 
-      return auxRetorno;
-    }));
-  }
+  //     return auxRetorno;
+  //   }));
+  // }
 
-  public obtenerReservas() {
-    // this.mostrarSpinner = true;
-    this.spinnerServ.showLoadingSpinner();
-    this.idMesa = this.route.snapshot.paramMap.get('mesa');
+  // public obtenerReservas() {
+  //   // this.mostrarSpinner = true;
+  //   this.spinnerServ.showLoadingSpinner();
+  //   this.idMesa = this.route.snapshot.paramMap.get('mesa');
 
-    this.watchReservasList = this.obtenerReservasConMesa()
-        .subscribe((snapshots) => {
-          const reservasAgendadas = snapshots;
-          for (const reservaA of reservasAgendadas) {
-            if ((reservaA.mesa as string) === this.idMesa) {
-              if (!this.parserTypesServ.hayDiferenciaDe40Minutos(this.reservaAgendada.fecha, reservaA.fecha)) {
-                // this.mostrarSpinner = false;
-                this.messageHandlerServ.mostrarMensaje('Mesa ocupada');
-                // this.spinnerServ.quitarSpinnerLogo();
-                this.salir();
-                return;
-              }
-            }
-          }
+  //   this.watchReservasList = this.obtenerReservasConMesa()
+  //       .subscribe((snapshots) => {
+  //         const reservasAgendadas = snapshots;
+  //         for (const reservaA of reservasAgendadas) {
+  //           if ((reservaA.mesa as string) === this.idMesa) {
+  //             if (!this.parserTypesServ.hayDiferenciaDe40Minutos(this.reservaAgendada.fecha, reservaA.fecha)) {
+  //               // this.mostrarSpinner = false;
+  //               this.messageHandlerServ.mostrarMensaje('Mesa ocupada');
+  //               // this.spinnerServ.quitarSpinnerLogo();
+  //               this.salir();
+  //               return;
+  //             }
+  //           }
+  //         }
 
-          this.obtenerReservaIdMesa(this.idMesa)
-            .subscribe((snapshotsMesa) => {
-              const aux: any = snapshotsMesa;
-              for (const reservaNormalA of snapshotsMesa) {
-                if ((reservaNormalA.estado as string) === diccionario.estados_reservas.en_curso) {
-                  if (!this.parserTypesServ.hayDiferenciaDe40Minutos(this.reservaAgendada.fecha, reservaNormalA.fecha)) {
-                    // this.mostrarSpinner = false;
-                    // this.spinnerServ.quitarSpinnerLogo();
-                    this.messageHandlerServ.mostrarErrorLiteral('Mesa ocupada');
-                    this.salir();
-                    return;
-                  }
-                }
-              }
-              this.mostrar = true;
-              // this.mostrarSpinner = false;
-              this.spinnerServ.quitarSpinnerLogo();
-            });
-        });
+  //         this.obtenerReservaIdMesa(this.idMesa)
+  //           .subscribe((snapshotsMesa) => {
+  //             const aux: any = snapshotsMesa;
+  //             for (const reservaNormalA of snapshotsMesa) {
+  //               if ((reservaNormalA.estado as string) === diccionario.estados_reservas.en_curso) {
+  //                 if (!this.parserTypesServ.hayDiferenciaDe40Minutos(this.reservaAgendada.fecha, reservaNormalA.fecha)) {
+  //                   // this.mostrarSpinner = false;
+  //                   // this.spinnerServ.quitarSpinnerLogo();
+  //                   this.messageHandlerServ.mostrarErrorLiteral('Mesa ocupada');
+  //                   this.salir();
+  //                   return;
+  //                 }
+  //               }
+  //             }
+  //             this.mostrar = true;
+  //             // this.mostrarSpinner = false;
+  //             this.spinnerServ.quitarSpinnerLogo();
+  //           });
+  //       });
 
-    this.tipo = this.route.snapshot.paramMap.get('tipo'); // si viene por lista de espera o por reserva
+  //   this.tipo = this.route.snapshot.paramMap.get('tipo'); // si viene por lista de espera o por reserva
 
-    if (this.tipo == 'esperaMesa') {
+  //   if (this.tipo == 'esperaMesa') {
 
-    } else {
+  //   } else {
 
-      this.reservaAgendada = JSON.parse(this.route.snapshot.paramMap.get('reserva'));
-      // console.log(this.route.snapshot.paramMap.get('reserva').toString());
-      console.log('Mesa', this.idMesa, 'Reserva', this.reservaAgendada);
+  //     this.reservaAgendada = JSON.parse(this.route.snapshot.paramMap.get('reserva'));
+  //     // console.log(this.route.snapshot.paramMap.get('reserva').toString());
+  //     console.log('Mesa', this.idMesa, 'Reserva', this.reservaAgendada);
 
       
 
-      this.watchMesasList = this.obtenerMesa(this.idMesa)
-        .subscribe(snapshots => {
-          const auxMesas: Array<Mesa> = snapshots;
-          this.mesa = new Mesa(auxMesas[0].id, auxMesas[0].comensales, auxMesas[0].tipo, auxMesas[0].foto, auxMesas[0].estado);
-        });
+  //     this.watchMesasList = this.obtenerMesa(this.idMesa)
+  //       .subscribe(snapshots => {
+  //         const auxMesas: Array<Mesa> = snapshots;
+  //         this.mesa = new Mesa(auxMesas[0].id, auxMesas[0].comensales, auxMesas[0].tipo, auxMesas[0].foto, auxMesas[0].estado);
+  //       });
 
-    }
+  //   }
 
 
-  }
+  // }
 
 }

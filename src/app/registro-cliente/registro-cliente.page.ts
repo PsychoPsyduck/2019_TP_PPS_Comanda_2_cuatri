@@ -108,8 +108,8 @@ export class RegistroClientePage implements OnInit {
   }
 
   LeerDni(){ 
-
-    this.barcode.scan("PDF_417").then(barcodeData => {
+    const options = { prompt: 'Escaneé su DNI', format: "PDF_417" };
+    this.barcode.scan(options).then(barcodeData => {
 
       var split = barcodeData.text.split("@");
       console.log(split);
