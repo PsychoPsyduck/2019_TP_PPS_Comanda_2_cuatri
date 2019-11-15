@@ -32,7 +32,6 @@ export class AppComponent {
 
     this.logeado = false;
     this.events.subscribe('usuarioLogueado', data => {
-
       this.menu.enable(true);
       this.logeado = true;
 
@@ -65,7 +64,6 @@ export class AppComponent {
           break;
 
         // **************  SUPERVISOR - DUEÑO ****************/
-        case 'supervisor':
         case 'dueño':
 
           console.log("sos el dueño");
@@ -96,14 +94,59 @@ export class AppComponent {
           break;
 
         // **************  CLIENTE ****************/
-        case 'cliente':
 
+<<<<<<< HEAD
           this.pages.push(
 
             {
               title: 'Poner en lista de espera',
               url: '/lista-espera-cliente',
               icon: 'people',
+=======
+        case 'anonimo':
+        this.pages.push(
+          
+          {
+            title: 'Poner en lista de espera',
+            url: '/lista-espera-cliente',
+            icon: 'people',
+            
+          },
+
+          {
+            title: 'Pedir',
+            url: '/alta-pedido',
+            icon: 'bonfire'
+          }
+          
+        );
+        break;
+
+        case 'cliente':
+      
+        this.pages.push(
+          
+          {
+            title: 'Poner en lista de espera',
+            url: '/lista-espera-cliente',
+            icon: 'people',
+            
+          },
+          {
+            title: 'Reservar mesa',
+            url: '/reservar-mesa',
+            icon: 'time',
+            
+          },
+          {
+            title: 'Pedir',
+            url: '/alta-pedido',
+            icon: 'bonfire'
+          }
+          
+        );
+        break;
+>>>>>>> 559c71ff7691642e0f51e9534ba36d83a1d47688
 
             },
             {

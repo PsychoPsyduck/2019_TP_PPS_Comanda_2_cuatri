@@ -58,14 +58,24 @@ export class UsuariosService {
 
     let id = this.objFirebase.createId();
     usuario.id = id;
-
+    if(usuario.tipo=="anonimo")
+    {
+      sessionStorage.setItem("usuario",JSON.stringify(usuario));
+    }
 
     return this.objFirebase.collection<any>("usuarios").doc(id).set(usuario);
 
   }
 
+<<<<<<< HEAD
   CambiarEstado(usr: Usuario) {
     usr.estado = "pendiente";
+=======
+
+  CambiarEstado(usr:Usuario)
+  {
+    usr.estado="pendiente";
+>>>>>>> 559c71ff7691642e0f51e9534ba36d83a1d47688
     return this.objFirebase.collection<any>("usuarios").doc(usr.id).update(usr);
   }
 
@@ -76,6 +86,7 @@ export class UsuariosService {
     return this.usuariosObservable;
   }
 
+<<<<<<< HEAD
   AgregarListaEsperaMesa(usr) {
     let registro= {
       fecha: Date.now(),
@@ -83,7 +94,35 @@ export class UsuariosService {
       apellido: usr.apellido,
       correo: usr.correo,
       foto:usr.foto
+=======
+  AgregarListaEsperaMesa(usr)
+  {
+    let id = this.objFirebase.createId();
+    let registro;
+    if(usr.tipo =="anonimo")
+    {
+       registro= {
+        id:id,
+        fecha: Date.now(),
+        nombre: usr.nombre,
+        idUsuario: usr.id,
+        foto:usr.foto
+      }
+>>>>>>> 559c71ff7691642e0f51e9534ba36d83a1d47688
     }
-   return this.objFirebase.collection<any>("esperaMesa").add(registro);
+    else
+    {
+      registro= {
+        id:id,
+        fecha: Date.now(),
+        nombre: usr.nombre,
+        apellido: usr.apellido,
+        correo: usr.correo,
+        idUsuario: usr.id,
+        foto:usr.foto
+      }
+    }
+
+   return this.objFirebase.collection<any>("esperaMesa").doc(id).set(registro);
   }
 }

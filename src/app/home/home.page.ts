@@ -19,6 +19,7 @@ export class HomePage {
     public actionSheetController: ActionSheetController,
     private userServ: UsuariosService) { }
 
+    
   OnLogOut() {
     this.router.navigate(['/login']);
   }

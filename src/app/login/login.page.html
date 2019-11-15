@@ -26,13 +26,13 @@
 
 
     <ion-button expand="block" (click)="Ingresar()">Ingresar</ion-button>
-
+    <ion-button expand="block" (click)="IngresarAnonimo()">Ingreso anonimo</ion-button>
 
     <ion-button expand="block" (click)="IrARegistro()">Registrase</ion-button>
 
     <ion-item>
-        <ion-select (ionChange)="onChange($event.target.value)" placeholder="Usuario">
-            <ion-select-option *ngFor="let usuario of usuariosLogin" value={{usuario.id}}>{{usuario.nombre}}
+        <ion-select  (ionChange)="onChange($event.target.value)" placeholder="Usuario">
+            <ion-select-option color="light" *ngFor="let usuario of usuariosLogin" value={{usuario.id}}>{{usuario.nombre}}
             </ion-select-option>
         </ion-select>
     </ion-item>

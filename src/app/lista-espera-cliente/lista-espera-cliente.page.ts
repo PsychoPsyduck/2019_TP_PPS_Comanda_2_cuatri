@@ -25,8 +25,55 @@ export class ListaEsperaClientePage implements OnInit {
     private toast: ToastService) {
     //this.usuario=JSON.parse(sessionStorage.getItem("usuario"));
     //console.log(this.usuario);
+<<<<<<< HEAD
     this.verificar();
   }
+=======
+     this.verificar();
+
+
+}
+
+async traerUsuario()
+{
+  this.usuario=JSON.parse(sessionStorage.getItem("usuario"));
+}
+
+  async verificar()
+{
+  // this.traerUsuario();
+  this.usuario=JSON.parse(sessionStorage.getItem("usuario"));
+
+
+   await this.usrServ.TraerListaEsperaMesa().then( async (data)=>{
+    
+    await data.forEach((registro)=>{
+   
+    registro.forEach(element => {
+
+      console.log("ele", element)
+      if(element.idUsuario==this.usuario.id)
+      {
+       console.log("esta en la lista");
+       this.enLista=true;
+        
+        this.navCtrl.navigateRoot('/home').then(()=>{
+          this.toast.confirmationToast("Ya estas en la lista de espera.");
+        })
+        
+      }
+      
+    });
+
+    console.log(this.enLista)
+    if(!this.enLista)
+    {
+      
+       this.Scan();
+    }
+  });
+
+>>>>>>> 559c71ff7691642e0f51e9534ba36d83a1d47688
 
   async traerUsuario() {
     this.usuario = JSON.parse(sessionStorage.getItem("usuario"));

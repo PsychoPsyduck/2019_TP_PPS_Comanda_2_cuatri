@@ -9,4 +9,5 @@ export class Reserva{
     mesa;
     comensales;
     estado;
+    tipo;
 }

@@ -22,6 +22,7 @@ export class ReservarMesaPage implements OnInit {
   constructor(private builder: FormBuilder,
     private reservaServ: ReservasService,
     private mesaServ: MesasService,
+<<<<<<< HEAD
     private toast: ToastService) {
     this.t = new Date();
 
@@ -67,6 +68,54 @@ export class ReservarMesaPage implements OnInit {
         return mesa;
       })
       console.log(this.listaMesas);
+=======
+  private toast: ToastService) 
+    {
+        this.t=new Date();
+
+         if(this.t.getDate() < 10)
+         {
+          this.hoy= this.t.getFullYear() + "-" + (this.t.getMonth()+1) + "-" +"0"+ this.t.getDate();
+         }
+         else{
+          this.hoy= this.t.getFullYear() + "-" + (this.t.getMonth()+1) + "-" + this.t.getDate();
+         }
+      
+          this.usuario = JSON.parse(sessionStorage.getItem("usuario"));
+    
+          this.TraerReservas();
+         this.TraerMesas();
+   }
+
+   
+fecha = new FormControl('', [
+  Validators.required
+]);
+
+
+cant_comensales = new FormControl('', [
+  Validators.required,
+]);
+
+tipo = new FormControl('', [
+  Validators.required,
+]);
+
+
+registroForm: FormGroup = this.builder.group({
+  fecha: this.fecha,
+  cant_comensales: this.cant_comensales,
+  tipo: this.tipo,
+
+  
+});
+
+TraerMesas()
+{
+  this.mesaServ.ObtenerMesas().subscribe((data)=>{
+    this.listaMesas=data.map(function(mesa){
+      return mesa;
+>>>>>>> 559c71ff7691642e0f51e9534ba36d83a1d47688
     })
   }
 
@@ -81,6 +130,7 @@ export class ReservarMesaPage implements OnInit {
     let f = new Date(this.registroForm.get('fecha').value);
     let dia = f.getDate(), mes = f.getMonth() + 1, hora = f.getHours(), minuto = f.getMinutes();
     let diastr, messtr, horastr, minutostr;
+<<<<<<< HEAD
     dia < 10 ? diastr = "0" + dia.toString() : diastr = dia;
     mes < 10 ? messtr = "0" + mes.toString() : messtr = mes;
     hora < 10 ? horastr = "0" + hora.toString() : horastr = hora;
@@ -115,6 +165,47 @@ export class ReservarMesaPage implements OnInit {
       this.toast.errorToast("No hay mesas disponibles para esa fecha");
     }
 
+=======
+    dia <10 ? diastr= "0"+dia.toString() : diastr=dia;
+    mes <10 ? messtr= "0"+mes.toString() : messtr=mes;
+    hora <10 ? horastr= "0"+hora.toString() : horastr=hora;
+    minuto <10 ? minutostr= "0"+minuto.toString() : minutostr=minuto;
+    reserva.fecha=  diastr +"-"+ messtr +"-"+ f.getFullYear() +" "+ horastr+":"+ minutostr;
+    console.log(reserva.fecha);
+    let minAReservar = ((Date.parse(reserva.fecha)/100)/60);//(Date.parse(reserva.fecha) / 1000) / 60;
+    console.log(minAReservar);
+  
+    
+    reserva.usuario=this.usuario;
+    reserva.estado="pendiente";
+    reserva.comensales= this.registroForm.value.cant_comensales;
+    reserva.tipo= this.registroForm.value.tipo;
+    
+    let bandera:boolean= true;
+    let libre:boolean;
+
+  let mesasAdecuadas= this.listaMesas.filter((mesa)=>{
+    return mesa.comensales == reserva.comensales && mesa.tipo == reserva.tipo;
+  });
+console.log("adecuadas: ", mesasAdecuadas);
+ mesasAdecuadas.forEach((m)=>
+{
+ if(this.validarMesa(minAReservar, m.key) && bandera)
+ {
+   bandera=false;
+   libre=true;
+   reserva.mesa = m.key;
+   this.reservaServ.AgendarReserva(reserva).then(()=>{
+    this.toast.confirmationToast("Mesa reservada para el " + reserva.fecha);
+  });
+ }
+})
+if(!libre)
+{
+  this.toast.errorToast("No hay mesas disponibles para esa fecha");
+}
+    
+>>>>>>> 559c71ff7691642e0f51e9534ba36d83a1d47688
   }
 
   validarMesa(fechaEnMin, mesa) {
@@ -122,6 +213,7 @@ export class ReservarMesaPage implements OnInit {
 
     this.listaReservas.forEach((reserva) => {
 
+<<<<<<< HEAD
       let minReservados = (Date.parse(reserva.fecha) / 1000) / 60;
       console.log(minReservados);
       if (((minReservados - 40) <= fechaEnMin) && ((minReservados + 40) >= fechaEnMin)
@@ -129,6 +221,17 @@ export class ReservarMesaPage implements OnInit {
         rta = false;
       }
     })
+=======
+    let minReservados = ((Date.parse(reserva.fecha)/100)/60);
+console.log(minReservados);
+console.log(fechaEnMin);
+    if(((minReservados - 40) <= fechaEnMin ) && ((minReservados + 40) >= fechaEnMin)
+    && reserva.mesa == mesa)
+    {
+      rta=false;
+    }
+  })
+>>>>>>> 559c71ff7691642e0f51e9534ba36d83a1d47688
 
     return rta;
 

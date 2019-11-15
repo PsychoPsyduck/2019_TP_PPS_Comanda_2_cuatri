@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Ingreso anónimo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true">
+
+    <ion-row justify-content-center>
+        <ion-card
+          style="border-style: ridge; border-width: 2px; border-radius: 50px; border-color: rgba(25, 161, 36, 0.712)">
+          <img *ngIf="!fotoCliente" style="height: 100px; width: 100px;" src="../../assets/img/user-icon.png">
+          <img *ngIf="fotoCliente" style="height: 100px; width: 100px; border-radius: 50px;" src={{fotoCliente}}>
+        </ion-card>
+        </ion-row>
+    <form [formGroup]="registroForm">
+
+        <ion-item>
+          <ion-input type="text" name="nombre" [formControl]="nombre" required placeholder="Nombre">
+          </ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="Registrar()" block [disabled]="!registroForm.valid">Ingresar</ion-button>
+        </form>
+</ion-content>
+<ion-footer>
+    <ion-fab vertical="bottom" horizontal="end">
+      <ion-fab-button style="--background: rgb(75, 129, 98); " (click)="SacarFoto()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-footer>
