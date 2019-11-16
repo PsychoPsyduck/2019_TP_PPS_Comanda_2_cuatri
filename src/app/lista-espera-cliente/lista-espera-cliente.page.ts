@@ -17,15 +17,12 @@ export class ListaEsperaClientePage implements OnInit {
   mensaje;
   enLista: boolean = false;
 
-  constructor(
-    public alertCtrl: AlertController,
-    private navCtrl: NavController,
-    private barcode: BarcodeScanner,
-    private usrServ: UsuariosService,
-    private toast: ToastService) {
+  constructor(private navCtrl: NavController, private barcode: BarcodeScanner, private usrServ: UsuariosService, private toast: ToastService) {
     //this.usuario=JSON.parse(sessionStorage.getItem("usuario"));
     //console.log(this.usuario);
     this.verificar();
+
+
   }
 
   async traerUsuario() {
@@ -33,44 +30,63 @@ export class ListaEsperaClientePage implements OnInit {
   }
 
   async verificar() {
-
+    // this.traerUsuario();
     this.usuario = JSON.parse(sessionStorage.getItem("usuario"));
+
+
     await this.usrServ.TraerListaEsperaMesa().then(async (data) => {
+
       await data.forEach((registro) => {
+
         registro.forEach(element => {
+
           console.log("ele", element)
-          if (element.correo == this.usuario.correo) {
+          if (element.idUsuario == this.usuario.id) {
             console.log("esta en la lista");
             this.enLista = true;
-            this.navCtrl.navigateRoot('/principal-cliente').then(() => {
+
+            this.navCtrl.navigateRoot('/home').then(() => {
               this.toast.confirmationToast("Ya estas en la lista de espera.");
             })
+
           }
+
         });
+
+        console.log(this.enLista)
         if (!this.enLista) {
+
           this.Scan();
         }
       });
+
+
     })
+
+
+
   }
 
   async Scan() {
-
-    this.barcode.scan({ prompt: "Scanee el código QR para agregarse a la lista de espera" }).then(barcodeData => {
+    this.barcode.scan().then(barcodeData => {
       this.mensaje = barcodeData.text;
       if (barcodeData.text == 'laComanda') {
 
         this.usrServ.AgregarListaEsperaMesa(this.usuario).then(() => {
           this.toast.confirmationToast("Te agregaste a la lista.");
-          this.navCtrl.navigateRoot('/principal-cliente');
+          this.navCtrl.navigateRoot('/home');
         })
       }
     }).catch(err => {
       console.log('Error', err);
     })
+    //console.log("scan!!!");
   }
 
   ngOnInit() {
+
+
   }
+
 
 }

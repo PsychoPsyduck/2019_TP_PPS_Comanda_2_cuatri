@@ -3,32 +3,45 @@
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title>reservarMesa</ion-title>
+    <ion-title>Reservar Mesa</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-title>Reserva de mesa</ion-title>
-  <form [formGroup]="registroForm" >
-    <ion-item>
-        <ion-label color="light">Fecha </ion-label>
-        <ion-datetime  [min]="hoy" displayFormat="D-MM-YYYY HH:mm" name="fecha" [formControl]="fecha" required></ion-datetime>
-    </ion-item>
+  <ion-title style="background-color: rgba(0, 0, 0, 0.603); font-size: xx-large; text-align: center; color: white">
+    Reserva de mesa</ion-title>
+  <ion-row justify-content-center align-items-center style='height: 90%'>
 
-    <ion-item>
+    <form [formGroup]="registroForm">
+      <ion-item>
+        <ion-label color="light">Fecha </ion-label>
+        <ion-datetime [min]="hoy" displayFormat="D-MM-YYYY HH:mm" name="fecha" [formControl]="fecha" required>
+        </ion-datetime>
+      </ion-item>
+
+      <ion-item>
         <ion-label color="light">Cantidad de comensales</ion-label>
         <ion-input type="number" name="cant_comensales" [formControl]="cant_comensales" required></ion-input>
-    </ion-item>
-    <ion-item>
+      </ion-item>
+      <ion-item>
+
+        <ion-select placeholder="Usuario" [formControl]="tipo" placeholder="Tipo" name="tipo">
+          <ion-select-option value="sector fumadores">Fumadores</ion-select-option>
+          <ion-select-option value="discapacitados">Discapacitados</ion-select-option>
+          <ion-select-option value="barra">Barra</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <!--<ion-item>
         <ion-label color="light">VIP</ion-label>
         <ion-checkbox name="vip" [formControl]="vip"></ion-checkbox>
-    </ion-item>
+    </ion-item>-->
 
-        <ion-button type="submit"  color="primary" [disabled]="!registroForm.valid" expand="block" (click)="GuardarReserva()">Reservar</ion-button>
-  
-</form>
+      <ion-button type="submit" color="primary" [disabled]="!registroForm.valid" expand="block"
+        (click)="GuardarReserva()">Reservar</ion-button>
 
- 
+    </form>
+
+  </ion-row>
 
 
 </ion-content>

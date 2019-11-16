@@ -33,7 +33,6 @@ export class AppComponent {
 
     this.logeado = false;
     this.events.subscribe('usuarioLogueado', data => {
-
       this.menu.enable(true);
       this.logeado = true;
 
@@ -54,7 +53,6 @@ export class AppComponent {
       // ROUTING DEL MENU
       switch (data.tipo) {
         // **************  SUPERVISOR - DUEÑO ****************/
-        case 'supervisor':
         case 'dueño':
 
           console.log("sos el dueño");
@@ -85,6 +83,26 @@ export class AppComponent {
           break;
 
         // **************  CLIENTE ****************/
+
+        case 'anonimo':
+          this.pages.push(
+
+            {
+              title: 'Poner en lista de espera',
+              url: '/lista-espera-cliente',
+              icon: 'people',
+
+            },
+
+            {
+              title: 'Pedir',
+              url: '/alta-pedido',
+              icon: 'bonfire'
+            }
+
+          );
+          break;
+
         case 'cliente':
 
           this.pages.push(
@@ -101,16 +119,12 @@ export class AppComponent {
               icon: 'time',
 
             },
-            // {
-            //   title: 'Pedir',
-            //   url: '/alta-pedido',
-            //   icon: 'bonfire'
-            // },
             {
               title: 'Pedir',
               url: '/principal-cliente',
               icon: 'bonfire'
-            },
+            }
+
           );
           break;
 

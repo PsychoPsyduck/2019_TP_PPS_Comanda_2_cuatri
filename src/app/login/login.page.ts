@@ -38,8 +38,8 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     private router: Router,
     public events: Events,
-  private platform: Platform,
-private fcm: FcmService) {
+    private platform: Platform,
+    private fcm: FcmService) {
     this.procesando = false;
     this.TraerUsuarios();
   }
@@ -64,17 +64,18 @@ private fcm: FcmService) {
     this.procesando = true;
     let ok: boolean = false;
     this.usuarios.map(usr => {
-      if (usr.correo == this.correo && usr.clave == this.clave) {
+      if (usr.correo == this.correo && usr.clave == this.clave && usr.estado == "activo") {
+
         ok = true;
         sessionStorage.setItem("usuario", JSON.stringify(usr));
-                if (usr !== undefined) {
-                let toast;
+        if (usr !== undefined) {
+          let toast;
           //Si estoy en el dispositivo guardo el token para push
-       
 
 
-          if(this.platform.is('cordova')){
-          
+
+          if (this.platform.is('cordova')) {
+
             this.fcm.getToken()
           }
         }
@@ -87,6 +88,10 @@ private fcm: FcmService) {
     if (!ok) {
       this.presentToast();
     }
+  }
+
+  IngresarAnonimo() {
+    this.router.navigate(['/ingreso-anonimo']);
   }
 
   onChange(id) {

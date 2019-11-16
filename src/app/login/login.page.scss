@@ -14,7 +14,8 @@
                 --background: #fff url('../../assets/img/fondo.jpg') no-repeat center center / cover;
             }
 ion-input{
-    background-color: rgba(0, 0, 0, 0.288);
+  color: white;
+    background-color: rgba(0, 0, 0, 0.5);
     margin:2px;
     height: 50px;
     border-radius: 5px;
@@ -28,7 +29,8 @@ ion-button{
 }
 
 ion-item{
-    --background: rgba(0, 0, 0, 0.356);
+  color: white;
+    --background: rgba(0, 0, 0, 0.5);
     --padding: 0%;
     margin-bottom: 2px;
     border-radius: 5px;

@@ -48,15 +48,15 @@ export class ReservarMesaPage implements OnInit {
     Validators.required,
   ]);
 
-  vip = new FormControl('', [
-
+  tipo = new FormControl('', [
+    Validators.required,
   ]);
 
 
   registroForm: FormGroup = this.builder.group({
     fecha: this.fecha,
     cant_comensales: this.cant_comensales,
-    vip: this.vip,
+    tipo: this.tipo,
 
 
   });
@@ -66,9 +66,8 @@ export class ReservarMesaPage implements OnInit {
       this.listaMesas = data.map(function (mesa) {
         return mesa;
       })
-      console.log(this.listaMesas);
-    })
-  }
+    });
+}
 
   TraerReservas() {
     this.reservaServ.TraerReservas().subscribe((data) => {
@@ -86,26 +85,29 @@ export class ReservarMesaPage implements OnInit {
     hora < 10 ? horastr = "0" + hora.toString() : horastr = hora;
     minuto < 10 ? minutostr = "0" + minuto.toString() : minutostr = minuto;
     reserva.fecha = diastr + "-" + messtr + "-" + f.getFullYear() + " " + horastr + ":" + minutostr;
-
-    let minAReservar = (Date.parse(reserva.fecha) / 1000) / 60;
+    console.log(reserva.fecha);
+    let minAReservar = ((Date.parse(reserva.fecha) / 100) / 60);//(Date.parse(reserva.fecha) / 1000) / 60;
     console.log(minAReservar);
 
 
     reserva.usuario = this.usuario;
     reserva.estado = "pendiente";
     reserva.comensales = this.registroForm.value.cant_comensales;
+    reserva.tipo = this.registroForm.value.tipo;
+
     let bandera: boolean = true;
     let libre: boolean;
 
     let mesasAdecuadas = this.listaMesas.filter((mesa) => {
-      return mesa.comensales == reserva.comensales;
+      return mesa.comensales == reserva.comensales && mesa.tipo == reserva.tipo;
     });
-
+    console.log("adecuadas: ", mesasAdecuadas);
     mesasAdecuadas.forEach((m) => {
       if (this.validarMesa(minAReservar, m.key) && bandera) {
         bandera = false;
         libre = true;
         reserva.mesa = m.key;
+        reserva.idMesa = m.id;
         this.reservaServ.AgendarReserva(reserva).then(() => {
           this.toast.confirmationToast("Mesa reservada para el " + reserva.fecha);
         });
@@ -122,8 +124,9 @@ export class ReservarMesaPage implements OnInit {
 
     this.listaReservas.forEach((reserva) => {
 
-      let minReservados = (Date.parse(reserva.fecha) / 1000) / 60;
+      let minReservados = ((Date.parse(reserva.fecha) / 100) / 60);
       console.log(minReservados);
+      console.log(fechaEnMin);
       if (((minReservados - 40) <= fechaEnMin) && ((minReservados + 40) >= fechaEnMin)
         && reserva.mesa == mesa) {
         rta = false;

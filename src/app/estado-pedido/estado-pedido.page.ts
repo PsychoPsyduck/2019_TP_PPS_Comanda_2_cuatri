@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Pedido } from '../clases/pedido';
 import { ProductoPedido } from '../clases/producto-pedido';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Reserva } from '../clases/reserva';
+import { Reserva } from '../clases/Reserva';
 import { diccionario } from '../clases/diccionario';
 import { Mesa } from '../clases/mesa';
 import { AuthService } from '../servicios/auth.service';
@@ -57,7 +57,7 @@ export class EstadoPedidoPage implements OnInit {
 
       const auxRetorno: Array<any> = new Array<any>();
       for (const reservaA of auxReserva) {
-        if ((reservaA as Reserva).idMesa === valor) {
+        if ((reservaA as Reserva).mesa === valor) {
           auxRetorno.push(reservaA);
           // console.log('Añadido a la lista proveniente de la base de datos para las reservas');
         }
@@ -127,7 +127,7 @@ export class EstadoPedidoPage implements OnInit {
         console.log(auxSnaps);
 
         if (this.authServ.user.perfil === 'cliente' || this.authServ.user.perfil === 'anonimo') {
-          auxSnaps = auxSnaps.filter((a: Reserva) => a.cliente === this.usuario.id);
+          auxSnaps = auxSnaps.filter((a: Reserva) => a.usuario.id === this.usuario.id);
         }
 
         // tslint:disable-next-line: prefer-for-of
@@ -135,10 +135,10 @@ export class EstadoPedidoPage implements OnInit {
           console.log('Estoy en el for de las reservas de las mesas');
 
           // Tengo la mesa con pedido => busco el pedido
-          if ((auxSnaps[index].idMesa as string) === this.mesa &&
+          if ((auxSnaps[index].mesa as string) === this.mesa &&
             auxSnaps[index].estado === diccionario.estados_reservas.en_curso) {
             this.pedido.key = auxSnaps[index].idPedido;
-            this.reservaKey = auxSnaps[index].key;
+            this.reservaKey = auxSnaps[index].id;
 
             console.log('Busco la mesa');
             this.subsPedido = this.traerIdPedido(this.pedido.key)
@@ -173,7 +173,7 @@ export class EstadoPedidoPage implements OnInit {
               });
             break;
           } else if (auxSnaps[index].idMesa === this.mesa && auxSnaps[index].estado === diccionario.estados_reservas.en_curso) {
-            this.reservaKey = auxSnaps[index].key;
+            this.reservaKey = auxSnaps[index].id;
           }
         }
 

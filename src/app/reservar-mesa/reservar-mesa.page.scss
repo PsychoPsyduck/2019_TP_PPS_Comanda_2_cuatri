@@ -36,3 +36,12 @@ ion-input{
     .text-input[disabled] {
         opacity: 1;
       }
+
+      ion-select{
+          ion-select-option{
+              color: white;
+              --background-color: rgba(4, 92, 92, 0.726);
+          }
+          color: white;
+          
+      }

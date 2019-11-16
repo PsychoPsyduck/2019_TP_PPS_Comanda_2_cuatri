@@ -19,10 +19,11 @@ const routes: Routes = [
   { path: 'tomar-pedido', loadChildren: './tomar-pedido/tomar-pedido.module#TomarPedidoPageModule' },
   { path: 'lista-pedidos', loadChildren: './lista-pedidos/lista-pedidos.module#ListaPedidosPageModule' },
   { path: 'lista-pedidos-productos', loadChildren: './lista-pedidos-productos/lista-pedidos-productos.module#ListaPedidosProductosPageModule' },
-  { path: 'principal-cliente', loadChildren: './principal-cliente/principal-cliente.module#PrincipalClientePageModule' },
-  { path: 'reserva-mesa', loadChildren: './reserva-mesa/reserva-mesa.module#ReservaMesaPageModule' },
   { path: 'reservar-mesa', loadChildren: './reservar-mesa/reservar-mesa.module#ReservarMesaPageModule' },
   { path: 'reservas-pendientes', loadChildren: './reservas-pendientes/reservas-pendientes.module#ReservasPendientesPageModule' },
+  { path: 'ingreso-anonimo', loadChildren: './ingreso-anonimo/ingreso-anonimo.module#IngresoAnonimoPageModule' },
+  { path: 'principal-cliente', loadChildren: './principal-cliente/principal-cliente.module#PrincipalClientePageModule' },
+
 ];
 
 @NgModule({

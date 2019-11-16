@@ -520,7 +520,7 @@ export class PrincipalClientePage implements OnInit {
 
           this.auxReserva.idPedido = data.id;
           this.firebaseServ
-            .actualizar('reservas', this.auxReserva.key, this.auxReserva)
+            .actualizar('reservas', this.auxReserva.id, this.auxReserva)
             .then(() => {
               console.log('Se carga el pedido en la reserva');
             });
