@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReservasService } from '../servicios/reservas.service';
 import { Usuario } from '../clases/Usuario';
 import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Reserva } from '../clases/Reserva';
+import { Reserva } from '../clases/reserva';
 import { MesasService } from '../servicios/mesas.service';
 import { Mesa } from '../clases/mesa';
 import { ToastService } from '../servicios/toast.service';

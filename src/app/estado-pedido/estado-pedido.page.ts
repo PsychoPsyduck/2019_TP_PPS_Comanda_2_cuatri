@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Pedido } from '../clases/pedido';
 import { ProductoPedido } from '../clases/producto-pedido';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Reserva } from '../clases/Reserva';
+import { Reserva } from '../clases/reserva';
 import { diccionario } from '../clases/diccionario';
 import { Mesa } from '../clases/mesa';
 import { AuthService } from '../servicios/auth.service';
