@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Bienvenido, {{nombreUsuario}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- <ion-label *ngIf="mostrarSpinner">Spinner!</ion-label> -->
+
+  <!-- fab abajo a la derecha -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="puedeJugar">
+    <ion-fab-button color="danger">
+      <ion-icon name="logo-game-controller-b"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-list side="top">
+      <ion-fab-button color="warning" (click)="irA('bebida')">
+        <img src="../../../assets/imgs/bebida.png" alt="Postre" class="icon-juegos">
+      </ion-fab-button>
+      <ion-fab-button color="light" (click)="irA('postre')">
+        <img src="../../../assets/imgs/postre.png" alt="Postre" class="icon-juegos">
+      </ion-fab-button>
+      <ion-fab-button color="dark" (click)="irA('descuento')">
+        <img src="../../../assets/imgs/discount.png" alt="Descuento" class="icon-juegos">
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <ion-row *ngIf="puedeHacerPedido || puedeVerPedido">
+    <ion-col text-center>El codigo de su mesa es: {{mesa}}.</ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="puedeHacerPedido">
+    <ion-col text-center>
+      <ion-button color="light" (click)="escanearQR('hacerPedido')">
+        <ion-icon color="secondary" name="qr-scanner" style="margin-right: 0.5rem"></ion-icon>Hacer Pedido
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="puedeVerPedido">
+    <ion-col text-center>
+      <ion-button color="light" (click)="escanearQR('verPedido')">
+        <ion-icon color="secondary" name="qr-scanner" style="margin-right: 0.5rem"></ion-icon>Ver estado del pedido
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="puedeSolicitarMesa">
+    <ion-col text-center>
+      <ion-button color="light" (click)="solicitarMesa()">
+        <ion-icon color="secondary" name="checkbox-outline"></ion-icon>Solicitar Mesa
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="puedeHacerDelivery">
+    <ion-col text-center>
+      <ion-button color="light" (click)="pedirDelivery()">
+        Delivery
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="esperandoAsignacion">
+    <p>Se le asignará una mesa en unos momentos</p>
+  </ion-row>
+</ion-content>

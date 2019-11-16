@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="arrow-round-back"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Estado de su Pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <div *ngIf="mostrarSpinner">Spinner!</div> -->
+  <ion-item>
+    <h2>Estado del Pedido: {{pedido.estado}}</h2>
+  </ion-item>
+  <div class="width-100 center-vertical center-horizontal" style="border: 1px
+    black">
+    <!-- <div *ngIf='hacerPedido'>
+      <ion-button round color="light" (click)="irA('hacerPedido')">Hacer Pedido</ion-button>
+    </div> -->
+    <div *ngIf='confirmarEntrega'>
+      <ion-button round color="light" (click)="confirmarEntregaPedido()">Confirmar
+        Entrega</ion-button>
+    </div>
+    <div *ngIf='cuenta'>
+      <ion-button round color="light" (click)="irA('solicitarCuenta')">Solicitar
+        cuenta</ion-button>
+    </div>
+    <!-- <div *ngIf='cerrar'>
+      <ion-button round color="light" (click)="cerrarMesa()">Cerrar mesa</ion-button>
+    </div> -->
+  </div>
+  <ion-button color="light" (click)='mostrarDetallePedido=
+    !mostrarDetallePedido'>
+    <ion-icon color="secondary" name="book" style="margin-right: 0.5rem"></ion-icon>Mostrar
+    detalle del pedido
+  </ion-button>
+
+  <div *ngIf='mostrarDetallePedido'>
+    <ion-row *ngFor="let pr of productosPedidos">
+      <ion-col>
+        <ion-item style="padding-left: 0.5rem">
+          <ion-row>
+            <ion-col>
+              {{pr.nombre}}
+            </ion-col>
+            <ion-col class="end-horizontal" *ngIf="pr.estado == false">
+              {{pr.entrega | tiempoDesdeAhora }}
+            </ion-col>
+            <ion-col class="end-horizontal" *ngIf="pr.estado == true">
+              Listo para ser entregado
+            </ion-col>
+          </ion-row>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>
