@@ -12,7 +12,6 @@ import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
   providedIn: 'root'
 })
 export class MesasService {
-
   constructor(
     public db: AngularFirestore,
     public storage: AngularFireStorage,

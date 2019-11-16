@@ -15,6 +15,7 @@ import { map } from 'rxjs/operators'
 import { diccionario } from '../clases/diccionario';
 import { Pedido } from '../clases/pedido';
 import { AltaPedidoPage } from '../alta-pedido/alta-pedido.page';
+import { UsuariosService } from '../servicios/usuarios.service';
 
 @Component({
   selector: 'app-principal-cliente',
@@ -28,6 +29,7 @@ export class PrincipalClientePage implements OnInit {
   public nombreUsuario: string;
   public mesa: string;
   public mesaDoc: string;
+  public usuario;
 
   public puedeJugar = false;
   public puedeHacerPedido = false;
@@ -46,6 +48,7 @@ export class PrincipalClientePage implements OnInit {
   public watchPedido: any;
 
   constructor(
+    public userServ: UsuariosService,
     public authServ: AuthService,
     public barcodeScanner: BarcodeScanner,
     public alertCtrl: AlertController,
@@ -62,6 +65,7 @@ export class PrincipalClientePage implements OnInit {
   ) { }
 
   public ionViewDidEnter() {
+    this.usuario = this.userServ.getUsuarioStorage();
     this.inicioPagina();
   }
 
@@ -159,14 +163,14 @@ export class PrincipalClientePage implements OnInit {
   public async inicioPagina() {
     // this.mostrarSpinner = true;
     this.spinnerServ.showLoadingSpinner();
-    this.nombreUsuario = this.authServ.user.nombre; /* traerNombre('clientes'); */
+    this.nombreUsuario = this.usuario.nombre; /* traerNombre('clientes'); */
     // this.puedeHacerDelivery = !this.authServ.esAnonimo();
 
     if (this.puedeHacerDelivery) {
       // console.log('Puedo hacer delivery');
 
       this.userDelivery = this.traerUserDelivery(
-        this.authServ.obtenerUID()
+        this.usuario.id
       ).subscribe((users: Array<any>) => {
         // El cliente está esperando un delivery
         if (users.length !== 0) {
@@ -194,7 +198,7 @@ export class PrincipalClientePage implements OnInit {
 
     // console.log('Reviso la lista de espera');
     this.userListaEspera = this.traerUserListaEspera(
-      this.authServ.obtenerUID()
+      this.usuario.id
     ).subscribe((users: Array<any>) => {
       // El cliente no está en lista de espera, puede solicitar mesa o delivery
       console.log('Registros de la lista de espera', users);
@@ -233,7 +237,7 @@ export class PrincipalClientePage implements OnInit {
         console.log(
           'El cliente está en la lista de espera con mesa, se verifican las reservas'
         );
-        this.traerUserReservas(this.authServ.obtenerUID()).subscribe(
+        this.traerUserReservas(this.usuario.id).subscribe(
           (usersAux: Array<Reserva>) => {
             console.log('Comienza a verificar las reservas');
             const auxReserva: Array<Reserva> = usersAux;
@@ -402,7 +406,7 @@ export class PrincipalClientePage implements OnInit {
     const listaEspera: any = {
       estado: diccionario.estados_reservas_agendadas.sin_mesa,
       fecha: this.parserServ.parseDateTimeToStringDateTime(fecha),
-      clienteId: this.authServ.obtenerUID(),
+      clienteId: this.usuario.id,
       comensales,
       nombre: this.nombreUsuario
     };

@@ -1,1 +1,49 @@
+ion-content{
+    --background: #fff url('../../assets/img/home2.jpg') no-repeat center center / cover;
+}
 
+.title-home{
+    text-align: center;
+    width: 90%;
+    height: 150px;
+    border-radius: 10px;
+    background-color: rgba(149, 163, 164,0.9);
+    padding: 16px;
+    margin: auto;
+    margin-top: 2em;
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.text-home{
+    text-align: center;
+    width: 90%;
+    height: 80px;
+    border-radius: 10px;
+    background-color: rgba(75, 129, 98,0.7);
+    margin: auto;
+    margin-top: 2em;
+    padding: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+.desc-home{
+    width: 90%;
+    height: 150px;
+    border-radius: 10px;
+    background-color: rgba(75, 129, 98,0.7);
+    margin: auto;
+    margin-top: 2em;
+    padding: 10px;
+    color: white;
+    font-weight: 500;
+}
+
+ion-button{
+    color: white;
+    height: 90px;
+    font-weight: 700;
+    font-size: 20px;
+}

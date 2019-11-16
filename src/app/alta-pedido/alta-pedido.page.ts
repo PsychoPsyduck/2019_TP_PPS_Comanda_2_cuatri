@@ -133,5 +133,4 @@ export class AltaPedidoPage implements OnInit {
   public escanearQr() {
 
   }
-
 }

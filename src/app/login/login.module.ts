@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { LoginPage } from './login.page';
+//import { Firebase } from '@ionic-native/firebase/ngx';
 
 const routes: Routes = [
   {

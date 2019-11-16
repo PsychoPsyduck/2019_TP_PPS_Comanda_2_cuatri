@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../clases/Usuario';
 import { UsuariosService } from '../servicios/usuarios.service';
-import { ToastController, Events } from '@ionic/angular';
+import { ToastController, Events, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { FcmService } from '../servicios/fcm.service';
+import { ToastService } from '../servicios/toast.service';
+
 
 @Component({
   selector: 'app-login',
@@ -11,11 +14,16 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  splash = true;
+  // splash = true;
+  splash = false;
+  correo: string;
+  clave: string;
+  usuarios: Usuario[];
+  procesando: boolean;
 
   usuariosLogin: Array<any> = [
     { id: 0, nombre: "admin", correo: "admin@gmail.com", clave: "admin" },
-    { id: 1, nombre: "supervisor", correo: "supervisor@gmail.com", clave: "supervisor" },
+    { id: 1, nombre: "supervisor", correo: "gastonpesoa@gmail.com", clave: "gaston" },
     { id: 2, nombre: "dueño", correo: "dueño@gmail.com", clave: "dueño" },
     { id: 3, nombre: "cocinero", correo: "asd@asd.com", clave: "asd123" },
     { id: 4, nombre: "bartender", correo: "asd@dasd.com", clave: "asd123" },
@@ -24,15 +32,14 @@ export class LoginPage implements OnInit {
     { id: 7, nombre: "mozo", correo: "mozo@gmail.com", clave: "mozo" },
   ]
 
-  correo: string;
-  clave: string;
-  usuarios: Usuario[];
-  procesando: boolean;
   constructor(
+    private toastSrv: ToastService,
     private usrService: UsuariosService,
     private toastController: ToastController,
     private router: Router,
-    public events: Events) {
+    public events: Events,
+  private platform: Platform,
+private fcm: FcmService) {
     this.procesando = false;
     this.TraerUsuarios();
   }
@@ -60,21 +67,26 @@ export class LoginPage implements OnInit {
       if (usr.correo == this.correo && usr.clave == this.clave) {
         ok = true;
         sessionStorage.setItem("usuario", JSON.stringify(usr));
+                if (usr !== undefined) {
+                let toast;
+          //Si estoy en el dispositivo guardo el token para push
+       
+
+
+          if(this.platform.is('cordova')){
+          
+            this.fcm.getToken()
+          }
+        }
         console.log("estas logueado: ", usr);
         this.procesando = false;
         this.events.publish('usuarioLogueado', usr);
         this.router.navigate(['/home']);
       }
-
     })
     if (!ok) {
-
       this.presentToast();
-
     }
-
-
-
   }
 
   onChange(id) {
@@ -91,16 +103,12 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  IrARegistro()
-  {
+  IrARegistro() {
     this.router.navigate(['/registro-cliente']);
   }
 
   ngOnInit() {
     setTimeout(() => this.splash = false, 4000);
-    if (sessionStorage.getItem("usuario")) {
-      sessionStorage.removeItem("usuario");
-    }
   }
 
 }

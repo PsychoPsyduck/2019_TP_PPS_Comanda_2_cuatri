@@ -9,8 +9,8 @@ export class BarcodeService {
 
   constructor(private barcodeScanner: BarcodeScanner) { }
 
-  scan(format: string) {
-    return this.barcodeScanner.scan({ "formats": format }).then(barcodeData => {
+  scan(options) {
+    return this.barcodeScanner.scan(options).then(barcodeData => {
       return barcodeData;
     }).catch(err => {
       console.error('Error barcode', err);

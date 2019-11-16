@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>reservarMesa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-title>Reserva de mesa</ion-title>
+  <form [formGroup]="registroForm" >
+    <ion-item>
+        <ion-label color="light">Fecha </ion-label>
+        <ion-datetime  [min]="hoy" displayFormat="D-MM-YYYY HH:mm" name="fecha" [formControl]="fecha" required></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="light">Cantidad de comensales</ion-label>
+        <ion-input type="number" name="cant_comensales" [formControl]="cant_comensales" required></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label color="light">VIP</ion-label>
+        <ion-checkbox name="vip" [formControl]="vip"></ion-checkbox>
+    </ion-item>
+
+        <ion-button type="submit"  color="primary" [disabled]="!registroForm.valid" expand="block" (click)="GuardarReserva()">Reservar</ion-button>
+  
+</form>
+
+ 
+
+
+</ion-content>

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Listado de pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="mostrarSpinner">Aquí va el spinner!</div>
+  <div *ngIf="!mostrarSpinner">
+    <ion-list>
+      <div *ngFor="let pedido of pedidos">
+        <ion-item no-padding *ngIf="pedido.estado != 'pagado'">
+          <ion-grid>
+            <ion-row>
+              <label>Codigo: {{pedido.key}}</label><br>
+            </ion-row>
+            <ion-row>
+              <label>Estado: {{pedido.estado}}</label><br>
+            </ion-row>
+            <ion-row>
+              <ul>
+                <li *ngFor='let item of pedido.productoPedido'>{{item.nombre}}</li>
+              </ul>
+            </ion-row>
+            <ion-row>
+              <ion-button *ngIf="pedido.estado == 'solicitado'" color="warning" (click)="AceptarPedido(pedido)">Aceptar
+                pedido</ion-button>
+              <ion-button *ngIf="pedido.estado == 'listo'" color="warning" (click)="EntregarPedido(pedido)">Entregar
+                pedido
+              </ion-button>
+              <ion-button *ngIf="pedido.estado == 'cuenta'" color="warning" (click)="CerrarPedido(pedido)">Cerrar pedido
+              </ion-button>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </div>
+    </ion-list>
+  </div>
+</ion-content>

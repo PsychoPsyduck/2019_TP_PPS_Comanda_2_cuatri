@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Tomar pedido</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="cancel()">
+        <span color="primary" showWhen="ios">Cancelar</span>
+        <ion-icon name="md-close" showWhen="core,android,windows"></ion-icon>
+      </ion-button>
+      <ion-button (click)="done()" [disabled]="!this.puedeGuardar" strong>
+        <span color="primary" showWhen="ios">Tomar</span>
+        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="scroll-content">
+  <form *ngIf="form" [formGroup]="form">
+    <ion-item class="noPadding">
+      <ion-label>Tiempo de espera mínimo:</ion-label>
+      <ion-input type="number" formControlName="tiempoDeEspera"></ion-input>
+    </ion-item>
+    <h1>Pedido:</h1>
+    <ng-container *ngFor='let item of pedido.productoPedido'>
+      <ion-list
+        *ngIf="item.tipo == 'platos' && authServ.user.perfil == 'cocinero' || item.tipo == 'bebidas' && authServ.user.perfil == 'bartender'"
+        style='border: solid 1px black; border-radius: .25rem;'>
+        <ion-item class="noPadding">
+          <ion-label>Tipo:</ion-label>
+          <ion-input type="text" value={{item.tipo}} readonly></ion-input>
+        </ion-item>
+        <ion-item class="noPadding">
+          <ion-label>Nombre:</ion-label>
+          <ion-input type="text" value={{item.nombre}} readonly></ion-input>
+        </ion-item>
+        <ion-item class="noPadding">
+          <ion-label>Descripción:</ion-label>
+          <ion-input type="text" value={{item.descripcion}} readonly></ion-input>
+        </ion-item>
+        <ion-item class="noPadding">
+          <ion-label>Precio:</ion-label>
+          <ion-input type="number" value={{item.precio}} readonly></ion-input>
+        </ion-item>
+        <ion-item class="noPadding">
+          <ion-label>Tiempo de elaboración:</ion-label>
+          <ion-input type="number" value={{item.tiempoElaboracion}} readonly></ion-input>
+        </ion-item>
+        <ion-item class="noPadding">
+          <ion-label>Cantidad:</ion-label>
+          <ion-input type="number" value={{item.cantidad}} readonly></ion-input>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+  </form>
+</ion-content>

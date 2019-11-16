@@ -11,6 +11,7 @@ import { MessageHandlerService } from '../servicios/message-handler.service';
 import { FirebaseService } from '../servicios/firebase.service';
 import { SpinnerService } from '../servicios/spinner.service';
 import { map } from 'rxjs/operators'
+import { UsuariosService } from '../servicios/usuarios.service';
 
 @Component({
   selector: 'app-estado-pedido',
@@ -34,8 +35,10 @@ export class EstadoPedidoPage implements OnInit {
   public subsPedido: any;
   // public mostrarSpinner = false;
   public productosPedidos: Array<ProductoPedido>;
+  usuario: any;
 
   constructor(
+    public userServ: UsuariosService,
     public route: ActivatedRoute,
     public router: Router,
     public authServ: AuthService,
@@ -104,6 +107,7 @@ export class EstadoPedidoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.usuario = this.userServ.getUsuarioStorage();
     this.mesa = this.route.snapshot.paramMap.get('mesa');
     this.cuenta = false;
     this.hacerPedido = false;
@@ -123,7 +127,7 @@ export class EstadoPedidoPage implements OnInit {
         console.log(auxSnaps);
 
         if (this.authServ.user.perfil === 'cliente' || this.authServ.user.perfil === 'anonimo') {
-          auxSnaps = auxSnaps.filter((a: Reserva) => a.cliente === this.authServ.obtenerUID());
+          auxSnaps = auxSnaps.filter((a: Reserva) => a.cliente === this.usuario.id);
         }
 
         // tslint:disable-next-line: prefer-for-of

@@ -8,6 +8,7 @@ import { ToastController } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { storage } from 'firebase';
 import * as firebase from 'firebase';
+import { MailService } from '../servicios/mail.service';
 
 @Component({
   selector: 'app-registro-cliente',
@@ -24,7 +25,8 @@ export class RegistroClientePage implements OnInit {
     private barcode: BarcodeService,
     private usuarioService: UsuariosService,
     private toastCtrl: ToastController,
-    private camera: Camera
+    private camera: Camera,
+    private mailSrv: MailService
   ) { }
 
   nombre = new FormControl('', [
@@ -78,8 +80,7 @@ export class RegistroClientePage implements OnInit {
     usuario.foto=this.urlStorageFoto;
     usuario.cuil=null;
     usuario.puesto="";
-  
-    
+   
 
     this.usuarioService.GuardarUsuario(usuario.toJson()).then(res => {
       this.registroForm.reset();
@@ -107,8 +108,8 @@ export class RegistroClientePage implements OnInit {
   }
 
   LeerDni(){ 
-
-    this.barcode.scan("PDF_417").then(barcodeData => {
+    const options = { prompt: 'Escaneé su DNI', format: "PDF_417" };
+    this.barcode.scan(options).then(barcodeData => {
 
       var split = barcodeData.text.split("@");
       console.log(split);

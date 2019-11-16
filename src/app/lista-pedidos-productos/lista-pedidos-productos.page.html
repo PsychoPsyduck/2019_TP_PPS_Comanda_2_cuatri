@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Listado de pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="mostrarSpinner">Aquí va el spinner!</div>
+  <div *ngIf="!mostrarSpinner">
+    <ion-item>
+      <ion-label>Ver pedidos</ion-label>
+      <ion-select interface="popover" [(ngModel)]='filtro' (ionChange)='mostrarPedidos()'>
+        <ion-select-option value="pendientes">Pendientes</ion-select-option>
+        <ion-select-option value="tomados">Tomados</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-list>
+      <ion-item no-padding *ngFor="let pedido of pedidos">
+        <div *ngIf='correspondeAlPerfil(pedido, authServ.user.perfil)'>
+          <label>Codigo: {{pedido.key}}</label><br>
+          <ul>
+            <div *ngFor='let item of pedido.productoPedido'>
+              <li
+                *ngIf="item.tipo == 'platos' && authServ.user.perfil == 'cocinero' || item.tipo == 'bebidas' && authServ.user.perfil == 'bartender'">
+                {{item.nombre}}
+              </li>
+            </div>
+          </ul>
+          <ion-button *ngIf="filtro == 'pendientes'" color="warning" (click)="TomarPedido(pedido)">Tomar pedido
+          </ion-button>
+          <ion-button *ngIf="filtro == 'tomados'" color="warning" (click)="EntregarPedido(pedido)">
+            Entregar pedido
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

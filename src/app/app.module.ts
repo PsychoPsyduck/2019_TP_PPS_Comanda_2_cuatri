@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -17,12 +18,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { FIREBASE_CONFIG } from '../environments/environment';
 import { UsuariosService } from './servicios/usuarios.service';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage'
-
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AltaPedidoPageModule } from './alta-pedido/alta-pedido.module';
+
 
 
 @NgModule({
@@ -38,11 +41,14 @@ import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms'
     AngularFirestoreModule, AngularFireStorageModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxQRCodeModule,
+    AltaPedidoPageModule
+
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    UsuariosService,
+    UsuariosService, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera, ImagePicker, BarcodeScanner
   ],
