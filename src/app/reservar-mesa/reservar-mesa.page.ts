@@ -107,7 +107,6 @@ export class ReservarMesaPage implements OnInit {
         bandera = false;
         libre = true;
         reserva.mesa = m.key;
-        reserva.idMesa = m.id;
         this.reservaServ.AgendarReserva(reserva).then(() => {
           this.toast.confirmationToast("Mesa reservada para el " + reserva.fecha);
         });
