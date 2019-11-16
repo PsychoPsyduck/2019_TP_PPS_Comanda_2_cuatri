@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReservasService } from '../servicios/reservas.service';
-import { Reserva } from '../clases/Reserva';
+import { Reserva } from '../clases/reserva';
 import { ToastService } from '../servicios/toast.service';
 
 @Component({

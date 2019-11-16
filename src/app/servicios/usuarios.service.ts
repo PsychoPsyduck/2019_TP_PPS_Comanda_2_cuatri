@@ -5,8 +5,7 @@ import { Usuario } from '../clases/Usuario';
 import { MailService } from './mail.service';
 //import { json } from 'functions/node_modules/@types/body-parser';
 import { RegistroEspera } from '../clases/RegistroEspera';
-import { userInfo } from 'os';
-import { diccionario } from '../clases/diccionario';
+
 
 @Injectable({
   providedIn: 'root'
