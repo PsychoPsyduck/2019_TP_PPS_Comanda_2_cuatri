@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { SpinnerService } from './servicios/spinner.service';
 import { Usuario } from './clases/Usuario';
+import { PushNotificationService } from './servicios/push-notification.service';
 
 @Component({
   selector: 'app-root',
@@ -26,13 +27,16 @@ export class AppComponent {
     private menu: MenuController,
     public events: Events,
     private router: Router,
-    public spinnerServ: SpinnerService
+    public spinnerServ: SpinnerService,
+    private notifServ: PushNotificationService
   ) {
 
     this.initializeApp();
 
     this.logeado = false;
     this.events.subscribe('usuarioLogueado', data => {
+      this.usuario = data;
+
       this.menu.enable(true);
       this.logeado = true;
 
@@ -43,18 +47,18 @@ export class AppComponent {
           url: '/home',
           icon: 'home'
         },
-        {
-          title: 'Cerrar Sesion',
-          url: '/login',
-          icon: 'log-out'
-        }
+        // {
+        //   title: 'Cerrar Sesion',
+        //   url: '/login',
+        //   icon: 'log-out'
+        // }
       )
 
       // ROUTING DEL MENU
       switch (data.tipo) {
         // **************  SUPERVISOR - DUEÑO ****************/
         case 'dueño':
-
+        case 'supervisor':
           console.log("sos el dueño");
           this.pages.push(
 
@@ -239,5 +243,13 @@ export class AppComponent {
   openCustom() {
     this.menu.enable(true, 'custom');
     this.menu.open('custom');
+  }
+
+  cerrarSesion() {
+    if (this.usuario != null) {
+      this.notifServ.desuscribirseATopico(this.usuario.tipo)
+      this.menu.enable(false);
+      sessionStorage.removeItem("usuario");
+    }
   }
 }

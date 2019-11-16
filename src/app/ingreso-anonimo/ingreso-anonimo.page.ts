@@ -6,7 +6,7 @@ import { storage } from 'firebase';
 import * as firebase from 'firebase';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Usuario } from '../clases/Usuario';
-import { FcmService } from '../servicios/fcm.service';
+// import { FcmService } from '../servicios/fcm.service';
 import { Platform, Events } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -28,7 +28,7 @@ export class IngresoAnonimoPage implements OnInit {
     private usuarioService: UsuariosService,
     public events: Events,
     private platform: Platform,
-    private fcm: FcmService
+    // private fcm: FcmService
   ) { }
 
   nombre = new FormControl('', [
@@ -74,10 +74,10 @@ export class IngresoAnonimoPage implements OnInit {
 
 
 
-        if (this.platform.is('cordova')) {
+        // if (this.platform.is('cordova')) {
 
-          this.fcm.getToken()
-        }
+        //   this.fcm.getToken()
+        // }
       }
       console.log("estas logueado: ", usuario);
       this.events.publish('usuarioLogueado', usuario);

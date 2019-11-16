@@ -25,6 +25,8 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AltaPedidoPageModule } from './alta-pedido/alta-pedido.module';
+import { FCM } from '@ionic-native/fcm/ngx';
+
 
 
 
@@ -48,7 +50,8 @@ import { AltaPedidoPageModule } from './alta-pedido/alta-pedido.module';
   providers: [
     StatusBar,
     SplashScreen,
-    UsuariosService, 
+    UsuariosService,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera, ImagePicker, BarcodeScanner
   ],
