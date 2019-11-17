@@ -20,9 +20,15 @@ export const diccionario = {
       devices: 'devices',
       notifications: 'notifications2'
     },
+    estadod_lista_espera:{
+      pendiente: 'pendiente',
+      cancelado: 'cancelado',
+      aceptado: 'aceptado'
+    },
     estados_mesas: {
       libre: 'libre',
-      ocupada: 'ocupada'
+      ocupada: 'ocupada',
+      asignada: 'asignada'
     },
     estados_pedidos: {
       solicitado: 'solicitado',
