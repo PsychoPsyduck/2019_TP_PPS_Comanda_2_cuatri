@@ -23,13 +23,11 @@ export class LoginPage implements OnInit {
 
   usuariosLogin: Array<any> = [
     { id: 0, nombre: "admin", correo: "admin@gmail.com", clave: "admin" },
-    { id: 1, nombre: "supervisor", correo: "gastonpesoa@gmail.com", clave: "gaston" },
-    { id: 2, nombre: "dueño", correo: "dueño@gmail.com", clave: "dueño" },
-    { id: 3, nombre: "cocinero", correo: "asd@asd.com", clave: "asd123" },
-    { id: 4, nombre: "bartender", correo: "asd@dasd.com", clave: "asd123" },
-    { id: 5, nombre: "delivery", correo: "asd@gmail.com", clave: "asd123" },
-    { id: 6, nombre: "clienteUno", correo: "cliente1@gmail.com", clave: "cliente" },
-    { id: 7, nombre: "mozo", correo: "mozo@gmail.com", clave: "mozo" },
+    { id: 1, nombre: "dueño", correo: "dueño@gmail.com", clave: "dueño" },
+    { id: 2, nombre: "supervisor", correo: "gastonpesoa@gmail.com", clave: "gaston" },
+    { id: 3, nombre: "mozo", correo: "mozo@gmail.com", clave: "mozo" },
+    { id: 4, nombre: "clienteUno", correo: "cliente1@gmail.com", clave: "cliente" },
+    { id: 5, nombre: "clienteDos", correo: "marcos98c@gmail.com", clave: "123" }
   ]
 
   constructor(
