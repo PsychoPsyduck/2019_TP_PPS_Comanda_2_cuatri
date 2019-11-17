@@ -7,6 +7,8 @@ import { ProductosService } from '../servicios/productos.service';
 import { MesasService } from '../servicios/mesas.service';
 import { diccionario } from '../clases/diccionario';
 import { Producto } from '../clases/producto';
+import { ParserTypesService } from '../servicios/parser-types.service';
+
 
 @Component({
   selector: 'app-alta-pedido',
@@ -22,14 +24,16 @@ export class AltaPedidoPage implements OnInit {
   public mesas: any;
   public itemsPedido: Array<ProductoPedido>;
   public mesaDoc;
+  mesa: any;
 
   constructor(
+    public parserServ: ParserTypesService,
     public formBuilder: FormBuilder,
     public modalCtrl: ModalController,
     public barcodeScanner: BarcodeScanner,
     public productosServ: ProductosService,
     public mesasServ: MesasService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.itemsPedido = new Array<ProductoPedido>();
@@ -43,7 +47,10 @@ export class AltaPedidoPage implements OnInit {
       producto: ['', Validators.required]
     });
 
-    if (this.mesaDoc != undefined) { this.form.patchValue({ mesa: this.mesaDoc }); }
+    if (this.mesaDoc != undefined) { 
+      this.mesa = this.mesa;
+      this.form.patchValue({ mesa: this.mesaDoc }); 
+    }
 
     this.productosServ.TraerTodosLosProductos().subscribe(productos => {
       this.productos = productos;
@@ -65,14 +72,8 @@ export class AltaPedidoPage implements OnInit {
     this.modalCtrl.dismiss({
       productoPedido: this.itemsPedido,
       mesa: this.form.get('mesa').value,
-      estado: diccionario.estados_pedidos.solicitado,
-      isDelivery: false,
-      responsableCocinero: null,
-      responsableBartender: null,
-      estadoCocinero: null,
-      estadoBartender: null,
-      tiempoDeEsperaCocinero: 0,
-      tiempoDeEsperaBartender: 0
+      cliente: this.mesa.ocupante,
+      estado: diccionario.estados_pedidos.solicitado
     });
   }
 
@@ -94,19 +95,24 @@ export class AltaPedidoPage implements OnInit {
       }
     });
 
+    var dateNow = new Date();
     // Si no existe lo agrego al pedido
     if (!productoYaElegido) {
-      this.itemsPedido.push({
+      const productoAAgregar = {
         cantidad,
         nombre: productoSeleccionado.nombre,
         idProducto: productoSeleccionado.key,
         tipo: productoSeleccionado.tipo,
         estado: diccionario.estados_productos.en_preparacion,
         precio: productoSeleccionado.precio,
-        tiempoElaboracion: productoSeleccionado.tiempoElaboracion,
+        tiempoElaboracion: productoSeleccionado.tiempo,
         // Este es el tiempo de entrega hecho en date
-        entrega: Date.now() + productoSeleccionado.tiempoElaboracion * 60000
-      });
+        entrega: this.parserServ.parseDateTimeToStringDateTime(
+          new Date(dateNow.getTime() + productoSeleccionado.tiempo * 60000)
+        )
+      }
+      this.itemsPedido.push(productoAAgregar);
+      console.info("se agrega producto ", productoAAgregar, "al los pedidos", this.itemsPedido);
     }
 
     this.form.patchValue({ producto: '', cantidad: '' });
