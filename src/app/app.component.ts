@@ -100,7 +100,7 @@ export class AppComponent {
 
             {
               title: 'Pedir',
-              url: '/alta-pedido',
+              url: '/principal-cliente',
               icon: 'bonfire'
             },
             {

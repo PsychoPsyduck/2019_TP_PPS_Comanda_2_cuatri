@@ -13,7 +13,6 @@ import { SpinnerService } from '../servicios/spinner.service';
 import { MesasService } from '../servicios/mesas.service';
 import { map } from 'rxjs/operators'
 import { diccionario } from '../clases/diccionario';
-import { Pedido } from '../clases/pedido';
 import { AltaPedidoPage } from '../alta-pedido/alta-pedido.page';
 import { UsuariosService } from '../servicios/usuarios.service';
 
@@ -23,38 +22,38 @@ import { UsuariosService } from '../servicios/usuarios.service';
   styleUrls: ['./principal-cliente.page.scss'],
 })
 export class PrincipalClientePage implements OnInit {
-
-  ngOnInit(){}
+  clienteAceptado: boolean;
+  userPedidos: any;
+  pedidoUser: any = undefined;
 
   public nombreUsuario: string;
-  public mesa: string;
+  public mesa = undefined;
   public mesaDoc: string;
   public usuario;
 
   public puedeJugar = false;
-  public puedeHacerPedido = false;
-  public puedeVerPedido = false;
-  public puedeHacerDelivery = true;
-  public puedeSolicitarMesa = true;
+  public puedeVerPedidoORealizarEncueta = false;
+  public puedeSolicitarMesa;
+  public puedeAsignarseMesaYGenerarPedido: boolean = false;
   public esperandoAsignacion = false;
   public auxPedido: any = undefined;
   public auxReserva: Reserva = undefined;
   public flagEstaActivo = true;
-  // public mostrarSpinner = false;
 
   public userDelivery: any;
   public userListaEspera: any;
   public userReservas: any;
+  public userMesa: any;
   public watchPedido: any;
 
   constructor(
+    // public notificationPushServ: NotificationPushService,
     public userServ: UsuariosService,
     public authServ: AuthService,
     public barcodeScanner: BarcodeScanner,
     public alertCtrl: AlertController,
     public firebaseServ: FirebaseService,
     public router: Router,
-    // public notificationPushServ: NotificationPushService,
     public db: AngularFirestore,
     public parserServ: ParserTypesService,
     public messageHandlerServ: MessageHandlerService,
@@ -160,183 +159,147 @@ export class PrincipalClientePage implements OnInit {
       );
   }
 
+  public traerUserMesa(valor: string) {
+    return this.db
+      .collection('mesas')
+      .snapshotChanges()
+      .pipe(
+        map(mesa => {
+          const auxMesas: any = mesa.map(a => {
+            const data: any = a.payload.doc.data();
+            data.key = a.payload.doc.id;
+            return data;
+          });
+
+          var auxRetorno: any;
+          for (const mesa of auxMesas) {
+            if ((mesa.ocupante as string) === valor) {
+              auxRetorno = mesa;
+              break;
+              // console.log('Añadido a la lista proveniente de la base de datos para las reservas');
+            }
+          }
+
+          return auxRetorno;
+        })
+      );
+  }
+
+  public traerUserPedidos(valor: string) {
+    return this.db
+      .collection('pedidos')
+      .snapshotChanges()
+      .pipe(
+        map(pedido => {
+          const auxPedido: any = pedido.map(a => {
+            const data: any = a.payload.doc.data();
+            data.key = a.payload.doc.id;
+            return data;
+          });
+
+          var auxRetorno: any;
+          for (const pedido of auxPedido) {
+            if ((pedido.cliente as string) === valor) {
+              auxRetorno = pedido;
+              break;
+              // console.log('Añadido a la lista proveniente de la base de datos para las reservas');
+            }
+          }
+          return auxRetorno;
+        })
+      );
+  }
+
   public async inicioPagina() {
-    // this.mostrarSpinner = true;
+
     this.spinnerServ.showLoadingSpinner();
     this.nombreUsuario = this.usuario.nombre; /* traerNombre('clientes'); */
-    // this.puedeHacerDelivery = !this.authServ.esAnonimo();
-
-    if (this.puedeHacerDelivery) {
-      // console.log('Puedo hacer delivery');
-
-      this.userDelivery = this.traerUserDelivery(
-        this.usuario.id
-      ).subscribe((users: Array<any>) => {
-        // El cliente está esperando un delivery
-        if (users.length !== 0) {
-          let auxDelivery = users;
-          auxDelivery = auxDelivery.filter(
-            ad => ad.estado !== diccionario.estados_delivery.entregado
-          );
-          if (auxDelivery.length > 0) {
-            this.puedeHacerDelivery = false;
-            this.puedeSolicitarMesa = false;
-            this.puedeJugar = false;
-            this.puedeVerPedido = false;
-            this.puedeHacerPedido = false;
-            this.esperandoAsignacion = false;
-            this.flagEstaActivo = true;
-
-            this.spinnerServ.hideLoadingSpinner();
-            // console.log('El cliente espera un delivery');
-          }
-        }
-      });
-    } else {
-      // console.log('No puedo hacer delivery');
-    }
 
     // console.log('Reviso la lista de espera');
     this.userListaEspera = this.traerUserListaEspera(
       this.usuario.id
     ).subscribe((users: Array<any>) => {
-      // El cliente no está en lista de espera, puede solicitar mesa o delivery
       console.log('Registros de la lista de espera', users);
+
       if (users.length === 0) {
+        // El cliente no está en lista de espera, puede solicitar mesa
+
         console.log('El cliente no está en la lista de espera');
-        // this.puedeHacerDelivery = this.authServ.esAnonimo ? false : true;
         this.puedeSolicitarMesa = true;
-        this.puedeJugar = false;
-        this.puedeHacerPedido = false;
-        this.puedeVerPedido = false;
+        this.puedeVerPedidoORealizarEncueta = false;
         this.esperandoAsignacion = false;
         this.spinnerServ.hideLoadingSpinner();
         return;
       }
 
+      this.esperandoAsignacion = true;
       let auxListaEspera = users;
       auxListaEspera = auxListaEspera.filter(
         le =>
           (le.estado as string) ===
-          diccionario.estados_reservas_agendadas.sin_mesa
+          diccionario.estadod_lista_espera.aceptado
       );
 
-      // El cliente está en lista de espera
       if (auxListaEspera.length === 1) {
-        // console.log('El cliente está en la lista de espera pero sin mesa');
-        this.puedeHacerDelivery = false;
+        // El cliente está en lista de espera aceptado pero sin mesa
+
         this.puedeSolicitarMesa = false;
-        this.puedeJugar = false;
-        this.puedeVerPedido = false;
-        this.puedeHacerPedido = false;
-        this.esperandoAsignacion = true;
+        this.clienteAceptado = true;
+
+        //Revisa listado de mesas - Se busca la que tenga asignada el cliente
+        this.userMesa = this.traerUserMesa(
+          this.usuario.id
+        ).subscribe((mesaDeUser) => {
+          console.log('Registro de la mesa asignada al usuario', mesaDeUser);
+
+          if (mesaDeUser != undefined) {
+            //El cliente tiene una mesa relacionada
+
+            if (mesaDeUser.estado === diccionario.estados_mesas.asignada) {
+              //El cliente tiene mesa asignada
+
+              console.log('El cliente tiene mesa asignada');
+              this.mesa = mesaDeUser;
+              this.puedeAsignarseMesaYGenerarPedido = true;
+              this.puedeVerPedidoORealizarEncueta = false;
+              this.esperandoAsignacion = false;
+            }
+
+            if (mesaDeUser.estado === diccionario.estados_mesas.ocupada) {
+              // El cliente esta acupando una mesa
+
+              this.userPedidos = this.traerUserPedidos(
+                this.usuario.id
+              ).subscribe((pedidoDeUser) => {
+                console.log('Registro de pedido del usuario', pedidoDeUser);
+
+                if (pedidoDeUser != undefined) {
+                  // El cliente tiene un pedido
+                  console.log('El cliente tiene pedido');
+
+                  this.pedidoUser = pedidoDeUser;
+                  this.puedeVerPedidoORealizarEncueta = true;
+                  this.puedeAsignarseMesaYGenerarPedido = false;
+                  this.puedeSolicitarMesa = false;
+                  this.esperandoAsignacion = false;
+                  this.spinnerServ.hideLoadingSpinner();
+                  return;
+                }
+              });
+
+            }
+
+            this.spinnerServ.hideLoadingSpinner();
+            return;
+          }
+        });
+
         this.flagEstaActivo = true;
         this.spinnerServ.hideLoadingSpinner();
-      } else {
-        // Está en lista de espera con mesa asignada, se consulta la reserva
-        console.log(
-          'El cliente está en la lista de espera con mesa, se verifican las reservas'
-        );
-        this.traerUserReservas(this.usuario.id).subscribe(
-          (usersAux: Array<Reserva>) => {
-            console.log('Comienza a verificar las reservas');
-            const auxReserva: Array<Reserva> = usersAux;
-            let flagAux = false;
-            // console.log('Reservas', auxReserva);
-
-            for (let index = 0; index < auxReserva.length; index++) {
-              console.log('Mesa de la reserva', auxReserva[index].idMesa);
-              this.mesa = auxReserva[index].idMesa;
-              // console.log('Numero de la mesa', this.mesa);
-              if (
-                auxReserva[index].estado ===
-                diccionario.estados_reservas.en_curso
-              ) {
-                // Tiene una reserva en curso
-                this.auxReserva = auxReserva[index];
-
-                if (auxReserva[index].idPedido !== '') {
-                  // Tiene un pedido dentro de su reserva
-                  console.log('El cliente tiene un pedido en la reserva');
-                  this.auxPedido = auxReserva[index].idPedido;
-                  // this.puedeJugar = this.authServ.esAnonimo ? false : true;
-                  this.puedeHacerPedido = false;
-                  this.puedeVerPedido = true;
-                  this.puedeHacerDelivery = false;
-                  this.puedeSolicitarMesa = false;
-                  this.esperandoAsignacion = false;
-                  this.flagEstaActivo = true;
-                  this.spinnerServ.hideLoadingSpinner();
-                  flagAux = true;
-                  break;
-                }
-                // No tiene un pedido dentro de su reserva
-                if (!flagAux && index === auxReserva.length - 1) {
-                  console.log('El cliente no tiene un pedido en la reserva');
-                  this.auxPedido = undefined;
-                  this.puedeJugar = false;
-                  this.puedeVerPedido = false;
-                  this.puedeHacerPedido = true;
-                  this.puedeHacerDelivery = false;
-                  this.puedeSolicitarMesa = false;
-                  this.esperandoAsignacion = false;
-                  this.flagEstaActivo = true;
-                  this.spinnerServ.hideLoadingSpinner();
-                }
-              }
-            }
-
-            console.log('This.auxPedido', this.auxPedido);
-            // Verifico estado del pedido
-            if (this.auxPedido !== undefined) {
-              this.watchPedido = this.db
-                .collection('pedidos')
-                .doc(this.auxPedido)
-                .get()
-                .subscribe((pedido: DocumentSnapshot<any>) => {
-                  const auxPedido = pedido.data() as Pedido;
-                  console.log('Pedido retornado de database', auxPedido);
-                  if (
-                    (auxPedido.estado as string) ===
-                    diccionario.estados_pedidos.cuenta ||
-                    (auxPedido.estado as string) ===
-                    diccionario.estados_pedidos.pagado ||
-                    (auxPedido.estado as string) ===
-                    diccionario.estados_pedidos.entregado
-                  ) {
-                    this.puedeJugar = false;
-                    this.puedeVerPedido = true;
-                    this.puedeHacerPedido = false;
-                    this.puedeHacerDelivery = false;
-                    this.puedeSolicitarMesa = false;
-                    this.esperandoAsignacion = false;
-                    this.flagEstaActivo = true;
-                  }
-                  if (
-                    (auxPedido.estado as string) ===
-                    diccionario.estados_pedidos.listo
-                  ) {
-                    this.puedeJugar = false;
-                  }
-                });
-            } else {
-              this.spinnerServ.hideLoadingSpinner();
-            }
-
-            if (!this.flagEstaActivo) {
-              this.puedeJugar = false;
-              this.puedeVerPedido = false;
-              this.puedeHacerPedido = false;
-              // this.puedeHacerDelivery = this.authServ.esAnonimo ? false : true;
-              this.puedeSolicitarMesa = true;
-              this.esperandoAsignacion = false;
-              this.spinnerServ.hideLoadingSpinner();
-            }
-
-          }
-        );
       }
     });
+
+
   }
 
   // Este es para el qr de ingreso
@@ -347,7 +310,8 @@ export class PrincipalClientePage implements OnInit {
         const barcodeText = barcodeData.text;
 
         if (barcodeText === diccionario.qr.ingreso_local) {
-          this.infoReserva();
+          this.guardarEnListaDeEspera();
+          // this.infoReserva();
         } else {
           this.messageHandlerServ.mostrarMensaje('Error al ingresar al local.');
           // console.log('Error al ingresar al local');
@@ -382,13 +346,14 @@ export class PrincipalClientePage implements OnInit {
           text: 'Cancelar',
           role: 'cancel',
           handler: data => {
+            alert.dismiss();
             console.log('Click en cancelar.');
           }
         },
         {
           text: 'Reservar',
           handler: data => {
-            this.guardarEnListaDeEspera(data.comensales);
+            // this.guardarEnListaDeEspera(data.comensales);
             alert.dismiss();
           }
         }
@@ -398,23 +363,21 @@ export class PrincipalClientePage implements OnInit {
   }
 
   // Guarda los datos en la lista de espera
-  public guardarEnListaDeEspera(comensales: number) {
-    // this.mostrarSpinner = true;
+  public guardarEnListaDeEspera() {
     this.spinnerServ.showLoadingSpinner();
-    // console.log('Guardo en Lista de Espera', 'Comensales:', comensales);
     const fecha: Date = new Date();
     const listaEspera: any = {
-      estado: diccionario.estados_reservas_agendadas.sin_mesa,
+      estado: diccionario.estadod_lista_espera.pendiente,
       fecha: this.parserServ.parseDateTimeToStringDateTime(fecha),
       clienteId: this.usuario.id,
-      comensales,
+      // comensales,
       nombre: this.nombreUsuario
     };
     this.firebaseServ
       .crear('esperaMesa', listaEspera)
       .then((doc: DocumentReference) => {
         this.messageHandlerServ.mostrarMensaje(
-          'Enseguida se le asignará una mesa.'
+          'Te agregaste a la lista de espera. Aguardá que el mozo te asigne una mesa para continuar.'
         );
 
         this.spinnerServ.hideLoadingSpinner();
@@ -425,17 +388,25 @@ export class PrincipalClientePage implements OnInit {
       });
   }
 
-  // Funcion usada tanto para hacer un pedido como para ver su estado
+  // Funcion usada tanto para asignarse mesa, hacer un pedido como para ver su estado
   public escanearQR(donde: string) {
     const options = { prompt: 'Escaneé el código QR de la mesa' };
     this.barcodeScanner.scan(options).then(
       barcodeData => {
-        const decodedQr = barcodeData.text.split('|');
-        if (decodedQr[0] === this.mesa) {
+        const decodedQr = barcodeData.text.split('@');
+        if (decodedQr[0] === this.mesa.id) {
           this.mesaDoc = decodedQr[1];
-          donde === 'hacerPedido'
-            ? this.irA('hacerPedido')
-            : this.irA('verPedido');
+          switch (donde) {
+            case 'asignarseMesaYGenerarPedido':
+              this.irA('asignarseMesaYGenerarPedido');
+              break;
+            case 'realizarEncuesta':
+              this.irA('realizarEncuesta')
+              break;
+            case 'verPedido':
+              this.irA('verPedido');
+              break;
+          }
           // console.log('Voy a la página correspondiente');
         } else {
           this.messageHandlerServ.mostrarMensaje(
@@ -445,11 +416,6 @@ export class PrincipalClientePage implements OnInit {
         // this.messageHandlerServ.mostrarMensaje('Mesa:' + this.mesa);
       },
       error => {
-        // Datos hardcodeados
-        this.mesa = 'mesa01';
-        donde === 'hacerPedido'
-          ? this.irA('hacerPedido')
-          : this.irA('verPedido');
         console.log('Hubo un error', error);
         this.messageHandlerServ.mostrarMensajeCortoAbajo(
           'Hubo un error, ' + error
@@ -490,25 +456,50 @@ export class PrincipalClientePage implements OnInit {
         // Voy al juego para ganar un descuento con parametro { pedido: this.auxPedido }
         break;
       }
-      case 'verPedido': {
-        this.router.navigate(['estado-pedido', { mesa: this.mesa }]);
+      case 'asignarseMesaYGenerarPedido': {
+        this.AsignarseMesaYGenerarPedido(this.mesa, this.usuario);
         // this.AgregarPedido();
         break;
       }
-      case 'hacerPedido': {
-        this.AgregarPedido();
-        // this.router.navigate(['alta-pedido', { mesa: this.mesa }]);
+      case 'verPedido': {
+        this.messageHandlerServ.mostrarMensajeCortoAbajo(
+          'Página en construcción'
+        );
+        // this.router.navigate(['estado-pedido', { mesa: this.mesa }]);
+        break;
+      }
+      case 'realizarEncuesta': {
+        this.messageHandlerServ.mostrarMensajeCortoAbajo(
+          'Página en construcción'
+        );
+        // this.RealizarEncuesta();
         break;
       }
     }
   }
+  RealizarEncuesta() {
+    throw new Error("Method not implemented.");
+  }
+
+  AsignarseMesaYGenerarPedido(mesa: any, usuario: any) {
+    if (this.mesa.id === mesa.id && this.usuario.id === usuario.id) {
+      this.mesasServ.OcuparMesa(this.mesaDoc)
+        .then(() => {
+          this.messageHandlerServ.mostrarMensajeConfimación(
+            `Estás ocupando la mesa ${mesa.id}, ya podes nuestros productos disponibles y realizar tu pedido.`);
+          this.AgregarPedido();
+        })
+        .catch(err => {
+          this.messageHandlerServ.mostrarError(`Tuvimos un problema, ${err}. Inténtalo nuevamente`)
+        })
+    }
+  }
 
   public async AgregarPedido() {
-    // console.log('AgregarPedido');
-
+    console.log('AgregarPedido');
     const modal = await this.modalCtrl.create({
       component: AltaPedidoPage,
-      componentProps: { mesaDoc: this.mesaDoc }
+      componentProps: { mesaDoc: this.mesaDoc, mesa: this.mesa }
     });
     modal.present();
     const pedido = await modal.onDidDismiss();
@@ -517,15 +508,10 @@ export class PrincipalClientePage implements OnInit {
       this.firebaseServ.crear('pedidos', pedido.data)
         .then((data: DocumentReference) => {
           console.log('Regreso del AgregarPedido, ahora debo agregar el pedido a la reserva');
-
-          this.auxReserva.idPedido = data.id;
-          this.firebaseServ
-            .actualizar('reservas', this.auxReserva.id, this.auxReserva)
-            .then(() => {
-              console.log('Se carga el pedido en la reserva');
-            });
+          this.messageHandlerServ.mostrarMensajeConfimación("Pedido registrado, puede hacer el seguimiento del mismo volviendo a escanear el código QR de su mesa");
         });
     }
   }
 
+  ngOnInit() { }
 }

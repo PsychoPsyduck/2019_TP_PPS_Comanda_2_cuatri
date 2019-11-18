@@ -7,11 +7,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <!-- <ion-label *ngIf="mostrarSpinner">Spinner!</ion-label> -->
 
   <!-- fab abajo a la derecha -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="puedeJugar">
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="puedeJugar">
     <ion-fab-button color="danger">
       <ion-icon name="logo-game-controller-b"></ion-icon>
     </ion-fab-button>
@@ -27,43 +27,59 @@
         <img src="../../../assets/imgs/discount.png" alt="Descuento" class="icon-juegos">
       </ion-fab-button>
     </ion-fab-list>
-  </ion-fab>
+  </ion-fab> -->
 
-  <ion-row *ngIf="puedeHacerPedido || puedeVerPedido">
-    <ion-col text-center>El codigo de su mesa es: {{mesa}}.</ion-col>
+  <ion-row *ngIf="puedeAsignarseMesaYGenerarPedido || puedeVerPedido">
+    <ion-col class="ion-text-center">El codigo de su mesa es: {{mesa.id}}.</ion-col>
   </ion-row>
 
-  <ion-row *ngIf="puedeHacerPedido">
-    <ion-col text-center>
-      <ion-button color="light" (click)="escanearQR('hacerPedido')">
-        <ion-icon color="secondary" name="qr-scanner" style="margin-right: 0.5rem"></ion-icon>Hacer Pedido
+  <ion-row *ngIf="puedeAsignarseMesaYGenerarPedido">
+    <ion-col class="ion-text-center">
+      <ion-button color="primary" size="large" expand="block" class="ion-padding"
+        (click)="escanearQR('asignarseMesaYGenerarPedido')">
+        <ion-icon color="secondary" name="qr-scanner" style="margin-right: 0.5rem"></ion-icon>
+        Escane<br />el código QR<br />de la mesa {{mesa.id}}<br />para ocuparla<br />y generar un pedido
       </ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="puedeVerPedido">
-    <ion-col text-center>
-      <ion-button color="light" (click)="escanearQR('verPedido')">
+  <!-- <ion-row *ngIf="puedeHacerPedido">
+    <ion-col class="ion-text-center">
+      <ion-button color="primary" size="large" expand="block" (click)="escanearQR('hacerPedido')" class="ion-padding"
+        style="height: auto;">
+        <ion-icon color="secondary" name="qr-scanner" style="margin-right: 0.5rem"></ion-icon>
+        Escanear<br />código QR de mesa<br />para realizar pedido
+      </ion-button>
+    </ion-col>
+  </ion-row> -->
+
+  <ion-row *ngIf="puedeVerPedidoORealizarEncueta">
+    <ion-col class="ion-text-center">
+      <ion-button color="primary" size="large" expand="block" class="ion-padding" (click)="escanearQR('verPedido')">
         <ion-icon color="secondary" name="qr-scanner" style="margin-right: 0.5rem"></ion-icon>Ver estado del pedido
+      </ion-button>
+      <ion-button color="primary" size="large" expand="block" class="ion-padding"
+        (click)="escanearQR('realizarEncuesta')">
+        <ion-icon color="secondary" name="qr-scanner" style="margin-right: 0.5rem"></ion-icon>Realizar Encuesta
       </ion-button>
     </ion-col>
   </ion-row>
 
   <ion-row *ngIf="puedeSolicitarMesa">
-    <ion-col text-center>
-      <ion-button color="light" (click)="solicitarMesa()">
-        <ion-icon color="secondary" name="checkbox-outline"></ion-icon>Solicitar Mesa
+    <ion-col class="ion-text-center">
+      <ion-button color="primary" size="large" expand="block" class="ion-padding" (click)="solicitarMesa()">
+        <ion-icon color="secondary" name="checkbox-outline"></ion-icon>Poner en lista de espera
       </ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="puedeHacerDelivery">
+  <!-- <ion-row *ngIf="puedeHacerDelivery">
     <ion-col text-center>
       <ion-button color="light" (click)="pedirDelivery()">
         Delivery
       </ion-button>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
 
   <ion-row *ngIf="esperandoAsignacion">
     <p>Se le asignará una mesa en unos momentos</p>
