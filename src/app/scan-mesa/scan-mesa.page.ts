@@ -25,6 +25,7 @@ export class ScanMesaPage implements OnInit {
   reservaSubs:Subscription;
   reservaSubs2:Subscription;
   pedidoSubs:Subscription;
+  usrConReserva=false;
   mesaReservada=false;
   listaEsperas: Array<RegistroEspera>;
   listaMesas: Array<any>;
@@ -60,7 +61,7 @@ async Scan()
       var keyMesa;
       this.barcode.scan().then( async barcodeData => {
          keyMesa = barcodeData.text;
-        //keyMesa= "Z2sGrtBR8bY0Lu0dpY3B";
+        //keyMesa= "fzMeTAWWdVzLR7yG7sNp";
 
       var usuario=JSON.parse(sessionStorage.getItem("usuario"))
       this.esperaSubs= await this.usrServ.TraerEsperasObservable().subscribe(  (data)=>{
@@ -165,18 +166,26 @@ async Scan()
                 if(mesa.estado=='libre')
                 {
                   this.reservaSubs2= await this.reservas.TraerReservas().subscribe( async (data_res)=>{
+                   
                     this.listaRservas=data_res;
+                    
                      await this.listaRservas.forEach((r)=>{
-                       if(r.mesa==keyMesa && r.estado == "aceptada" &&
-                      (Date.now() / 1000) /60 <= (Date.parse(r.fecha)/1000)/60 && 
-                      (Date.now() / 1000) /60 >= ((Date.parse(r.fecha)/1000)/60) -40)
-                      {
+
+                      let ahora=((Date.now() / 1000) /60);
+                      let ahoraMas=((Date.now() / 1000) /60)+10;
+                      let minRsereva= ((Date.parse(r.fecha)/1000)/60 );
+                      let minLimite = ((Date.parse(r.fecha)/1000)/60) -40;
+   
+                       if(r.mesa==keyMesa && r.estado == "aceptada" && ahora >= minLimite)
+                      { 
                         if(r.usuario.id == usuario.id)
                         {
+                          this.usrConReserva=true;
                           this.toast.confirmationToast("Ocupaste la mesa que tenias reservada");
+                          
                           this.mesaServ.Ocupar(mesa, usuario).then(()=>{
                             this.Navegar('/alta-pedido');
-                          })
+                          });
                         }
                         else
                         {
@@ -185,7 +194,7 @@ async Scan()
                                               
                       }
                     })
-                    if(this.mesaReservada ==false)
+                    if(this.mesaReservada ==false && this.usrConReserva==false)
                     {
                       this.toast.confirmationToast("Ocupaste la mesa");
                       this.mesaServ.Ocupar(mesa, usuario).then(()=>{
@@ -227,6 +236,21 @@ async Scan()
         this.reservaSubs2.unsubscribe();
       })
     }
+/*
+    validarRserva(reserva, mesa)
+    {
+      let ahora=((Date.now() / 1000) /60);
+      let ahoraMas=((Date.now() / 1000) /60)+10;
+      let minRsereva= ((Date.parse(reserva.fecha)/1000)/60 );
+      let minLimite = ((Date.parse(reserva.fecha)/1000)/60) -40;
+      let reservada: boolean;
+
+      if(reserva.mesa==mesa && reserva.estado == "aceptada" &&
+      ahora <= minRsereva && 
+      ahora >= minLimite)
+
+
+    }*/
       
   ngOnInit() {
 
