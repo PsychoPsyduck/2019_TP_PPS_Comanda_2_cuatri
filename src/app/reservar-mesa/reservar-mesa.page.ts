@@ -84,9 +84,10 @@ export class ReservarMesaPage implements OnInit {
     mes < 10 ? messtr = "0" + mes.toString() : messtr = mes;
     hora < 10 ? horastr = "0" + hora.toString() : horastr = hora;
     minuto < 10 ? minutostr = "0" + minuto.toString() : minutostr = minuto;
-    reserva.fecha = diastr + "-" + messtr + "-" + f.getFullYear() + " " + horastr + ":" + minutostr;
+    //reserva.fecha = diastr + "-" + messtr + "-" + f.getFullYear() + " " + horastr + ":" + minutostr;
+    reserva.fecha = messtr + "-" + diastr + "-" + f.getFullYear() + " " + horastr + ":" + minutostr;
     console.log(reserva.fecha);
-    let minAReservar = ((Date.parse(reserva.fecha) / 100) / 60);//(Date.parse(reserva.fecha) / 1000) / 60;
+    let minAReservar = ((Date.parse(reserva.fecha) / 1000) / 60);//(Date.parse(reserva.fecha) / 1000) / 60;
     console.log(minAReservar);
 
 
@@ -123,7 +124,7 @@ export class ReservarMesaPage implements OnInit {
 
     this.listaReservas.forEach((reserva) => {
 
-      let minReservados = ((Date.parse(reserva.fecha) / 100) / 60);
+      let minReservados = ((Date.parse(reserva.fecha) / 1000) / 60);
       console.log(minReservados);
       console.log(fechaEnMin);
       if (((minReservados - 40) <= fechaEnMin) && ((minReservados + 40) >= fechaEnMin)
