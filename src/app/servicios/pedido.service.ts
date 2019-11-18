@@ -48,4 +48,11 @@ export class PedidoService {
     return this.pedidosObservable;
   }
 
+  PedidosObservable()
+  {
+    this.pedidosFirebase = this.objFirebase.collection<any>("pedidos");
+    this.pedidosObservable = this.pedidosFirebase.valueChanges();
+    return this.pedidosObservable;
+  }
+
 }

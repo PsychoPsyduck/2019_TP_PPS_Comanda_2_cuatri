@@ -91,6 +91,51 @@ exports.enviarNotificacion = functions.https.onRequest((req, res) => {
     // })
 })
 
+
+exports.createUser = functions.firestore
+    .document('usuarios/{id}')
+    .onCreate(async (snap, context) => {
+      // Get an object representing the document
+      // e.g. {'name': 'Marie', 'age': 66}
+      //const newValue = snap.data();
+
+      // access a particular field as you would any JS property
+      
+        //const name = newValue!.name;
+        const payload = {
+            notification: {
+                title: 'Prueba',
+                //body: `${data} is following your content!`,
+                body: `Damian is watching you!`,
+                icon: 'https://goo.gl/Fz9nrQ'
+            }
+          
+          }
+      
+          let tokens: any[]=[];
+      
+          const db = admin.firestore()
+          db.collection("usuarios").get().then((snapshot: any): any => {
+              
+             
+              snapshot.forEach((doc: any) => {
+                  let usuario = doc.data();
+                  if (usuario.token != null) {
+                      tokens.push(usuario.token);
+                  }
+              });
+      
+          // send a notification to each device token
+
+    
+    
+
+        
+        return admin.messaging().sendToDevice(tokens, payload)
+      // perform desired operations ...
+    });
+    })
+
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //

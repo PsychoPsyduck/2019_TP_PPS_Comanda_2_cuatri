@@ -6,5 +6,6 @@ export class RegistroEspera
     correo: string;
     idUsuario:string;
     fecha:number;
+    estado:string;
 
 }

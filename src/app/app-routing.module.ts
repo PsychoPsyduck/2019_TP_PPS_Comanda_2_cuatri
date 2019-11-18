@@ -22,7 +22,9 @@ const routes: Routes = [
   { path: 'reservar-mesa', loadChildren: './reservar-mesa/reservar-mesa.module#ReservarMesaPageModule' },
   { path: 'reservas-pendientes', loadChildren: './reservas-pendientes/reservas-pendientes.module#ReservasPendientesPageModule' },
   { path: 'ingreso-anonimo', loadChildren: './ingreso-anonimo/ingreso-anonimo.module#IngresoAnonimoPageModule' },
-  { path: 'principal-cliente', loadChildren: './principal-cliente/principal-cliente.module#PrincipalClientePageModule' },
+  { path: 'principal-cliente', loadChildren: './principal-cliente/principal-cliente.module#PrincipalClientePageModule' },  { path: 'scan-mesa', loadChildren: './scan-mesa/scan-mesa.module#ScanMesaPageModule' },
+  { path: 'encuesta-cliente', loadChildren: './encuesta-cliente/encuesta-cliente.module#EncuestaClientePageModule' },
+
 
 ];
 

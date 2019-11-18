@@ -99,7 +99,7 @@ export class ReservarMesaPage implements OnInit {
     let libre: boolean;
 
     let mesasAdecuadas = this.listaMesas.filter((mesa) => {
-      return mesa.comensales == reserva.comensales && mesa.tipo == reserva.tipo;
+      return mesa.comensales >= reserva.comensales && mesa.tipo == reserva.tipo;
     });
     console.log("adecuadas: ", mesasAdecuadas);
     mesasAdecuadas.forEach((m) => {
@@ -107,9 +107,8 @@ export class ReservarMesaPage implements OnInit {
         bandera = false;
         libre = true;
         reserva.mesa = m.key;
-        reserva.idMesa = m.id;
         this.reservaServ.AgendarReserva(reserva).then(() => {
-          this.toast.confirmationToast("Mesa reservada para el " + reserva.fecha);
+          this.toast.confirmationToast("Mesa "+m.numero+" reservada para el " + reserva.fecha);
         });
       }
     })
