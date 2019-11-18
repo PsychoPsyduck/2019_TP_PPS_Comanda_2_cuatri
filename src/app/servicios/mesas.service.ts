@@ -7,11 +7,13 @@ import { map } from 'rxjs/operators'
 import { ManejarDatosFoto } from './funcionesExtra';
 import { diccionario } from '../clases/diccionario';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MesasService {
+  public mesasObservable: Observable<any>;
   constructor(
     public db: AngularFirestore,
     public storage: AngularFireStorage,
@@ -125,5 +127,18 @@ export class MesasService {
     return this.firebase.actualizar("/mesas", mesaDoc, {
       estado: diccionario.estados_mesas.ocupada
     });
+  }
+
+  Ocupar(mesa, usuario)
+  {
+    mesa.estado='ocupada';
+    mesa.ocupante= usuario.id;
+    return this.db.collection('mesas').doc(mesa.key).update(mesa);
+  }
+
+  TraerMesas()
+  {
+     this.mesasObservable= this.db.collection('mesas').valueChanges();
+     return this.mesasObservable;
   }
 }

@@ -41,6 +41,7 @@ export class UsuariosService {
     return this.usuariosObservable;
 
   }
+  
 
   BorrarUsuario(usr: Usuario) {
     return this.objFirebase.collection<any>("usuarios").doc(usr.id).delete();
@@ -91,7 +92,8 @@ export class UsuariosService {
         fecha: Date.now(),
         nombre: usr.nombre,
         idUsuario: usr.id,
-        foto:usr.foto
+        foto:usr.foto,
+        estado:"pendiente"
       }
     }
     else
@@ -103,10 +105,38 @@ export class UsuariosService {
         apellido: usr.apellido,
         correo: usr.correo,
         idUsuario: usr.id,
-        foto:usr.foto
+        foto:usr.foto,
+        estado:"pendiente"
       }
     }
 
    return this.objFirebase.collection<any>("esperaMesa").doc(id).set(registro);
   }
+
+  AceptarRegistro(registro)
+  {
+    registro.estado="aceptado";
+    return this.objFirebase.collection<any>("esperaMesa").doc(registro.id).update(registro);
+  }
+
+  CancelarRegistro(registro)
+  {
+    return this.objFirebase.collection<any>("esperaMesa").doc(registro.id).delete();
+  }
+
+  TraerEsperasPendientes()
+  {
+    this.usuariosFirebase = this.objFirebase.collection<any>("esperaMesa", ref => ref.where("estado", "==", "pendiente"));
+    this.usuariosObservable = this.usuariosFirebase.valueChanges();
+    return this.usuariosObservable;
+  }
+
+  TraerEsperasObservable()
+  {
+    this.usuariosFirebase = this.objFirebase.collection<RegistroEspera>("esperaMesa");
+    this.usuariosObservable = this.usuariosFirebase.valueChanges();
+    return this.usuariosObservable;
+  }
+
+  
 }

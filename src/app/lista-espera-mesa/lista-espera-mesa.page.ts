@@ -4,6 +4,7 @@ import { UsuariosService } from '../servicios/usuarios.service';
 import { Usuario } from '../clases/Usuario';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Router } from '@angular/router';
+import { ToastService } from '../servicios/toast.service';
 
 @Component({
   selector: 'app-lista-espera-mesa',
@@ -18,21 +19,18 @@ export class ListaEsperaMesaPage implements OnInit {
   constructor(
     private router: Router,
     private usrServ: UsuariosService, 
-    private barcode: BarcodeScanner) {
+    private barcode: BarcodeScanner,
+    private toast: ToastService) {
 
     this.TraerLista();
 
   }
 
   TraerLista() {
-    this.usrServ.TraerListaEsperaMesa().then((data) => {
-      data.forEach(reg => {
-        this.listaEspera = reg;
-      })
+    this.usrServ.TraerEsperasPendientes().subscribe((data) => {
+      this.listaEspera= data;
       console.log(this.listaEspera)
-    }).catch((data) => {
-      console.log(data)
-    })
+    });
   }
 
   asignarMesa(usuario) {
@@ -49,8 +47,22 @@ export class ListaEsperaMesaPage implements OnInit {
       });
   }
 
-  cancelarEspera(usuario){
+  cancelarEspera(registro){
 
+    this.usrServ.CancelarRegistro(registro).then(()=>{
+      this.toast.confirmationToast("Se borro el registro.");
+    }).catch(()=>{
+      this.toast.errorToast("No se pudo borrar el registro.");
+    })
+  }
+
+  AceptarRegistro(registro)
+  {
+    this.usrServ.AceptarRegistro(registro).then(()=>{
+      this.toast.confirmationToast("Registro aceptado.");
+    }).catch(()=>{
+      this.toast.errorToast("No se pudo aceptar el registro.")
+    })
   }
 
   ngOnInit() {

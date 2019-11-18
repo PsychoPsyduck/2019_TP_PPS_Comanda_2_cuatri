@@ -102,6 +102,11 @@ export class AppComponent {
               title: 'Pedir',
               url: '/alta-pedido',
               icon: 'bonfire'
+            },
+            {
+              title: 'Leer QR mesa',
+              url: '/scan-mesa',
+              icon: 'contract'
             }
 
           );
@@ -127,6 +132,11 @@ export class AppComponent {
               title: 'Pedir',
               url: '/principal-cliente',
               icon: 'bonfire'
+            },
+            {
+              title: 'Leer QR mesa',
+              url: '/scan-mesa',
+              icon: 'contract'
             }
 
           );
