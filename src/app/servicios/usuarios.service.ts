@@ -115,6 +115,7 @@ export class UsuariosService {
 
   AceptarRegistro(registro)
   {
+    console.info("registro a aceptar", registro)
     registro.estado="aceptado";
     return this.objFirebase.collection<any>("esperaMesa").doc(registro.id).update(registro);
   }

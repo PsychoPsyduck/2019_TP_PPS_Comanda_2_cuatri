@@ -8,5 +8,31 @@ ion-thumbnail{
 }
 
 ion-card{
-    color:"secondary"
+    color:"secondary";
+    background-color: #95A3A4;
+    margin-bottom: 2em;
+}
+
+ion-avatar{
+    float: left;
+    margin-left: 14%;
+}
+
+.confirm-button{
+    width: 40%;
+}
+
+ion-card-title{
+    margin-bottom: 1em;
+}
+
+ion-card-content::after{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.flev-h{
+    margin-top: 2em;
+    text-align: center;
 }

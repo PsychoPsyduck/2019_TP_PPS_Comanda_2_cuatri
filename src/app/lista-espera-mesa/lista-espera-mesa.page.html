@@ -10,7 +10,7 @@
 <ion-content padding="true">
 
   <ion-list style="background-color:rgba(5, 5, 5, 0) ">
-    <ion-card style="--color: 'secundary'"  *ngFor="let u of listaEspera">
+    <ion-card style="--color: 'secundary'" *ngFor="let u of listaEspera">
       <ion-card-content>
         <ion-card-title style="text-align: center; color: white">
           {{u.nombre}}
@@ -21,10 +21,15 @@
         </ion-avatar>
 
         <div class="flev-h">
-          <ion-button color="success" (click)=AceptarRegistro(u)>
-            Confirmar</ion-button>
-          <ion-button color="danger" (click)=CancelarUsuario(u)>
-            Cancelar</ion-button>
+          <p>
+            <ion-button color="success confirm-button" (click)=AceptarRegistro(u)>
+              Confirmar</ion-button>
+          </p>
+          <p>
+            <ion-button color="danger confirm-button" (click)=CancelarUsuario(u)>
+              Cancelar</ion-button>
+          </p>
+
         </div>
 
       </ion-card-content>
