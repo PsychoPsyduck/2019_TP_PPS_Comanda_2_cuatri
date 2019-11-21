@@ -55,4 +55,17 @@ export class PedidoService {
     return this.pedidosObservable;
   }
 
+  TraerPedidoPorCliente(cliente:string)
+  {
+    this.pedidosFirebase = this.objFirebase.collection("pedidos", ref=>ref.where("cliente", "==", cliente));
+    this.pedidosObservable = this.pedidosFirebase.snapshotChanges();
+    return this.pedidosObservable;
+  }
+
+  ModificarPorCliente(pedido, estado, key)
+  {
+    pedido.estado=estado;
+    return this.objFirebase.collection<any>("pedidos").doc(key).update(pedido);
+  }
+
 }

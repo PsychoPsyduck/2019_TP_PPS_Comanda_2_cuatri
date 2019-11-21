@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title style="text-align: center">Estado de su pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true">
+
+ 
+    <ion-card justify-content-center style="background-color: rgba(0, 0, 0, 0.74)"  *ngIf="pedido">
+      <ion-card-title style="color: white; text-align: center">Estado: {{pedido.estado}} </ion-card-title>
+      <ion-card-content>
+          <ion-card-subtitle style="color: white; text-align: center">Productos</ion-card-subtitle>
+        <ion-list style="background-color: rgba(0, 0, 0, 0)">
+          <ion-item padding="true" lines="none" *ngFor="let p of pedido.productoPedido" color="dark" style="text-align: center;">
+            {{p.nombre}}
+
+          </ion-item>
+        </ion-list>
+                    <h3 style="text-align: center; color: white;"> Hora de entrega: {{entregatxt}} </h3> 
+      </ion-card-content>
+    </ion-card>
+ <div *ngIf="pedido">
+    <ion-button (click)="ModificarEstadoPedido(estados.confirmado)" expand="block" size="large" *ngIf="pedido.estado == estados.entregado_mozo" >Confirmar</ion-button>
+    <ion-button (click)="SolicitarCuenta()" expand="block" size="large" *ngIf="pedido.estado == 'confirmado'" >Solicitar cuenta</ion-button>
+    <!--<ion-button expand="block" size="large" *ngIf="pedido.estado == 'pagado'" >Pagar</ion-button>-->
+ </div>
+ <ion-button expand="block"  [disabled]="!encuesta" >Encuesta</ion-button>
+
+
+
+
+
+
+</ion-content>

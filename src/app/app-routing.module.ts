@@ -24,6 +24,8 @@ const routes: Routes = [
   { path: 'ingreso-anonimo', loadChildren: './ingreso-anonimo/ingreso-anonimo.module#IngresoAnonimoPageModule' },
   { path: 'principal-cliente', loadChildren: './principal-cliente/principal-cliente.module#PrincipalClientePageModule' },  { path: 'scan-mesa', loadChildren: './scan-mesa/scan-mesa.module#ScanMesaPageModule' },
   { path: 'encuesta-cliente', loadChildren: './encuesta-cliente/encuesta-cliente.module#EncuestaClientePageModule' },
+  { path: 'pedido-del-cliente', loadChildren: './pedido-del-cliente/pedido-del-cliente.module#PedidoDelClientePageModule' },
+  { path: 'detalle-pago', loadChildren: './detalle-pago/detalle-pago.module#DetallePagoPageModule' },
 
 
 ];

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title style="text-align: center">Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true">
+
+  <ion-card *ngIf="pedido" color="dark">
+      <ion-card-header style="color: white; text-align: center"> Su pedido </ion-card-header>
+      <ion-card-content color="dark">
+        <ion-list color="dark">
+          <ion-item *ngFor="let p of pedido.productoPedido" color="dark">
+           <ion-row> Producto: {{p.nombre}} {{p.precio}} </ion-row> 
+          </ion-item>
+        </ion-list>
+        <h1 style="text-align: center; color: white">Total: {{total}} </h1>
+      </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" size="large" (click)="Pagar(key)" >Pagar</ion-button>
+</ion-content>
