@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, NavParams } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
@@ -26,6 +26,9 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { Validators, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AltaPedidoPageModule } from './alta-pedido/alta-pedido.module';
 import { FCM } from '@ionic-native/fcm/ngx';
+import { DetallePagoPage } from './detalle-pago/detalle-pago.page';
+import { DetallePagoPageModule } from './detalle-pago/detalle-pago.module';
+import { CuentaComponent } from './componentes/cuenta/cuenta.component';
 
 
 
@@ -44,7 +47,10 @@ import { FCM } from '@ionic-native/fcm/ngx';
     FormsModule,
     ReactiveFormsModule,
     NgxQRCodeModule,
-    AltaPedidoPageModule
+    AltaPedidoPageModule,
+
+  
+    
 
   ],
   providers: [

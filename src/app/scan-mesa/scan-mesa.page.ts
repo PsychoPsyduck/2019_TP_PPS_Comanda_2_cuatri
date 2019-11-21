@@ -11,6 +11,7 @@ import { Reserva } from '../clases/Reserva';
 import { RegistroEspera } from '../clases/RegistroEspera';
 import { PedidoService } from '../servicios/pedido.service';
 import { Subscription } from 'rxjs';
+import { Pedido } from '../clases/pedido';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class ScanMesaPage implements OnInit {
   reservaSubs:Subscription;
   reservaSubs2:Subscription;
   pedidoSubs:Subscription;
+  pedidosSub2:Subscription;
   usrConReserva=false;
   mesaReservada=false;
   listaEsperas: Array<RegistroEspera>;
@@ -90,14 +92,24 @@ async Scan()
             reserva.usuario.id== usuario.id
             )
             {
+              this.pedidosSub2= this.pedidoServ.TraerPedidos().subscribe((data_pedidos_dos: Array<any>)=>{
+                 data_pedidos_dos.map((p)=>{
+                   if(p.cliente== JSON.parse(sessionStorage.getItem("usuario")).id && 
+                   p.estado != 'solicitado' && p.estado !='pagado')
+                   {
+                    this.Navegar('/pedido-del-cliente');
+                   }
+                 })
+              })
               this.toast.confirmationToast("podes tomar tu reserva");
+              this.Navegar('/alta-pedido');
               this.sinReserva = false; 
             }
           });
 
           if(this.sinReserva==true)
           {
-            this.toast.errorToast("a la lista");
+            this.toast.errorToast("Tenes que ingresarte a la lista de espera.");
             this.Navegar('/home');
           }
         })
@@ -139,14 +151,14 @@ async Scan()
 
                         if(this.estadoPedido=='aceptado')
                         {
-                          this.toast.confirmationToast("Podes llenar la encuesta");
-                          this.Navegar('/encuesta-cliente')
+                         // this.toast.confirmationToast("Podes llenar la encuesta");
+                          this.Navegar('/pedido-del-cliente');
                         }
-                        else{
+                       /* else{
                           this.toast.errorToast("Una vez aceptado el pedido podras hacer la encuesta.")
                           
                           this.Navegar('/home');
-                        }
+                        }*/
 
                       }
                       else{
@@ -234,6 +246,7 @@ async Scan()
         this.reservaSubs.unsubscribe();
         this.pedidoSubs.unsubscribe();
         this.reservaSubs2.unsubscribe();
+        this.pedidosSub2.unsubscribe();
       })
     }
 /*
