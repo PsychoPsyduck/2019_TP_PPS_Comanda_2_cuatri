@@ -27,7 +27,9 @@ export class LoginPage implements OnInit {
     { id: 2, nombre: "supervisor", correo: "gastonpesoa@gmail.com", clave: "gaston" },
     { id: 3, nombre: "mozo", correo: "mozo@gmail.com", clave: "mozo" },
     { id: 4, nombre: "clienteUno", correo: "cliente1@gmail.com", clave: "cliente" },
-    { id: 5, nombre: "clienteDos", correo: "marcos98c@gmail.com", clave: "123" }
+    { id: 5, nombre: "clienteDos", correo: "marcos98c@gmail.com", clave: "123" },
+    { id: 6, nombre: "cocinero", correo: "cocinero@gmail.com", clave: "cocinero" },
+    { id: 7, nombre: "bartender", correo: "bartender@gmail.com", clave: "bartender" }
   ]
 
   constructor(

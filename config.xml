@@ -3,7 +3,7 @@
     <name>La Comanda</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://localhost:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -109,4 +109,5 @@
     <plugin name="phonegap-plugin-barcodescanner" spec="^8.1.0">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
+    <allow-navigation href="http://localhost:8100" sessionid="deba401f" />
 </widget>

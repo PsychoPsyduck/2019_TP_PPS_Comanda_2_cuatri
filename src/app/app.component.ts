@@ -155,12 +155,24 @@ export class AppComponent {
               title: 'Pedir',
               url: '/alta-pedido',
               icon: 'bonfire'
-            }
+            },
+            {
+              title: 'Lista de pedidos',
+              url: '/lista-pedidos',
+              icon: 'list-box'
+            },
           );
           break;
 
         //************** EMPLEADOS ****************/
         case 'empleado':
+          this.pages.push(
+            {
+              title: 'Pedidos pendientes',
+              url: '/lista-pedidos-productos',
+              icon: 'list-box'
+            }
+          );
           break;
 
         //************** ADMIN ****************/
