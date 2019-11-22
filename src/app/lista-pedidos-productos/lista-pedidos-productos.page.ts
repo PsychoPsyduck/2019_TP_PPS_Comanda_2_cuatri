@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { TomarPedidoPage } from "../tomar-pedido/tomar-pedido.page";
 import { ModalController } from "@ionic/angular";
 import { TomarPedidoService } from "../servicios/tomar-pedido.service";
-import { AuthService } from "../servicios/auth.service";
 import { diccionario } from "../clases/diccionario";
 import { Pedido } from "../clases/pedido";
 import { UsuariosService } from '../servicios/usuarios.service';
@@ -20,8 +19,7 @@ export class ListaPedidosProductosPage implements OnInit {
   constructor(
     public userServ: UsuariosService,
     public modalCtrl: ModalController,
-    public tomarPedidoServ: TomarPedidoService,
-    public authServ: AuthService
+    public tomarPedidoServ: TomarPedidoService
   ) {}
 
   ngOnInit() {
@@ -38,13 +36,13 @@ export class ListaPedidosProductosPage implements OnInit {
     const pedido = await modal.onDidDismiss();
 
     if (pedido.data !== undefined) {
-      if (this.authServ.user.perfil == "cocinero") {
+      if (this.usuario.puesto == "cocinero") {
         this.tomarPedidoServ
           .TomarPedidoCocinero(pedidoInfo.key, pedido.data.tiempoDeEspera)
           .then(() => {
             console.log("Regreso del TomarPedido");
           });
-      } else if (this.authServ.user.perfil == "bartender") {
+      } else if (this.usuario.puesto == "bartender") {
         this.tomarPedidoServ
           .TomarPedidoBartender(pedidoInfo.key, pedido.data.tiempoDeEspera)
           .then(() => {
@@ -80,20 +78,21 @@ export class ListaPedidosProductosPage implements OnInit {
         )
         .subscribe(pedidos => {
           this.pedidos = pedidos;
+          debugger
         });
     } else {
       this.tomarPedidoServ
         .TraerPedidos(ref =>
           ref
             .where(
-              this.authServ.user.perfil == "cocinero"
+              this.usuario.puesto == "cocinero"
                 ? "estadoCocinero"
                 : "estadoBartender",
               "==",
               diccionario.estados_pedidos.en_preparacion
             )
             .where(
-              this.authServ.user.perfil == "cocinero"
+              this.usuario.puesto == "cocinero"
                 ? "responsableCocinero"
                 : "responsableBartender",
               "==",
@@ -110,7 +109,7 @@ export class ListaPedidosProductosPage implements OnInit {
     let estadoEsperado = this.filtro == "pendientes" ? null : "en preparación";
     return pedidoInfo.productoPedido.some(function(producto) {
       return (
-        (producto.tipo == "platos" &&
+        (producto.tipo == "cocina" &&
           perfil == "cocinero" &&
           pedidoInfo.estadoCocinero == estadoEsperado) ||
         (producto.tipo == "bebidas" &&
@@ -121,13 +120,13 @@ export class ListaPedidosProductosPage implements OnInit {
   }
 
   EntregarPedido(pedido: Pedido) {
-    if (this.authServ.user.perfil == "cocinero") {
+    if (this.usuario.puesto == "cocinero") {
       this.tomarPedidoServ.EntregarPedidoCocinero(pedido.key).then(() => {
         console.log("Regreso del EntregarPedidoCocinero");
         pedido.estadoCocinero = diccionario.estados_pedidos.listo;
         this.verificarPedidoListo(pedido);
       });
-    } else if (this.authServ.user.perfil == "bartender") {
+    } else if (this.usuario.puesto == "bartender") {
       this.tomarPedidoServ.EntregarPedidoBartender(pedido.key).then(() => {
         console.log("Regreso del EntregarPedidoBartender");
         pedido.estadoBartender = diccionario.estados_pedidos.listo;
@@ -137,9 +136,9 @@ export class ListaPedidosProductosPage implements OnInit {
   }
 
   estadoValidoSegunPerfil(pedido, estadoEsperado) {
-    if (this.authServ.user.perfil == "cocinero")
+    if (this.usuario.puesto == "cocinero")
       return pedido.estadoCocinero == estadoEsperado;
-    else if (this.authServ.user.perfil == "bartender")
+    else if (this.usuario.puesto == "bartender")
       return pedido.estadoBartender == estadoEsperado;
   }
 }

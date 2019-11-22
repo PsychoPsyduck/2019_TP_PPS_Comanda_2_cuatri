@@ -19,12 +19,12 @@
     </ion-item>
     <ion-list>
       <ion-item no-padding *ngFor="let pedido of pedidos">
-        <div *ngIf='correspondeAlPerfil(pedido, authServ.user.perfil)'>
+        <div *ngIf='correspondeAlPerfil(pedido, usuario.puesto)'>
           <label>Codigo: {{pedido.key}}</label><br>
           <ul>
             <div *ngFor='let item of pedido.productoPedido'>
               <li
-                *ngIf="item.tipo == 'platos' && authServ.user.perfil == 'cocinero' || item.tipo == 'bebidas' && authServ.user.perfil == 'bartender'">
+                *ngIf="item.tipo == 'platos' && usuario.puesto == 'cocinero' || item.tipo == 'bebidas' && usuario.puesto == 'bartender'">
                 {{item.nombre}}
               </li>
             </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ModalController } from '@ionic/angular';
+import { UsuariosService } from '../servicios/usuarios.service';
 
 
 @Component({
@@ -13,12 +14,15 @@ export class TomarPedidoPage implements OnInit {
   public puedeGuardar = false;
   public form: FormGroup;
   public pedido;
+  usuario: any;
   constructor(
+    public userServ: UsuariosService,
     public formBuilder: FormBuilder,
     public modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
+    this.usuario = this.userServ.getUsuarioStorage();
     console.log(this.pedido);
     this.form = this.formBuilder.group({
       tiempoDeEspera: [

@@ -26,7 +26,7 @@
     <h1>Pedido:</h1>
     <ng-container *ngFor='let item of pedido.productoPedido'>
       <ion-list
-        *ngIf="item.tipo == 'platos' && authServ.user.perfil == 'cocinero' || item.tipo == 'bebidas' && authServ.user.perfil == 'bartender'"
+        *ngIf="item.tipo == 'cocina' && usuario.puesto == 'cocinero' || item.tipo == 'bebidas' && usuario.puesto == 'bartender'"
         style='border: solid 1px black; border-radius: .25rem;'>
         <ion-item class="noPadding">
           <ion-label>Tipo:</ion-label>

@@ -29,6 +29,8 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { DetallePagoPage } from './detalle-pago/detalle-pago.page';
 import { DetallePagoPageModule } from './detalle-pago/detalle-pago.module';
 import { CuentaComponent } from './componentes/cuenta/cuenta.component';
+import { TomarPedidoPage } from './tomar-pedido/tomar-pedido.page';
+import { TomarPedidoPageModule } from './tomar-pedido/tomar-pedido.module';
 
 
 
@@ -48,7 +50,7 @@ import { CuentaComponent } from './componentes/cuenta/cuenta.component';
     ReactiveFormsModule,
     NgxQRCodeModule,
     AltaPedidoPageModule,
-
+    TomarPedidoPageModule
   
     
 
