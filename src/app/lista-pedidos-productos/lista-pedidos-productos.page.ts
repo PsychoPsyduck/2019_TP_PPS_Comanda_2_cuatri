@@ -78,7 +78,6 @@ export class ListaPedidosProductosPage implements OnInit {
         )
         .subscribe(pedidos => {
           this.pedidos = pedidos;
-          debugger
         });
     } else {
       this.tomarPedidoServ
@@ -112,7 +111,7 @@ export class ListaPedidosProductosPage implements OnInit {
         (producto.tipo == "cocina" &&
           perfil == "cocinero" &&
           pedidoInfo.estadoCocinero == estadoEsperado) ||
-        (producto.tipo == "bebidas" &&
+        (producto.tipo == "barra" &&
           perfil == "bartender" &&
           pedidoInfo.estadoBartender == estadoEsperado)
       );
