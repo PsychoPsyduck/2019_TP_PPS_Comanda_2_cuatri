@@ -97,12 +97,6 @@ export class AppComponent {
               icon: 'people',
 
             },
-
-            {
-              title: 'Pedir',
-              url: '/principal-cliente',
-              icon: 'bonfire'
-            },
             {
               title: 'Leer QR mesa',
               url: '/scan-mesa',
@@ -129,11 +123,6 @@ export class AppComponent {
 
             },
             {
-              title: 'Pedir',
-              url: '/principal-cliente',
-              icon: 'bonfire'
-            },
-            {
               title: 'Leer QR mesa',
               url: '/scan-mesa',
               icon: 'contract'
@@ -150,11 +139,6 @@ export class AppComponent {
               title: 'Lista de espera',
               url: '/lista-espera-mesa',
               icon: 'people'
-            },
-            {
-              title: 'Pedir',
-              url: '/alta-pedido',
-              icon: 'bonfire'
             },
             {
               title: 'Lista de pedidos',
@@ -217,9 +201,9 @@ export class AppComponent {
             },
             // --------- PEDIDOS -----------
             {
-              title: 'Pedir',
-              url: '/principal-cliente',
-              icon: 'bonfire'
+              title: 'Leer QR mesa',
+              url: '/scan-mesa',
+              icon: 'contract'
             },
             {
               title: 'Lista de pedidos',

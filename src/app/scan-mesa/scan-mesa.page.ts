@@ -7,7 +7,7 @@ import { MesasService } from '../servicios/mesas.service';
 import { Mesa } from '../clases/mesa';
 import { Usuario } from '../clases/Usuario';
 import { ReservasService } from '../servicios/reservas.service';
-import { Reserva } from '../clases/Reserva';
+import { Reserva } from '../clases/reserva';
 import { RegistroEspera } from '../clases/RegistroEspera';
 import { PedidoService } from '../servicios/pedido.service';
 import { Subscription } from 'rxjs';

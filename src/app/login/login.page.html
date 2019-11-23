@@ -19,22 +19,20 @@
         <img src="../../assets/img/icon.png">
     </ion-row>
 
-    <ion-input type="email" placeholder="Correo" [(ngModel)]="correo"></ion-input>
-
-
-    <ion-input type="password" placeholder="Clave" [(ngModel)]="clave"></ion-input>
-
-
-    <ion-button expand="block" (click)="Ingresar()">Ingresar</ion-button>
-    <ion-button expand="block" (click)="IngresarAnonimo()">Ingreso anonimo</ion-button>
-
-    <ion-button expand="block" (click)="IrARegistro()">Registrase</ion-button>
-
-    <ion-item>
-        <ion-select  (ionChange)="onChange($event.target.value)" placeholder="Usuario">
-            <ion-select-option color="light" *ngFor="let usuario of usuariosLogin" value={{usuario.id}}>{{usuario.nombre}}
-            </ion-select-option>
-        </ion-select>
-    </ion-item>
+    <div class="inputs">
+        <ion-input type="email" placeholder="Correo" [(ngModel)]="correo"></ion-input>
+        <ion-input type="password" placeholder="Clave" [(ngModel)]="clave"></ion-input>
+        <ion-button expand="block" (click)="Ingresar()">Ingresar</ion-button>
+        <ion-button expand="block" (click)="IngresarAnonimo()">Ingreso anonimo</ion-button>
+        <ion-button expand="block" (click)="IrARegistro()">Registrase</ion-button>
+        <ion-item>
+            <ion-select cancelText="Cancelar" okText="Aceptar" (ionChange)="onChange($event.target.value)"
+                placeholder="Usuario">
+                <ion-select-option color="light" *ngFor="let usuario of usuariosLogin" value={{usuario.id}}>
+                    {{usuario.nombre}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </div>
 
 </ion-content>

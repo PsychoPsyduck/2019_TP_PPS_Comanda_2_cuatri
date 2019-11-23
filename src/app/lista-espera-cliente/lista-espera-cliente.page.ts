@@ -76,6 +76,9 @@ export class ListaEsperaClientePage implements OnInit {
           this.toast.confirmationToast("Te agregaste a la lista.");
           this.navCtrl.navigateRoot('/home');
         })
+      } else {
+        this.toast.errorToast("Código inválido");
+        this.navCtrl.navigateRoot('/home');
       }
     }).catch(err => {
       console.log('Error', err);
