@@ -149,10 +149,13 @@ async Scan()
                       if(this.tienePedido)
                       {
 
-                        if(this.estadoPedido=='aceptado')
+                        if(this.estadoPedido != 'pagado')
                         {
                          // this.toast.confirmationToast("Podes llenar la encuesta");
                           this.Navegar('/pedido-del-cliente');
+                        }
+                        else{
+                          this.Navegar('/home');
                         }
                        /* else{
                           this.toast.errorToast("Una vez aceptado el pedido podras hacer la encuesta.")
@@ -208,10 +211,17 @@ async Scan()
                     })
                     if(this.mesaReservada ==false && this.usrConReserva==false)
                     {
-                      this.toast.confirmationToast("Ocupaste la mesa");
-                      this.mesaServ.Ocupar(mesa, usuario).then(()=>{
-                        this.Navegar('/alta-pedido');
-                      })
+                      if(this.tienePedido)
+                      {
+                        this.Navegar('/pedido-del cliente');
+                      }
+                      else{
+                        this.toast.confirmationToast("Ocupaste la mesa");
+                        this.mesaServ.Ocupar(mesa, usuario).then(()=>{
+                          this.Navegar('/alta-pedido');
+                        })
+                      }
+
                     }
                     if(this.mesaReservada==true)
                     {
