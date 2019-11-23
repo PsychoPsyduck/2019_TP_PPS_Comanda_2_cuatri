@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { UsuariosService } from '../servicios/usuarios.service';
 import { ToastService } from '../servicios/toast.service';
@@ -11,7 +11,10 @@ import { Reserva } from '../clases/reserva';
 import { RegistroEspera } from '../clases/RegistroEspera';
 import { PedidoService } from '../servicios/pedido.service';
 import { Subscription } from 'rxjs';
-import { Pedido } from '../clases/pedido';
+import { AltaPedidoPage } from '../alta-pedido/alta-pedido.page';
+import { FirebaseService } from '../servicios/firebase.service';
+import { DocumentReference } from '@angular/fire/firestore';
+
 
 
 @Component({
@@ -149,10 +152,13 @@ async Scan()
                       if(this.tienePedido)
                       {
 
-                        if(this.estadoPedido=='aceptado')
+                        if(this.estadoPedido != 'pagado')
                         {
                          // this.toast.confirmationToast("Podes llenar la encuesta");
                           this.Navegar('/pedido-del-cliente');
+                        }
+                        else{
+                          this.Navegar('/home');
                         }
                        /* else{
                           this.toast.errorToast("Una vez aceptado el pedido podras hacer la encuesta.")
@@ -208,10 +214,17 @@ async Scan()
                     })
                     if(this.mesaReservada ==false && this.usrConReserva==false)
                     {
-                      this.toast.confirmationToast("Ocupaste la mesa");
-                      this.mesaServ.Ocupar(mesa, usuario).then(()=>{
-                        this.Navegar('/alta-pedido');
-                      })
+                      if(this.tienePedido)
+                      {
+                        this.Navegar('/pedido-del cliente');
+                      }
+                      else{
+                        this.toast.confirmationToast("Ocupaste la mesa");
+                        this.mesaServ.Ocupar(mesa, usuario).then(()=>{
+                          this.Navegar('/alta-pedido');
+                        })
+                      }
+
                     }
                     if(this.mesaReservada==true)
                     {
@@ -257,18 +270,13 @@ async Scan()
       let minRsereva= ((Date.parse(reserva.fecha)/1000)/60 );
       let minLimite = ((Date.parse(reserva.fecha)/1000)/60) -40;
       let reservada: boolean;
-
       if(reserva.mesa==mesa && reserva.estado == "aceptada" &&
       ahora <= minRsereva && 
       ahora >= minLimite)
-
-
     }*/
       
   ngOnInit() {
 
   }
-
-
 
 }

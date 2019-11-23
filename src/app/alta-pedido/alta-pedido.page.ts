@@ -68,6 +68,10 @@ export class AltaPedidoPage implements OnInit {
     if (!this.puedeGuardar) {
       return;
     }
+    console.info("productoPedido", this.itemsPedido)
+    console.info("mesa", this.form.get('mesa').value)
+    console.info("productoPedido", this.itemsPedido)
+    console.info("productoPedido", this.itemsPedido)
 
     this.modalCtrl.dismiss({
       productoPedido: this.itemsPedido,

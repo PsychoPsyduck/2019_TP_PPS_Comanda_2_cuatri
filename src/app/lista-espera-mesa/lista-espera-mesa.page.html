@@ -32,3 +32,9 @@
   </ion-list>
 
 </ion-content>
+
+<ion-footer *ngIf="listaEspera.length<1" >
+  <ion-toolbar color="primary">
+    <ion-title>No hay clientes en espera</ion-title>
+  </ion-toolbar>
+</ion-footer>

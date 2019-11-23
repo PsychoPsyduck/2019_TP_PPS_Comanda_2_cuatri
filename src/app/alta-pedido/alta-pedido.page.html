@@ -1,41 +1,34 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Pedir platos y bebidas</ion-title>
     <ion-buttons slot="secondary">
-      <ion-button (click)="cancel()">
-        <span color="primary" showWhen="ios">Cancelar</span>
-        <ion-icon name="md-close" showWhen="core,android,windows"></ion-icon>
-      </ion-button>
-      <ion-button (click)="done()" [disabled]="!puedeGuardarPedido()" strong>
-        <span color="primary" showWhen="ios">Listo</span>
-        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
-      </ion-button>
+
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding class="scroll-content">
   <form *ngIf="form" [formGroup]="form">
-    <ion-button color="light" (click)="escanearQr()" style="margin-bottom:30px;" expand='full'>
+    <!-- <ion-button color="primary" (click)="escanearQr()" style="margin-bottom:30px;" expand='full'>
       <ion-icon color="secondary" name="qr-scanner" style="margin-right:5px;"></ion-icon>
       Escanear QR
-    </ion-button>
+    </ion-button> -->
     <ion-list>
-      <ion-item *ngIf='mesaDoc == undefined' class="noPadding">
+      <ion-item *ngIf='mesaDoc == undefined'>
         <ion-label>Mesa</ion-label>
         <ion-select formControlName="mesa" placeholder="Seleccione" interface="popover">
           <ion-select-option *ngFor="let mesa of mesas" value="{{mesa.key}}">{{mesa.id}}
           </ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-item class="noPadding">
+      <ion-item>
         <ion-label>Producto</ion-label>
         <ion-select formControlName="producto" placeholder="Seleccione" interface="popover">
           <ion-select-option *ngFor="let producto of productos" value="{{producto.key}}">{{producto.descripcion}}
           </ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-item class="noPadding">
+      <ion-item>
         <ion-label>Cantidad</ion-label>
         <ion-input formControlName="cantidad" type='number'></ion-input>
       </ion-item>
@@ -47,8 +40,25 @@
     <ion-list>
       <ion-item class="noPadding" *ngFor="let item of itemsPedido">
         <ion-label>{{item.nombre}} - Cantidad: {{item.cantidad}}</ion-label>
-        <ion-button fill="outline" slot="end" color='danger' (click)='sacarItem(item.idProducto)'><ion-icon name="trash"></ion-icon></ion-button>
+        <ion-button fill="outline" slot="end" color='danger' (click)='sacarItem(item.idProducto)'>
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
       </ion-item>
     </ion-list>
+
   </form>
 </ion-content>
+<ion-footer>
+  <ion-toolbar color="primary">
+    <div class="contains-confirm-buttons">
+      <ion-button color="danger" (click)="cancel()">
+        <span showWhen="ios">Cancelar</span>
+        <ion-icon name="md-close" showWhen="core,android,windows"></ion-icon>
+      </ion-button>
+      <ion-button class="confirm-button" color="success" (click)="done()" [disabled]="!puedeGuardarPedido()" strong>
+        <span showWhen="ios">Listo</span>
+        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
