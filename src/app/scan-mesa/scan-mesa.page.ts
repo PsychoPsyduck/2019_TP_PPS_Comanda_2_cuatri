@@ -107,7 +107,9 @@ export class ScanMesaPage implements OnInit {
                   })
                 })
                 this.toast.confirmationToast("podes tomar tu reserva");
+                this.toast.errorToast("110")
                 this.Navegar('/alta-pedido');
+               
                 // this.AgregarPedido();
                 this.sinReserva = false;
               }
@@ -149,7 +151,7 @@ export class ScanMesaPage implements OnInit {
 
                       if (this.tienePedido) {
 
-                        if (this.estadoPedido != 'pagado') {
+                        if (this.estadoPedido != 'cerrado') {
                           // this.toast.confirmationToast("Podes llenar la encuesta");
                           this.Navegar('/pedido-del-cliente');
                         }
@@ -165,7 +167,9 @@ export class ScanMesaPage implements OnInit {
                       }
                       else {
                         console.log("hacer pedido")
+                        this.toast.errorToast("169")
                         this.Navegar('/alta-pedido')
+                        
                         // this.AgregarPedido();
                       }
 
@@ -196,7 +200,9 @@ export class ScanMesaPage implements OnInit {
                           this.toast.confirmationToast("Ocupaste la mesa que tenias reservada");
 
                           this.mesaServ.Ocupar(mesa, usuario).then(() => {
+                            this.toast.errorToast("200")
                             this.Navegar('/alta-pedido');
+
                             // this.AgregarPedido();
                           });
                         }
@@ -213,6 +219,7 @@ export class ScanMesaPage implements OnInit {
                       else {
                         this.toast.confirmationToast("Ocupaste la mesa");
                         this.mesaServ.Ocupar(mesa, usuario).then(() => {
+                          this.toast.errorToast("219")
                           this.Navegar('/alta-pedido');
                           // this.AgregarPedido();
                         })
