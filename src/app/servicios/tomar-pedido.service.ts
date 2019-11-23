@@ -11,6 +11,7 @@ import { UsuariosService } from './usuarios.service';
   providedIn: "root"
 })
 export class TomarPedidoService {
+  
   usuario: any;
   constructor(
     public userServ: UsuariosService,
@@ -74,9 +75,15 @@ export class TomarPedidoService {
     });
   }
 
+  // ConfirmarPago(pedidoDoc) {
+  //   return this.firebase.actualizar("/pedidos", pedidoDoc, {
+  //     estado: diccionario.estados_pedidos.pagado
+  //   });
+  // }
+
   CerrarPedido(pedidoDoc) {
     return this.firebase.actualizar("/pedidos", pedidoDoc, {
-      estado: diccionario.estados_pedidos.pagado
+      estado: diccionario.estados_pedidos.cerrado
     });
   }
 

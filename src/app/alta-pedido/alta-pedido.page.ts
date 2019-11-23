@@ -91,6 +91,7 @@ export class AltaPedidoPage implements OnInit {
 
   cancel() {
     // this.modalCtrl.dismiss();
+    this.router.navigate(['/home'])
   }
 
   done() {

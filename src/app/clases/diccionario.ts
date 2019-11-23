@@ -40,6 +40,7 @@ export const diccionario = {
       confirmado: 'confirmado',
       cuenta: 'cuenta',
       pagado: 'pagado',
+      cerrado: 'cerrado',
     },
     estados_productos: {
       en_preparacion: false,

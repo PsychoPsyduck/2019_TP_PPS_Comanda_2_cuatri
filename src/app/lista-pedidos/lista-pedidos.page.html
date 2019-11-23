@@ -31,7 +31,9 @@
               <ion-button *ngIf="pedido.estado == 'listo'" color="warning" (click)="EntregarPedido(pedido)">Entregar
                 pedido
               </ion-button>
-              <ion-button *ngIf="pedido.estado == 'cuenta'" color="warning" (click)="CerrarPedido(pedido)">Cerrar pedido
+              <!-- <ion-button *ngIf="pedido.estado == 'cuenta'" color="warning" (click)="ConfirmarPago(pedido)">Confirmar pago
+              </ion-button> -->
+              <ion-button *ngIf="pedido.estado == 'pagado'" color="warning" (click)="CerrarPedido(pedido)">Cerrar pedido
               </ion-button>
             </ion-row>
           </ion-grid>

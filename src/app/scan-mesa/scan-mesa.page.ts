@@ -42,6 +42,7 @@ export class ScanMesaPage implements OnInit {
   mesaHabilitada = true;
   sinReserva = true;
   tienePedido;
+  puedeAltaPedido;
   estadoPedido: string;
   mesa: Mesa;
   usuario: Usuario;
@@ -243,7 +244,7 @@ export class ScanMesaPage implements OnInit {
   }
 
   Navegar(path: string) {
-    if (path = '/alta-pedido') {
+    if (path == '/alta-pedido') {
 
       console.info("entre aca ", path, "user", this.usuario.id);
 

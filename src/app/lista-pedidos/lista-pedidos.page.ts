@@ -35,6 +35,12 @@ export class ListaPedidosPage implements OnInit {
     });
   }
 
+  // ConfirmarPago(pedidoInfo){
+  //   this.tomarPedidoServ.ConfirmarPago(pedidoInfo.key).then(() => {
+  //     console.log("Regreso del CerrarPedido");
+  //   });
+  // }
+
   CerrarPedido(pedidoInfo) {
     this.tomarPedidoServ.CerrarPedido(pedidoInfo.key).then(() => {
       console.log("Regreso del CerrarPedido");
