@@ -8,6 +8,10 @@ import { MesasService } from '../servicios/mesas.service';
 import { diccionario } from '../clases/diccionario';
 import { Producto } from '../clases/producto';
 import { ParserTypesService } from '../servicios/parser-types.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FirebaseService } from '../servicios/firebase.service';
+import { DocumentReference } from '@angular/fire/firestore';
+import { ToastService } from '../servicios/toast.service';
 
 
 @Component({
@@ -25,8 +29,14 @@ export class AltaPedidoPage implements OnInit {
   public itemsPedido: Array<ProductoPedido>;
   public mesaDoc;
   mesa: any;
+  idUser: any;
+  user: any;
 
   constructor(
+    public toast: ToastService,
+    public router: Router,
+    public firebaseServ: FirebaseService,
+    private route: ActivatedRoute,
     public parserServ: ParserTypesService,
     public formBuilder: FormBuilder,
     public modalCtrl: ModalController,
@@ -36,6 +46,25 @@ export class AltaPedidoPage implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    var data = window.history.state.data;
+
+    this.mesaDoc = this.route.snapshot.paramMap.get('mesa');
+    // this.user = JSON.parse(localStorage.getItem("usuario"));
+    // this.idUser = this.user.id;
+
+    
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.idUser = this.router.getCurrentNavigation().extras.state.user;
+        this.mesaDoc = this.router.getCurrentNavigation().extras.state.mesa;
+      }
+    });
+
+    console.info("idUser", this.idUser)
+    console.info("mesa", this.mesaDoc)
+
+
     this.itemsPedido = new Array<ProductoPedido>();
 
     this.form = this.formBuilder.group({
@@ -47,9 +76,9 @@ export class AltaPedidoPage implements OnInit {
       producto: ['', Validators.required]
     });
 
-    if (this.mesaDoc != undefined) { 
-      this.mesa = this.mesa;
-      this.form.patchValue({ mesa: this.mesaDoc }); 
+    if (this.mesaDoc != undefined) {
+      // this.mesa = this.mesa;
+      this.form.patchValue({ mesa: this.mesaDoc });
     }
 
     this.productosServ.TraerTodosLosProductos().subscribe(productos => {
@@ -61,24 +90,41 @@ export class AltaPedidoPage implements OnInit {
   }
 
   cancel() {
-    this.modalCtrl.dismiss();
+    // this.modalCtrl.dismiss();
   }
 
   done() {
+    console.info("this.puedeGuardar", this.puedeGuardar)
     if (!this.puedeGuardar) {
       return;
     }
+    
     console.info("productoPedido", this.itemsPedido)
-    console.info("mesa", this.form.get('mesa').value)
-    console.info("productoPedido", this.itemsPedido)
-    console.info("productoPedido", this.itemsPedido)
+    console.info("mesa", this.mesaDoc)
+    
+    // var user = JSON.parse(localStorage.getItem("usuario"));
+    console.info("cliente ls", this.idUser)
 
-    this.modalCtrl.dismiss({
+    let pedido = {
       productoPedido: this.itemsPedido,
-      mesa: this.form.get('mesa').value,
-      cliente: this.mesa.ocupante,
+      mesa: this.mesaDoc,
+      cliente: this.idUser,
       estado: diccionario.estados_pedidos.solicitado
-    });
+    }
+    console.info("pedido", pedido)
+
+    this.firebaseServ.crear('pedidos', pedido)
+        .then((pedido: DocumentReference) => {
+          this.router.navigate(['/home'])
+          this.toast.confirmationToast("Pedido registrado, puede hacer el seguimiento del mismo volviendo a escanear el código QR de su mesa");
+        });
+
+    // this.modalCtrl.dismiss({
+    //   productoPedido: this.itemsPedido,
+    //   mesa: this.form.get('mesa').value,
+    //   cliente: this.mesa.ocupante,
+    //   estado: diccionario.estados_pedidos.solicitado
+    // });
   }
 
   agregarItemAlPedido() {

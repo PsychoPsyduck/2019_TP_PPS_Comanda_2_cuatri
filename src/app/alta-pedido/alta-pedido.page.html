@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
     <ion-title>Pedir platos y bebidas</ion-title>
     <ion-buttons slot="secondary">
 
@@ -14,13 +17,13 @@
       Escanear QR
     </ion-button> -->
     <ion-list>
-      <ion-item *ngIf='mesaDoc == undefined'>
+      <!-- <ion-item *ngIf='mesaDoc == undefined'>
         <ion-label>Mesa</ion-label>
         <ion-select formControlName="mesa" placeholder="Seleccione" interface="popover">
           <ion-select-option *ngFor="let mesa of mesas" value="{{mesa.key}}">{{mesa.id}}
           </ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
       <ion-item>
         <ion-label>Producto</ion-label>
         <ion-select formControlName="producto" placeholder="Seleccione" interface="popover">

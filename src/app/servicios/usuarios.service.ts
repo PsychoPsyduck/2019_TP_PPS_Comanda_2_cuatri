@@ -108,6 +108,7 @@ export class UsuariosService {
         foto:usr.foto,
         estado:"pendiente"
       }
+      console.info("registro", registro)
     }
 
    return this.objFirebase.collection<any>("esperaMesa").doc(id).set(registro);
