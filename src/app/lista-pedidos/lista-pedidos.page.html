@@ -12,7 +12,7 @@
   <div *ngIf="!mostrarSpinner">
     <ion-list>
       <div *ngFor="let pedido of pedidos">
-        <ion-item no-padding *ngIf="pedido.estado != 'pagado'">
+        <ion-item no-padding *ngIf="pedido.estado != 'cerrado'">
           <ion-grid>
             <ion-row>
               <label>Codigo: {{pedido.key}}</label><br>
