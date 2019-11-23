@@ -21,7 +21,11 @@ listaUsuarios: Array<Usuario>;
   BorrarUsuario(usuario:Usuario)
   {
     this.usrService.BorrarUsuario(usuario).then((data)=>
-  {
+  { this.mail.EnviarMailRechazo(usuario.correo).then(()=>{
+    this.toast.confirmationToast("se ha enviadio el mail de rechazo.");
+  }).catch(()=>{
+    this.toast.confirmationToast("se ha enviadio el mail de rechazo.");
+  })
     this.toast.confirmationToast("El usuario ha sido borrado.");
   })
   .catch((data)=>{
@@ -31,12 +35,19 @@ listaUsuarios: Array<Usuario>;
 
   EnviarMail(usuario: Usuario)
   {
+
+    this.usrService.AguardaConfiracion(usuario).then(()=>{
+
+      
    this.mail.EnviarMail(usuario.correo,usuario.id).then(()=>{
     this.toast.confirmationToast("se ha enviadio el mail de confirmacion.");
    })
    .catch(()=>{
     this.toast.confirmationToast("Se ha enviadio el mail de confirmación.");
    })
+
+    })
+
   }
 
   ngOnInit() {

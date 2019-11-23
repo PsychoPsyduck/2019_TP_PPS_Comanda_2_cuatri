@@ -9,6 +9,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { storage } from 'firebase';
 import * as firebase from 'firebase';
 import { MailService } from '../servicios/mail.service';
+import { BarcodeScannerOptions, BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 
 @Component({
   selector: 'app-registro-cliente',
@@ -22,7 +23,7 @@ export class RegistroClientePage implements OnInit {
   urlStorageFoto:string;
 
   constructor(private builder: FormBuilder, 
-    private barcode: BarcodeService,
+    private barcodeScanner: BarcodeScanner,
     private usuarioService: UsuariosService,
     private toastCtrl: ToastController,
     private camera: Camera,
@@ -50,6 +51,10 @@ export class RegistroClientePage implements OnInit {
     Validators.required
   ]);
 
+  foto = new FormControl('', [
+    Validators.required
+  ]);
+
 
   registroForm: FormGroup = this.builder.group({
     nombre: this.nombre,
@@ -57,6 +62,7 @@ export class RegistroClientePage implements OnInit {
     dni: this.dni,
     email: this.email,
     clave: this.clave,
+    foto: this.foto
 
   });
   ngOnInit() {
@@ -106,7 +112,7 @@ export class RegistroClientePage implements OnInit {
     });
     toast.present();
   }
-
+/*
   LeerDni(){ 
     const options = { prompt: 'Escaneé su DNI', format: "PDF_417" };
     this.barcode.scan(options).then(barcodeData => {
@@ -120,6 +126,38 @@ export class RegistroClientePage implements OnInit {
   }).catch(err => {
     console.log('Error', err);
   })
+}*/
+
+LeerDni() {
+
+  const opciones: BarcodeScannerOptions = {
+    preferFrontCamera: false, // iOS and Android
+    showFlipCameraButton: true, // iOS and Android
+    showTorchButton: true, // iOS and Android
+    torchOn: true, // Android, launch with the torch switched on (if available)
+    //saveHistory: true, // Android, save scan history (default false)
+    prompt: "Scanee el DNI", // Android
+    resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+    formats: "PDF_417", // default: all but PDF_417 and RSS_EXPANDED
+    orientation: "landscape", // Android only (portrait|landscape), default unset so it rotates with the device
+    disableAnimations: true, // iOS
+    disableSuccessBeep: false // iOS and Android
+  }
+
+  this.barcodeScanner.scan(opciones).then(barcodeData => {
+    //console.log('Barcode data', barcodeData);
+
+    var split = barcodeData.text.split("@");
+    console.log(split);
+
+    this.registroForm.controls['nombre'].setValue(split[2]);
+    this.registroForm.controls['apellido'].setValue(split[1]);
+    this.registroForm.controls['dni'].setValue(parseInt(split[4]));
+
+  }).catch(err => {
+    console.log('Error', err);
+  });
+
 }
 
 async SacarFoto(){
@@ -133,7 +171,9 @@ async SacarFoto(){
   }
    
     await this.camera.getPicture(options).then((imageData)=>{
+
     this.fotoCliente='data:image/jpeg;base64,'+ imageData;
+    this.foto.setValue(this.fotoCliente);
     
     }, (error)=>{
       

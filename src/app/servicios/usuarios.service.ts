@@ -74,6 +74,12 @@ export class UsuariosService {
     return this.objFirebase.collection<any>("usuarios").doc(usr.id).update(usr);
   }
 
+  AguardaConfiracion(usr:Usuario)
+  {
+    usr.estado="confirmacion_pendiente";
+    return this.objFirebase.collection<any>("usuarios").doc(usr.id).update(usr);
+  }
+
   async TraerListaEsperaMesa() {
 
     this.usuariosFirebase = this.objFirebase.collection<RegistroEspera>("esperaMesa", ref => ref.orderBy('fecha', 'asc'));

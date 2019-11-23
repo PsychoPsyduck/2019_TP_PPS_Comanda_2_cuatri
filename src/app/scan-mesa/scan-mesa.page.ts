@@ -101,7 +101,7 @@ export class ScanMesaPage implements OnInit {
                 this.pedidosSub2 = this.pedidoServ.TraerPedidos().subscribe((data_pedidos_dos: Array<any>) => {
                   data_pedidos_dos.map((p) => {
                     if (p.cliente == JSON.parse(sessionStorage.getItem("usuario")).id &&
-                      p.estado != 'solicitado' && p.estado != 'pagado') {
+                      p.estado != 'solicitado' && p.estado != 'cerrado') {
                       this.Navegar('/pedido-del-cliente');
                     }
                   })

@@ -43,6 +43,30 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     });
 });
 
+exports.mailRechazo = functions.https.onRequest((req, res) => {
+    cors(req, res, () => {
+
+        // getting dest email by query string
+        const dest = req.query.dest;
+        //const idUsr = req.query.id;
+
+        const mailOptions = {
+            from: 'La comanda <duenolacomanda@gmail.com>', 
+            to: dest,
+            subject: 'Registro rechazado', 
+            html: " <p style='font-size: 16px;'>Te informamos que tu solicitud de registro fue rechazada.</p>"
+
+        };
+
+        // returning result
+        return transporter.sendMail(mailOptions, (erro: any, info: any) => {
+            if (erro) {
+                return res.send(erro.toString());
+            }
+            return res.send('Sended');
+        });
+    });
+});
 
 exports.validarMail = functions.https.onRequest((req, res) => {
 
