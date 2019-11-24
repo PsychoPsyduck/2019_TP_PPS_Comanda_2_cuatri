@@ -1,13 +1,52 @@
 ion-list{
-    background: none;
+    background-color: rgb(255, 255, 255);
+    -webkit-box-shadow: 0px 0px 21px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 21px -3px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 21px -3px rgba(0,0,0,0.75);
+    margin: 0 11px 0 11px;
+    border-radius: 10px;
 }
 
 ion-item{
     margin: 0em 0em 1em 0em;
-    color: white;
-    font-weight: bold;
-    --background: rgba(0, 0, 0, 0.5);
+    color: black;
     --padding: 0%;
     margin-bottom: 2px;
     border-radius: 5px;
+}
+
+ion-card{
+    background-color: white;
+    height: 380px;
+}
+
+.subtotal-item{
+    --ion-background-color:#4b8162;
+    color: white;
+}
+
+img{
+    height: 150px;
+}
+
+.btn-unidades{
+    font-weight: bold;
+    margin: auto;
+    width: 120px;
+    border: 1px red solid;
+    border-radius: 54px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    color: red;
+}
+
+.menos{
+
+}
+.unidad{
+    margin: 0 16px 0 20px;
+    width: 22px;
+}
+.mas{
+
 }

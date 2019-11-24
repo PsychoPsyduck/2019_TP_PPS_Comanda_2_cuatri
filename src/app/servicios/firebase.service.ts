@@ -41,7 +41,8 @@ export class FirebaseService {
   }
 
   public crear(path: string, objeto: any): Promise<DocumentReference> {
-    // console.log('Entro al crear');
+    console.log('Entro al crear');
+    console.log('objeto', objeto);
     return this.db.collection(path).add(objeto);
   }
 

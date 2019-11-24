@@ -155,6 +155,11 @@ export class AppComponent {
               title: 'Pedidos pendientes',
               url: '/lista-pedidos-productos',
               icon: 'list-box'
+            },
+            {
+              title: 'Alta de Platos y Bebidas',
+              url: '/alta-prod',
+              icon: 'add'
             }
           );
           break;

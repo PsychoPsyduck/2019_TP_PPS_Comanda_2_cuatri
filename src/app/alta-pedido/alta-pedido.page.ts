@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProductoPedido } from '../clases/producto-pedido';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonSlides } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { ProductosService } from '../servicios/productos.service';
 import { MesasService } from '../servicios/mesas.service';
@@ -21,6 +21,8 @@ import { ToastService } from '../servicios/toast.service';
 })
 export class AltaPedidoPage implements OnInit {
 
+  @ViewChild('slides', { static: true }) slides: IonSlides;
+
   public puedeGuardar = false;
   public form: FormGroup;
   public errorClaves;
@@ -31,6 +33,15 @@ export class AltaPedidoPage implements OnInit {
   mesa: any;
   idUser: any;
   user: any;
+
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400
+  };
+  todos: boolean = true;
+  comidas: boolean = false;
+  bebidas: boolean = false;
+  subtotal = 0;
 
   constructor(
     public toast: ToastService,
@@ -47,13 +58,8 @@ export class AltaPedidoPage implements OnInit {
 
   ngOnInit() {
 
-    var data = window.history.state.data;
-
     this.mesaDoc = this.route.snapshot.paramMap.get('mesa');
-    // this.user = JSON.parse(localStorage.getItem("usuario"));
-    // this.idUser = this.user.id;
 
-    
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.idUser = this.router.getCurrentNavigation().extras.state.user;
@@ -64,21 +70,20 @@ export class AltaPedidoPage implements OnInit {
     console.info("idUser", this.idUser)
     console.info("mesa", this.mesaDoc)
 
-
     this.itemsPedido = new Array<ProductoPedido>();
 
-    this.form = this.formBuilder.group({
-      cantidad: [
-        '',
-        Validators.compose([Validators.required, Validators.min(1)])
-      ],
-      mesa: ['', Validators.required],
-      producto: ['', Validators.required]
-    });
+    // this.form = this.formBuilder.group({
+    //   cantidad: [
+    //     '',
+    //     Validators.compose([Validators.required, Validators.min(1)])
+    //   ],
+    //   mesa: ['', Validators.required],
+    //   producto: ['', Validators.required]
+    // });
 
     if (this.mesaDoc != undefined) {
-      // this.mesa = this.mesa;
-      this.form.patchValue({ mesa: this.mesaDoc });
+      this.mesa = this.mesaDoc;
+      // this.form.patchValue({ mesa: this.mesaDoc });
     }
 
     this.productosServ.TraerTodosLosProductos().subscribe(productos => {
@@ -91,20 +96,19 @@ export class AltaPedidoPage implements OnInit {
 
   cancel() {
     // this.modalCtrl.dismiss();
+    this.comidas = false;
+    this.bebidas = false;
+    this.todos = true;
+    this.subtotal = 0;
+    this.puedeGuardar = false;
+    this.itemsPedido = new Array<ProductoPedido>();
     this.router.navigate(['/home'])
   }
 
   done() {
-    console.info("this.puedeGuardar", this.puedeGuardar)
     if (!this.puedeGuardar) {
       return;
     }
-    
-    console.info("productoPedido", this.itemsPedido)
-    console.info("mesa", this.mesaDoc)
-    
-    // var user = JSON.parse(localStorage.getItem("usuario"));
-    console.info("cliente ls", this.idUser)
 
     let pedido = {
       productoPedido: this.itemsPedido,
@@ -112,13 +116,14 @@ export class AltaPedidoPage implements OnInit {
       cliente: this.idUser,
       estado: diccionario.estados_pedidos.solicitado
     }
-    console.info("pedido", pedido)
+
+    console.log("pedido", pedido)
 
     this.firebaseServ.crear('pedidos', pedido)
-        .then((pedido: DocumentReference) => {
-          this.router.navigate(['/home'])
-          this.toast.confirmationToast("Pedido registrado, puede hacer el seguimiento del mismo volviendo a escanear el código QR de su mesa");
-        });
+      .then((pedido: DocumentReference) => {
+        this.router.navigate(['/home'])
+        this.toast.confirmationToast("Pedido registrado, puede hacer el seguimiento del mismo volviendo a escanear el código QR de su mesa");
+      });
 
     // this.modalCtrl.dismiss({
     //   productoPedido: this.itemsPedido,
@@ -128,9 +133,35 @@ export class AltaPedidoPage implements OnInit {
     // });
   }
 
-  agregarItemAlPedido() {
-    const idProducto = this.form.get('producto').value;
-    const cantidad = parseInt(this.form.get('cantidad').value, 10);
+  restarUnidad(id) {
+    var input = (<HTMLInputElement>document.getElementById("unidad_" + id));
+    var inputValue = (<HTMLInputElement>document.getElementById("unidad_" + id)).value;
+    const cantidad = parseInt(inputValue, 10);
+    if (cantidad > 1) {
+      const result = cantidad - 1;
+      input.setAttribute("value", result.toString())
+    }
+  }
+
+  sumarUnidad(id) {
+    var input = (<HTMLInputElement>document.getElementById("unidad_" + id));
+    var inputValue = (<HTMLInputElement>document.getElementById("unidad_" + id)).value;
+    const cantidad = parseInt(inputValue, 10);
+    if (cantidad < 10) {
+      const result = cantidad + 1;
+      input.setAttribute("value", result.toString())
+    }
+  }
+
+  agregarItemAlPedido(id) {
+    // const idProducto = this.form.get('producto').value;
+    // const cantidad = parseInt(this.form.get('cantidad').value, 10);
+    var inputValue = (<HTMLInputElement>document.getElementById("unidad_" + id)).value;
+    const idProducto = id;
+    const cantidad = parseInt(inputValue, 10);
+
+    console.info("idProducto", idProducto)
+    console.info("cantidad", cantidad)
 
     // Traigo el producto del array mediante la clave
     const productoSeleccionado = this.productos.filter(
@@ -147,7 +178,7 @@ export class AltaPedidoPage implements OnInit {
     });
 
     var dateNow = new Date();
-    // Si no existe lo agrego al pedido
+    // // Si no existe lo agrego al pedido
     if (!productoYaElegido) {
       const productoAAgregar = {
         cantidad,
@@ -164,20 +195,33 @@ export class AltaPedidoPage implements OnInit {
       }
       this.itemsPedido.push(productoAAgregar);
       console.info("se agrega producto ", productoAAgregar, "al los pedidos", this.itemsPedido);
-    }
 
-    this.form.patchValue({ producto: '', cantidad: '' });
+      
+    }
+    this.subtotal = 0;
+    this.itemsPedido.forEach(item => {
+      this.subtotal += (item.cantidad * item.precio);
+    })
+
+    // this.form.patchValue({ producto: '', cantidad: '' });
     this.puedeGuardar = true;
   }
 
   puedeGuardarPedido() {
-    return this.puedeGuardar && this.form.get('mesa').value != '';
+    return this.puedeGuardar && this.mesa != '';
   }
 
   sacarItem(idPruducto) {
     this.itemsPedido = this.itemsPedido.filter(
       item => item.idProducto !== idPruducto
     );
+    this.subtotal = 0;
+    this.itemsPedido.forEach(item => {
+      this.subtotal += (item.cantidad * item.precio);
+    })
+    if (this.itemsPedido.length<1) {
+      this.puedeGuardar = false;
+    }
   }
 
   puedeAgregarAlPedido() {
@@ -189,5 +233,70 @@ export class AltaPedidoPage implements OnInit {
 
   public escanearQr() {
 
+  }
+
+  cambiaSlide(event) {
+    this.slides.getActiveIndex().then(res => {
+      // console.info("indexxxx", res)
+      if (this.comidas) {
+
+      }
+    })
+  }
+
+  filtrarProds(tipo) {
+
+    this.slides.slideTo(0);
+
+    switch (tipo) {
+      case 0:
+        this.comidas = true;
+        this.bebidas = false;
+        this.todos = false;
+        var cardsComida = document.getElementsByClassName('cocina');
+        for (let index = 0; index < cardsComida.length; index++) {
+          cardsComida[index].setAttribute('style', 'display:block');
+        }
+        var cardsBarra = document.getElementsByClassName('barra');
+        for (let index = 0; index < cardsBarra.length; index++) {
+          cardsBarra[index].setAttribute('style', 'display:none');
+        }
+        break;
+      case 1:
+        this.comidas = false;
+        this.bebidas = true;
+        this.todos = false;
+        var cardsBarra = document.getElementsByClassName('barra');
+        for (let index = 0; index < cardsBarra.length; index++) {
+          cardsBarra[index].setAttribute('style', 'display:block');
+        }
+        var cardsComida = document.getElementsByClassName('cocina');
+        for (let index = 0; index < cardsComida.length; index++) {
+          cardsComida[index].setAttribute('style', 'display:none');
+        }
+        break;
+      case 2:
+        this.comidas = false;
+        this.bebidas = false;
+        this.todos = true;
+        var cardsBarra = document.getElementsByClassName('barra');
+        for (let index = 0; index < cardsBarra.length; index++) {
+          cardsBarra[index].setAttribute('style', 'display:block');
+        }
+        var cardsComida = document.getElementsByClassName('cocina');
+        for (let index = 0; index < cardsComida.length; index++) {
+          cardsComida[index].setAttribute('style', 'display:block');
+        }
+        break;
+    }
+
+
+    if (tipo == 0) {
+
+    } else {
+
+
+
+    }
   }
 }

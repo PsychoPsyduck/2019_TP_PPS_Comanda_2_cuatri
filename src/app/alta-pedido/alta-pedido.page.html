@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar color="primary">
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
     <ion-title>Pedir platos y bebidas</ion-title>
     <ion-buttons slot="secondary">
 
@@ -11,57 +11,86 @@
 </ion-header>
 
 <ion-content padding class="scroll-content">
-  <form *ngIf="form" [formGroup]="form">
-    <!-- <ion-button color="primary" (click)="escanearQr()" style="margin-bottom:30px;" expand='full'>
-      <ion-icon color="secondary" name="qr-scanner" style="margin-right:5px;"></ion-icon>
-      Escanear QR
-    </ion-button> -->
-    <ion-list>
-      <!-- <ion-item *ngIf='mesaDoc == undefined'>
-        <ion-label>Mesa</ion-label>
-        <ion-select formControlName="mesa" placeholder="Seleccione" interface="popover">
-          <ion-select-option *ngFor="let mesa of mesas" value="{{mesa.key}}">{{mesa.id}}
-          </ion-select-option>
-        </ion-select>
-      </ion-item> -->
-      <ion-item>
-        <ion-label>Producto</ion-label>
-        <ion-select formControlName="producto" placeholder="Seleccione" interface="popover">
-          <ion-select-option *ngFor="let producto of productos" value="{{producto.key}}">{{producto.descripcion}}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Cantidad</ion-label>
-        <ion-input formControlName="cantidad" type='number'></ion-input>
-      </ion-item>
-    </ion-list>
-    <ion-button color='success' expand='full' (click)='agregarItemAlPedido()' [disabled]="!puedeAgregarAlPedido()">
-      Agregar al pedido <ion-icon name="add"></ion-icon>
-    </ion-button>
-    <h3>Pedido:</h3>
-    <ion-list>
-      <ion-item class="noPadding" *ngFor="let item of itemsPedido">
-        <ion-label>{{item.nombre}} - Cantidad: {{item.cantidad}}</ion-label>
-        <ion-button fill="outline" slot="end" color='danger' (click)='sacarItem(item.idProducto)'>
-          <ion-icon name="trash"></ion-icon>
-        </ion-button>
-      </ion-item>
-    </ion-list>
 
-  </form>
+  <section>
+    <ion-button [color]="todos?'success':'light'" (click)="filtrarProds(2)">Todos</ion-button>
+    <ion-button [color]="comidas?'success':'light'" (click)="filtrarProds(0)">Comidas</ion-button>
+    <ion-button [color]="bebidas?'success':'light'" (click)="filtrarProds(1)">Bebidas</ion-button>
+  </section>
+
+  <ion-slides pager="false" [options]="slideOpts" #slides (ionSlideDidChange)="cambiaSlide($event)">
+
+    <ion-slide *ngFor="let producto of productos" [class]="producto.tipo">
+
+      <ion-card>
+
+        <ion-slides pager="true" [options]="slideOpts">
+          <ion-slide *ngFor="let foto of producto.fotos">
+            <img [src]="foto" />
+          </ion-slide>
+        </ion-slides>
+
+        <ion-card-header>
+          <ion-card-title>{{producto.nombre}}</ion-card-title>
+          <ion-card-subtitle>{{producto.descripcion}}</ion-card-subtitle>
+          <ion-card-subtitle><b>${{producto.precio}}</b> en {{producto.tiempo}} mins</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+
+          <section>
+            <header style="text-align: left;"><b>Unidades</b></header>
+            <div class="btn-unidades">
+              <span [id]="'menos_'+producto.id" class="menos" (click)="restarUnidad(producto.id)">-</span>
+              <input name="unidad" [id]="'unidad_'+producto.id" class="unidad" type="number" value="1">
+              <span [id]="'mas_'+producto.id" class="mas" (click)="sumarUnidad(producto.id)">+</span>
+            </div>
+          </section>
+
+          <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button>
+              <ion-icon (click)='agregarItemAlPedido(producto.id)' name="add"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+  </ion-slides>
+
+  <ion-list *ngIf="itemsPedido.length>0">
+    <ion-list-header>
+      <h2>Mi pedido</h2>
+    </ion-list-header>
+    <ion-item *ngFor="let item of itemsPedido">
+      <ion-label>
+        <h2>{{item.cantidad}}x <b>{{item.nombre}}</b></h2>
+        <h3>${{item.precio * item.cantidad}}</h3>
+      </ion-label>
+      <ion-button fill="outline" slot="end" color='danger' (click)='sacarItem(item.idProducto)'>
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
 </ion-content>
+
 <ion-footer>
+
   <ion-toolbar color="primary">
-    <div class="contains-confirm-buttons">
-      <ion-button color="danger" (click)="cancel()">
-        <span showWhen="ios">Cancelar</span>
-        <ion-icon name="md-close" showWhen="core,android,windows"></ion-icon>
-      </ion-button>
-      <ion-button class="confirm-button" color="success" (click)="done()" [disabled]="!puedeGuardarPedido()" strong>
-        <span showWhen="ios">Listo</span>
-        <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
-      </ion-button>
-    </div>
+    <ion-item class="subtotal-item" *ngIf="subtotal>0">
+      <ion-label>
+        <h2><b>Subtotal</b></h2>
+        <h3>${{subtotal}}</h3>
+      </ion-label>
+    </ion-item>
+    <ion-button slot="end" color='danger' (click)="cancel()">
+      <span showWhen="ios">Cancelar</span>
+      <ion-icon name="md-close" showWhen="core,android,windows"></ion-icon>
+    </ion-button>
+    <ion-button slot="end" color='success' [disabled]="!puedeGuardarPedido()" (click)="done()">
+      <span showWhen="ios">Pedir</span>
+      <ion-icon name="md-checkmark" showWhen="core,android,windows"></ion-icon>
+    </ion-button>
+
   </ion-toolbar>
 </ion-footer>
