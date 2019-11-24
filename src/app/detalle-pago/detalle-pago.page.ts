@@ -3,6 +3,7 @@ import { Producto } from '../clases/producto';
 import { NavParams, NavController } from '@ionic/angular';
 import { PedidoService } from '../servicios/pedido.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SpinnerService } from '../servicios/spinner.service';
 
 @Component({
   selector: 'app-detalle-pago',
@@ -21,13 +22,19 @@ pedido;
 total:number=0;
 propina=0;
 
-  constructor(public router: Router,private route: ActivatedRoute, private pedidoServ: PedidoService, private navCtrl: NavController ) {
+  constructor(private spinner:SpinnerService, public router: Router,private route: ActivatedRoute, private pedidoServ: PedidoService, private navCtrl: NavController ) {
 
   this.TraerPedido();
    }
 
    Pagar(key)
    {
+
+    this.spinner.showLoadingSpinner();
+
+    setTimeout(() => {
+      this.spinner.hideLoadingSpinner();
+    }, 2000);
    
     this.pedidoServ.ModificarPorCliente(this.pedido,'pagado',key).then(()=>{
       this.navCtrl.navigateRoot('/home');

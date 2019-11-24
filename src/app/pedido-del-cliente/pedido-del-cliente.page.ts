@@ -7,6 +7,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { DetallePagoPage } from '../detalle-pago/detalle-pago.page';
 import { CuentaComponent } from '../componentes/cuenta/cuenta.component';
 import { Subscription } from 'rxjs';
+import { SpinnerService } from '../servicios/spinner.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class PedidoDelClientePage implements OnInit {
 entrega=0;
 entregatxt;
 key;
-  constructor(private modalctrl: ModalController ,private pedidos: PedidoService, private toast: ToastService, private navCtrl: NavController) {
+  constructor(private spinner:SpinnerService, private modalctrl: ModalController ,private pedidos: PedidoService, private toast: ToastService, private navCtrl: NavController) {
 
     
    }
@@ -78,16 +79,30 @@ key;
 
   SolicitarCuenta()
   {
+    this.spinner.showLoadingSpinner();
+
     this.pedidos.ModificarPorCliente(this.pedido, this.estados.cuenta, this.key).then(()=>{
       
       this.pedidoSubs.unsubscribe();
+     
+    setTimeout(() => {
+
+      this.spinner.hideLoadingSpinner();
+    }, 2000);
 
       this.navCtrl.navigateRoot('detalle-pago');
     })
   }
 
   IrAEncuesta()
-  {
+  { 
+    this.spinner.showLoadingSpinner();
+
+    setTimeout(() => {
+
+      this.spinner.hideLoadingSpinner();
+    }, 2000);
+    
     this.navCtrl.navigateRoot('/encuesta-cliente');
   }
 

@@ -9,6 +9,7 @@ import { Usuario } from '../clases/Usuario';
 // import { FcmService } from '../servicios/fcm.service';
 import { Platform, Events } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { SpinnerService } from '../servicios/spinner.service';
 
 @Component({
   selector: 'app-ingreso-anonimo',
@@ -28,6 +29,7 @@ export class IngresoAnonimoPage implements OnInit {
     private usuarioService: UsuariosService,
     public events: Events,
     private platform: Platform,
+    private spinner:SpinnerService,
     // private fcm: FcmService
   ) { }
 
@@ -47,7 +49,7 @@ export class IngresoAnonimoPage implements OnInit {
   });
 
   async Registrar() {
-
+this.spinner.showLoadingSpinner()
     if (this.fotoCliente) {
       await this.GuardarFoto(this.registroForm.value.nombre)
     }
@@ -66,6 +68,9 @@ export class IngresoAnonimoPage implements OnInit {
 
 
     this.usuarioService.GuardarUsuario(usuario.toJson()).then(res => {
+      setTimeout(() => {
+        this.spinner.hideLoadingSpinner()
+      }, 3000);
       this.registroForm.reset();
       this.botonHabilitado = true;
       if (usuario !== undefined) {

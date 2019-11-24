@@ -10,6 +10,7 @@ import { storage } from 'firebase';
 import * as firebase from 'firebase';
 import { MailService } from '../servicios/mail.service';
 import { BarcodeScannerOptions, BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { SpinnerService } from '../servicios/spinner.service';
 
 @Component({
   selector: 'app-registro-cliente',
@@ -27,7 +28,8 @@ export class RegistroClientePage implements OnInit {
     private usuarioService: UsuariosService,
     private toastCtrl: ToastController,
     private camera: Camera,
-    private mailSrv: MailService
+    private mailSrv: MailService,
+    private spinner: SpinnerService,
   ) { }
 
   nombre = new FormControl('', [
@@ -70,6 +72,8 @@ export class RegistroClientePage implements OnInit {
 
  async Registrar(){
 
+  this.spinner.showLoadingSpinner();
+
     if(this.fotoCliente)
     {
       await this.GuardarFoto(this.registroForm.value.email)
@@ -93,11 +97,12 @@ export class RegistroClientePage implements OnInit {
       this.botonHabilitado = true;
       
       console.log(res);
-
+      this.spinner.hideLoadingSpinner();
       this.presentToast("Por favor, verifica tu correo para completar el registro.");
       
 
     }, err => {
+      this.spinner.hideLoadingSpinner();
       console.log(err)
       this.botonHabilitado = true;
     });

@@ -117,21 +117,15 @@ exports.enviarNotificacion = functions.https.onRequest((req, res) => {
 
 
 exports.createUser = functions.firestore
-    .document('usuarios/{id}')
+    .document('esperaMesa/{id}')
     .onCreate(async (snap, context) => {
-      // Get an object representing the document
-      // e.g. {'name': 'Marie', 'age': 66}
-      //const newValue = snap.data();
 
-      // access a particular field as you would any JS property
-      
-        //const name = newValue!.name;
         const payload = {
             notification: {
-                title: 'Prueba',
+                title: 'Lista de espera',
                 //body: `${data} is following your content!`,
-                body: `Damian is watching you!`,
-                icon: 'https://goo.gl/Fz9nrQ'
+                body: `Hay un nuevo cliente en al lista de espera`,
+                icon: 'gs://lacomanda-91df5.appspot.com/icon.png'
             }
           
           }
@@ -145,7 +139,11 @@ exports.createUser = functions.firestore
               snapshot.forEach((doc: any) => {
                   let usuario = doc.data();
                   if (usuario.token != null) {
-                      tokens.push(usuario.token);
+                      if(usuario.puesto=='mozo')
+                      {
+                        tokens.push(usuario.token);
+                      }
+                      
                   }
               });
       

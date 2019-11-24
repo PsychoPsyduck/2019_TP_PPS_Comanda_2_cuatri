@@ -5,6 +5,7 @@ import { ToastController, Events, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ToastService } from '../servicios/toast.service';
 import { PushNotificationService } from '../servicios/push-notification.service';
+import { SpinnerService } from '../servicios/spinner.service';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     public events: Events,
     private platform: Platform,
+    private spinner: SpinnerService,
     // private fcm: FcmService,
     private notifServ: PushNotificationService) {
     this.procesando = false;
@@ -56,6 +58,9 @@ export class LoginPage implements OnInit {
   }
 
   Ingresar() {
+
+    this.spinner.showLoadingSpinner();
+
     let toas = this.toastController.create(
       {
         message: "Usuario o contraseña inválidos.",
@@ -84,10 +89,17 @@ export class LoginPage implements OnInit {
         this.procesando = false;
         this.notifServ.actualizarTokenDispositivo();
         this.events.publish('usuarioLogueado', usr);
+        setTimeout(() => {
+          this.spinner.hideLoadingSpinner();
+        }, 2000);
         this.router.navigate(['/home']);
       }
     })
     if (!ok) {
+      setTimeout(() => {
+        this.spinner.hideLoadingSpinner();
+      }, 2000);
+      
       this.presentToast();
     }
   }
