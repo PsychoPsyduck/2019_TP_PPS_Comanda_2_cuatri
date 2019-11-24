@@ -86,6 +86,11 @@ key;
     })
   }
 
+  IrAEncuesta()
+  {
+    this.navCtrl.navigateRoot('/encuesta-cliente');
+  }
+
 
   ngOnInit() {
     this.TraerPedido();

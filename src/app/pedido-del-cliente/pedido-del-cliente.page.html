@@ -26,7 +26,7 @@
     <ion-button (click)="SolicitarCuenta()" expand="block" size="large" *ngIf="pedido.estado == 'confirmado'" >Solicitar cuenta</ion-button>
     <!--<ion-button expand="block" size="large" *ngIf="pedido.estado == 'pagado'" >Pagar</ion-button>-->
  </div>
- <ion-button expand="block"  [disabled]="!encuesta" >Encuesta</ion-button>
+ <ion-button expand="block" size="large" (click)="IrAEncuesta()" >Encuesta</ion-button>
 
 
 

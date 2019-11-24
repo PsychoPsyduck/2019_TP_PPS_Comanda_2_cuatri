@@ -1,9 +1,73 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>encuestaCliente</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Encuesta de cliente</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding="true">
+
+  <form [formGroup]="registroForm" (ngSubmit)="GuardarEncuesta()">
+
+      <ion-item color="dark">
+          <ion-label>¿Es la primera vez que venís?</ion-label>
+          <ion-checkbox [formControl]="primeraVez"   name="primeraVez" slot="end" color="primary"></ion-checkbox>
+        </ion-item>
+
+
+      <ion-title color="light" style="text-align: center">¿Qué te pareció el servicio?</ion-title>
+    <ion-radio-group [formControl]="servicio"     name="servicio"  >
+      <ion-item color="dark">
+         
+              <ion-label >Malo</ion-label>
+              <ion-radio slot="end" color="danger" value="malo" ></ion-radio>
+      </ion-item>
+      
+      <ion-item color="dark">
+      
+              <ion-label>Regular</ion-label>
+              <ion-radio slot="end" color="success" value="bueno" checked ></ion-radio>
+       
+      </ion-item>
+      <ion-item color="dark">
+       
+              <ion-label>Bueno</ion-label>
+              <ion-radio slot="end" color="tertiary" value="muy bueno"></ion-radio>
+      
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-title color="light" style="text-align: center">¿Cómo calificas la comida?</ion-title>
+    <ion-item color="dark">
+      <ion-range [formControl]="comida"     name="comida"  min="0" max="10" step="1" name="comida"  snaps="true" color="light" pin="true" >
+          <ion-label style="font-size: x-large" slot="start">0</ion-label>
+          <ion-label style="font-size: x-large" slot="end">10</ion-label>
+      </ion-range>
+</ion-item>
+
+
+<ion-item color="dark">
+    <ion-label>¿Estado de la mesa?</ion-label>
+    <ion-select name="mesa" [formControl]="mesa" required   placeholder="Selecciona uno" >
+      <ion-select-option value="bueno">Buneo</ion-select-option>
+      <ion-select-option value="malo">Malo</ion-select-option>
+    </ion-select>
+  </ion-item>
+                  <ion-title color="light">Dejá tus comentarios:</ion-title>
+  <ion-item color="dark">
+      <ion-textarea name="comentario" [formControl]="comentario" required maxlength="30" background="dark" placeholder="Max. 30 caracteres..."></ion-textarea>
+    </ion-item>
+
+ <ion-button type="submit" expand="block" size="large" [disabled]="!registroForm.valid">Enviar</ion-button>
+  </form>
+
+
 
 </ion-content>
+
+<ion-footer>
+    <ion-fab vertical="bottom" horizontal="end">
+      <ion-fab-button style="--background: rgb(75, 129, 98); " (click)="TomarFoto()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-footer>
