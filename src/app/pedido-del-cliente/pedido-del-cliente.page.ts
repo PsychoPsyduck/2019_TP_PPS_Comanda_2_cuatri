@@ -6,6 +6,8 @@ import { ToastService } from '../servicios/toast.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { DetallePagoPage } from '../detalle-pago/detalle-pago.page';
 import { CuentaComponent } from '../componentes/cuenta/cuenta.component';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-pedido-del-cliente',
@@ -15,6 +17,8 @@ import { CuentaComponent } from '../componentes/cuenta/cuenta.component';
 export class PedidoDelClientePage implements OnInit {
 
  pedido:Pedido;
+ pedidoSubs: Subscription;
+ total;
  estados = diccionario.estados_pedidos;
  encuensta:boolean;
 entrega=0;
@@ -27,12 +31,12 @@ key;
 
   TraerPedido()
   {
-    this.pedidos.TraerPedidoPorCliente(JSON.parse(sessionStorage.getItem("usuario")).id).subscribe((data)=>{
+   this.pedidoSubs= this.pedidos.TraerPedidoPorCliente(JSON.parse(sessionStorage.getItem("usuario")).id).subscribe((data)=>{
       this.pedido=data[0].payload.doc.data();
       this.key=data[0].payload.doc.id;
-      
+      this.total=0;
       this.pedido.productoPedido.forEach((p)=>{
-        
+        this.total= this.total + p.precio;
         console.log(p.entrega)
 
         let fecha =p.entrega.split(" "); 
@@ -76,7 +80,7 @@ key;
   {
     this.pedidos.ModificarPorCliente(this.pedido, this.estados.cuenta, this.key).then(()=>{
       
-
+      this.pedidoSubs.unsubscribe();
 
       this.navCtrl.navigateRoot('detalle-pago');
     })
@@ -85,6 +89,11 @@ key;
 
   ngOnInit() {
     this.TraerPedido();
+  }
+
+  ionViewWillUnload()
+  {
+    this.pedidoSubs.unsubscribe();
   }
 
   

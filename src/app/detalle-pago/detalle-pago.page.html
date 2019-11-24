@@ -6,17 +6,32 @@
 
 <ion-content padding="true">
 
+  
   <ion-card *ngIf="pedido" color="dark">
-      <ion-card-header style="color: white; text-align: center"> Su pedido </ion-card-header>
+      <ion-card-header style="text-align: center;"> Su pedido </ion-card-header>
       <ion-card-content color="dark">
-        <ion-list color="dark">
+        <ion-list style="background-color: rgba(0, 0, 0, 0)">
+          <ion-list-header justify-content-center style="background-color: rgba(24, 23, 23, 0); color: white;"><ion-col size=6> Producto</ion-col> <ion-col size="3" offset="3"><ion-icon size="large" name="cash"></ion-icon></ion-col> </ion-list-header>
           <ion-item *ngFor="let p of pedido.productoPedido" color="dark">
-           <ion-row> Producto: {{p.nombre}} {{p.precio}} </ion-row> 
+            <ion-col size=6> {{p.nombre}} </ion-col>      <ion-col size="6" style="text-align: end">$ {{p.precio}} </ion-col> 
           </ion-item>
         </ion-list>
-        <h1 style="text-align: center; color: white">Total: {{total}} </h1>
+        <h1 style="text-align: center; color: white; font-size: xx-large">Total: $ {{total + propina}} </h1>
       </ion-card-content>
-  </ion-card>
+      <br>
+      
+          <div  style="color: white; font-size: x-large; text-align: center">
+              Propina:
+          </div>
+      
+            <ion-range min="0" max="200" step="10" name="propina"  snaps="true" color="light" pin="true" [(ngModel)]="propina" >
+                <ion-label slot="start">0</ion-label>
+                <ion-label slot="end">200</ion-label>
+            </ion-range>
+   
 
+  
+  </ion-card>
+<br><br>
   <ion-button expand="block" size="large" (click)="Pagar(key)" >Pagar</ion-button>
 </ion-content>

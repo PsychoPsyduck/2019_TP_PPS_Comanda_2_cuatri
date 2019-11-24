@@ -13,11 +13,12 @@
           <ion-card-subtitle style="color: white; text-align: center">Productos</ion-card-subtitle>
         <ion-list style="background-color: rgba(0, 0, 0, 0)">
           <ion-item padding="true" lines="none" *ngFor="let p of pedido.productoPedido" color="dark" style="text-align: center;">
-            {{p.nombre}}
+            {{p.nombre}}  $ {{p.precio}}
 
           </ion-item>
         </ion-list>
                     <h3 style="text-align: center; color: white;"> Hora de entrega: {{entregatxt}} </h3> 
+                    <ion-row style="color: white; font-size: x-large" justify-content-center > Toatal: $ {{total}} </ion-row>
       </ion-card-content>
     </ion-card>
  <div *ngIf="pedido">
