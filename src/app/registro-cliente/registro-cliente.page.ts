@@ -154,10 +154,17 @@ LeerDni() {
 
     var split = barcodeData.text.split("@");
     console.log(split);
-
-    this.registroForm.controls['nombre'].setValue(split[2]);
-    this.registroForm.controls['apellido'].setValue(split[1]);
-    this.registroForm.controls['dni'].setValue(parseInt(split[4]));
+    if(split.length > 9)
+    {
+      this.registroForm.controls['nombre'].setValue(split[5]);
+      this.registroForm.controls['apellido'].setValue(split[4]);
+      this.registroForm.controls['dni'].setValue(parseInt(split[1]));
+    }
+    else{
+      this.registroForm.controls['nombre'].setValue(split[2]);
+      this.registroForm.controls['apellido'].setValue(split[1]);
+      this.registroForm.controls['dni'].setValue(parseInt(split[4]));
+    }
 
   }).catch(err => {
     console.log('Error', err);

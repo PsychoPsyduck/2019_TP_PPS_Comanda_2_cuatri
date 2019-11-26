@@ -68,9 +68,7 @@ this.spinner.showLoadingSpinner()
 
 
     this.usuarioService.GuardarUsuario(usuario.toJson()).then(res => {
-      setTimeout(() => {
-        this.spinner.hideLoadingSpinner()
-      }, 3000);
+ 
       this.registroForm.reset();
       this.botonHabilitado = true;
       if (usuario !== undefined) {
@@ -86,7 +84,11 @@ this.spinner.showLoadingSpinner()
       }
       console.log("estas logueado: ", usuario);
       this.events.publish('usuarioLogueado', usuario);
-      this.router.navigate(['/home']);
+      setTimeout(() => {
+        this.spinner.hideLoadingSpinner()
+        this.router.navigate(['/home']);
+      }, 3000);
+      
 
     }, err => {
       console.log(err)

@@ -53,17 +53,7 @@ key;
        
       })
 
-      if(this.pedido.estado != this.estados.solicitado)
-      {
-        this.encuensta=true;
-      }
-      else{
-        this.encuensta=false;
-      }
-      this.modalctrl.create({
-        component: CuentaComponent,
-        componentProps: {pedido: this.pedido}
-      });
+
     })
   }
 
@@ -86,35 +76,40 @@ key;
       this.pedidoSubs.unsubscribe();
      
     setTimeout(() => {
-
       this.spinner.hideLoadingSpinner();
+      this.navCtrl.navigateRoot('detalle-pago');
+      
     }, 2000);
 
-      this.navCtrl.navigateRoot('detalle-pago');
+      
     })
   }
 
   IrAEncuesta()
-  { 
+  { /*
     this.spinner.showLoadingSpinner();
 
     setTimeout(() => {
-
       this.spinner.hideLoadingSpinner();
+
+      
+      
+     
     }, 2000);
+*/
+this.navCtrl.navigateRoot('/encuesta-cliente');
     
-    this.navCtrl.navigateRoot('/encuesta-cliente');
   }
 
 
   ngOnInit() {
     this.TraerPedido();
   }
-
+/*
   ionViewWillUnload()
   {
     this.pedidoSubs.unsubscribe();
-  }
+  }*/
 
   
 

@@ -91,8 +91,9 @@ export class LoginPage implements OnInit {
         this.events.publish('usuarioLogueado', usr);
         setTimeout(() => {
           this.spinner.hideLoadingSpinner();
-        }, 2000);
-        this.router.navigate(['/home']);
+          this.router.navigate(['/home']);
+        }, 3000);
+        
       }
     })
     if (!ok) {

@@ -11,7 +11,7 @@
       <ion-card-header style="text-align: center;"> Su pedido </ion-card-header>
       <ion-card-content color="dark">
         <ion-list style="background-color: rgba(0, 0, 0, 0)">
-          <ion-list-header justify-content-center style="background-color: rgba(24, 23, 23, 0); color: white;"><ion-col size=6> Producto</ion-col> <ion-col size="3" offset="3"><ion-icon size="large" name="cash"></ion-icon></ion-col> </ion-list-header>
+          <ion-list-header justify-content-center style="background-color: rgba(24, 23, 23, 0); color: white;"><ion-col size=6 style="font-size: x-large"> Producto</ion-col> <ion-col size="3" offset="3"><ion-icon size="large" name="cash"></ion-icon></ion-col> </ion-list-header>
           <ion-item *ngFor="let p of pedido.productoPedido" color="dark">
             <ion-col size=6> {{p.nombre}} </ion-col>      <ion-col size="6" style="text-align: end">$ {{p.precio}} </ion-col> 
           </ion-item>
@@ -25,8 +25,8 @@
           </div>
       
             <ion-range min="0" max="200" step="10" name="propina"  snaps="true" color="light" pin="true" [(ngModel)]="propina" >
-                <ion-label slot="start">0</ion-label>
-                <ion-label slot="end">200</ion-label>
+                <ion-label slot="start" style="font-size: large">0</ion-label>
+                <ion-label slot="end" style="font-size: large">200</ion-label>
             </ion-range>
    
 

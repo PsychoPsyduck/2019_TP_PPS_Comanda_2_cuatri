@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import { Encuesta } from '../clases/Encuesta';
 import { EncuestaService } from '../servicios/encuesta.service';
 import { SpinnerService } from '../servicios/spinner.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-encuesta-cliente',
@@ -26,6 +27,7 @@ export class EncuestaClientePage implements OnInit {
     private encuestaSer: EncuestaService,
     private toast: ToastService,
     private camera: Camera,
+    private navCtrl: NavController
   ) { 
     this.array_fotos= new Array<string>();
   }
@@ -102,6 +104,11 @@ this.registroForm.reset();
 
 
     
+  }
+
+  Volver()
+  {
+    this.navCtrl.navigateRoot('/pedido-del-cliente');
   }
 
   

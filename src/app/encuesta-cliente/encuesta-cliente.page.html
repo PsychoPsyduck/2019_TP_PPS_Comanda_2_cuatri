@@ -1,5 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
+ <ion-icon (click)="Volver()" size="large" slot="start"  name="arrow-round-back"></ion-icon>
+      
     <ion-title>Encuesta de cliente</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -59,7 +61,6 @@
 
  <ion-button type="submit" expand="block" size="large" [disabled]="!registroForm.valid">Enviar</ion-button>
   </form>
-
 
 
 </ion-content>

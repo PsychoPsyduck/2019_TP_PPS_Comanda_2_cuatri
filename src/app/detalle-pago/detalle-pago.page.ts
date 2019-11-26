@@ -32,12 +32,12 @@ propina=0;
 
     this.spinner.showLoadingSpinner();
 
-    setTimeout(() => {
-      this.spinner.hideLoadingSpinner();
-    }, 2000);
-   
     this.pedidoServ.ModificarPorCliente(this.pedido,'pagado',key).then(()=>{
-      this.navCtrl.navigateRoot('/home');
+      setTimeout(() => {
+        this.navCtrl.navigateRoot('/home');
+        this.spinner.hideLoadingSpinner();
+      }, 2000);
+     
     })
    }
 

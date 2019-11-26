@@ -6,9 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { PedidoDelClientePage } from './pedido-del-cliente.page';
-import { DetallePagoPageModule } from '../detalle-pago/detalle-pago.module';
-import { DetallePagoPage } from '../detalle-pago/detalle-pago.page';
-import { CuentaComponent } from '../componentes/cuenta/cuenta.component';
+
+
 
 const routes: Routes = [
   {
