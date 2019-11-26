@@ -141,4 +141,8 @@ export class MesasService {
      this.mesasObservable= this.db.collection('mesas').valueChanges();
      return this.mesasObservable;
   }
+
+  TraerMesa(mesaDoc){
+     return this.firebase.traerUno('mesas', 'key', mesaDoc)
+  }
 }

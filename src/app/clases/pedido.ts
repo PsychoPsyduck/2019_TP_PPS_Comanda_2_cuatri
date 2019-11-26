@@ -4,6 +4,7 @@ import { Mesa } from './mesa';
 export class Pedido {
          public key: string;
          public mesa: Mesa;
+         public numeroMesa: number;
          public estado: string;
          public estadoCocinero: string;
          public estadoBartender: string;

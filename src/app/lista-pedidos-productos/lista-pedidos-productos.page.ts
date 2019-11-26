@@ -5,6 +5,7 @@ import { TomarPedidoService } from "../servicios/tomar-pedido.service";
 import { diccionario } from "../clases/diccionario";
 import { Pedido } from "../clases/pedido";
 import { UsuariosService } from '../servicios/usuarios.service';
+import { MesasService } from '../servicios/mesas.service';
 
 @Component({
   selector: "app-lista-pedidos-productos",
@@ -19,8 +20,9 @@ export class ListaPedidosProductosPage implements OnInit {
   constructor(
     public userServ: UsuariosService,
     public modalCtrl: ModalController,
-    public tomarPedidoServ: TomarPedidoService
-  ) {}
+    public tomarPedidoServ: TomarPedidoService,
+    private mesasServ: MesasService
+  ) { }
 
   ngOnInit() {
     this.usuario = this.userServ.getUsuarioStorage();
@@ -65,7 +67,7 @@ export class ListaPedidosProductosPage implements OnInit {
   }
 
   tieneProductosDeTipo(pedido: Pedido, tipo) {
-    return pedido.productoPedido.some(function(producto) {
+    return pedido.productoPedido.some(function (producto) {
       return producto.tipo == tipo;
     });
   }
@@ -77,7 +79,7 @@ export class ListaPedidosProductosPage implements OnInit {
           ref.where("estado", "==", diccionario.estados_pedidos.aceptado)
         )
         .subscribe(pedidos => {
-          this.pedidos = pedidos;
+          this.procesarPedidos(pedidos)
         });
     } else {
       this.tomarPedidoServ
@@ -99,14 +101,35 @@ export class ListaPedidosProductosPage implements OnInit {
             )
         )
         .subscribe(pedidos => {
-          this.pedidos = pedidos;
+          this.procesarPedidos(pedidos)
         });
+    }
+  }
+
+  procesarPedidos(pedidos) {
+    var usuario = this.usuario;
+
+    if (pedidos != null && pedidos.length != 0) {
+      pedidos.map(pedido => {
+        debugger
+        pedido.productoPedido = pedido.productoPedido.filter(function (producto) {
+          if (usuario.puesto == 'cocinero')
+            return producto.tipo == 'cocina';
+          else if (usuario.puesto == 'bartender')
+            return producto.tipo == 'barra';
+        })
+        debugger
+        this.mesasServ.TraerMesa(pedido.mesa).then(mesa => {
+          pedido.numeroMesa = mesa.numero;
+        })
+      })
+      this.pedidos = pedidos;
     }
   }
 
   correspondeAlPerfil(pedidoInfo: Pedido, perfil) {
     let estadoEsperado = this.filtro == "pendientes" ? null : "en preparación";
-    return pedidoInfo.productoPedido.some(function(producto) {
+    return pedidoInfo.productoPedido.some(function (producto) {
       return (
         (producto.tipo == "cocina" &&
           perfil == "cocinero" &&
@@ -139,5 +162,10 @@ export class ListaPedidosProductosPage implements OnInit {
       return pedido.estadoCocinero == estadoEsperado;
     else if (this.usuario.puesto == "bartender")
       return pedido.estadoBartender == estadoEsperado;
+  }
+
+  cambiaTipoPedido(event) {
+    this.filtro = event.detail.value;
+    this.mostrarPedidos();
   }
 }

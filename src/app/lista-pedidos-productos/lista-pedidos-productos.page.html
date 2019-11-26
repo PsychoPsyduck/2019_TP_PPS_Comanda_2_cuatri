@@ -8,34 +8,45 @@
 </ion-header>
 
 <ion-content padding>
+
   <div *ngIf="mostrarSpinner">Aquí va el spinner!</div>
   <div *ngIf="!mostrarSpinner">
     <ion-item>
-      <ion-label>Ver pedidos</ion-label>
-      <ion-select interface="popover" [(ngModel)]='filtro' (ionChange)='mostrarPedidos()'>
-        <ion-select-option value="pendientes">Pendientes</ion-select-option>
-        <ion-select-option value="tomados">Tomados</ion-select-option>
-      </ion-select>
+      <ion-segment (ionChange)="cambiaTipoPedido($event)" value="pendientes">
+        <ion-segment-button value="pendientes">
+          <ion-label>Pedidos Pendientes</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="tomados">
+          <ion-label>Pedidos Tomados</ion-label>
+        </ion-segment-button>
+      </ion-segment>
     </ion-item>
+
     <ion-list>
-      <ion-item no-padding *ngFor="let pedido of pedidos">
-        <div *ngIf='correspondeAlPerfil(pedido, usuario.puesto)'>
-          <label>Codigo: {{pedido.key}}</label><br>
-          <ul>
-            <div *ngFor='let item of pedido.productoPedido'>
-              <li
-                *ngIf="item.tipo == 'platos' && usuario.puesto == 'cocinero' || item.tipo == 'bebidas' && usuario.puesto == 'bartender'">
-                {{item.nombre}}
-              </li>
-            </div>
-          </ul>
-          <ion-button *ngIf="filtro == 'pendientes'" color="warning" (click)="TomarPedido(pedido)">Tomar pedido
-          </ion-button>
-          <ion-button *ngIf="filtro == 'tomados'" color="warning" (click)="EntregarPedido(pedido)">
-            Entregar pedido
-          </ion-button>
-        </div>
-      </ion-item>
+      <div  style="border-bottom: 1px solid black" *ngFor="let pedido of pedidos">
+        <ion-item no-padding *ngIf='correspondeAlPerfil(pedido, usuario.puesto)'>
+          <ion-grid>
+            <ion-row>
+              <label>Mesa: <strong>{{pedido.numeroMesa}}</strong></label><br>
+            </ion-row>
+            <ion-row>
+              <ion-list>
+                <ion-item *ngFor='let item of pedido.productoPedido'>
+                  <ion-label>{{item.nombre}}</ion-label>
+                  <strong slot="end">Cant: {{item.cantidad}}</strong>
+                </ion-item>
+              </ion-list>
+            </ion-row>
+            <ion-button expand="full" *ngIf="filtro == 'pendientes'" color="warning" (click)="TomarPedido(pedido)">Tomar
+              pedido
+            </ion-button>
+            <ion-button expand="full" *ngIf="filtro == 'tomados'" color="warning" (click)="EntregarPedido(pedido)">
+              Entregar pedido
+            </ion-button>
+          </ion-grid>
+        </ion-item>
+      </div>
+
     </ion-list>
   </div>
 </ion-content>

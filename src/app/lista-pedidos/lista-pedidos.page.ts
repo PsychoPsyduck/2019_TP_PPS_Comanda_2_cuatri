@@ -19,7 +19,14 @@ export class ListaPedidosPage implements OnInit {
 
   ngOnInit() {
     this.tomarPedidoServ.TraerPedidos().subscribe(pedidos => {
-      this.pedidos = pedidos;
+      if(pedidos != null && pedidos.length != 0){
+        pedidos.map(pedido => {
+          this.mesasServ.TraerMesa(pedido.mesa).then(mesa => {
+            pedido.numeroMesa = mesa.numero;
+          })
+        })
+        this.pedidos = pedidos;
+      }
     });
   }
 
