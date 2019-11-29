@@ -53,6 +53,20 @@ export class FirebaseService {
       .update(valor);
   }
 
+  public setear(path: string, doc: string, valor: any) {
+    return this.db
+      .collection(path)
+      .doc(doc)
+      .set(valor);
+  }
+
+  public TraerUnoPath(path: string, doc: string){
+    return this.db
+      .collection(path)
+      .doc(doc)
+      .get();
+  }
+
   borrar(path: string, doc: string): void {
     this.db
       .collection(path)

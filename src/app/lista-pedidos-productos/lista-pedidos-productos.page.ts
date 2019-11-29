@@ -38,35 +38,73 @@ export class ListaPedidosProductosPage implements OnInit {
     const pedido = await modal.onDidDismiss();
 
     if (pedido.data !== undefined) {
+      var d = new Date();
+      d.setMinutes(d.getMinutes() + pedido.data.tiempoDeEspera);
+      var tiempoDeEspera = d.getHours() + ":" + d.getMinutes();
+
       if (this.usuario.puesto == "cocinero") {
         this.tomarPedidoServ
-          .TomarPedidoCocinero(pedidoInfo.key, pedido.data.tiempoDeEspera)
+          .TomarPedidoCocinero(pedidoInfo.key, tiempoDeEspera)
           .then(() => {
             console.log("Regreso del TomarPedido");
+
+            this.tomarPedidoServ.TraerPedido(pedidoInfo.key).subscribe(pedido => {
+              var data = pedido.data();
+              var horaDeEntrega = "";
+
+              if (data.tiempoDeEsperaBartender == undefined) {
+                horaDeEntrega = data.tiempoDeEsperaCocinero;
+              }
+              else {
+                horaDeEntrega = data.tiempoDeEsperaCocinero > data.tiempoDeEsperaBartender ? data.tiempoDeEsperaCocinero : data.tiempoDeEsperaBartender;
+              }
+
+              data.horaDeEntrega = horaDeEntrega;
+              this.tomarPedidoServ.SetearPedido(pedidoInfo.key, data);
+            });
           });
       } else if (this.usuario.puesto == "bartender") {
         this.tomarPedidoServ
-          .TomarPedidoBartender(pedidoInfo.key, pedido.data.tiempoDeEspera)
+          .TomarPedidoBartender(pedidoInfo.key, tiempoDeEspera)
           .then(() => {
             console.log("Regreso del TomarPedido");
+
+            this.tomarPedidoServ.TraerPedido(pedidoInfo.key).subscribe(pedido => {
+              var data = pedido.data();
+              var horaDeEntrega = "";
+
+              if (data.tiempoDeEsperaCocinero == undefined) {
+                horaDeEntrega = data.tiempoDeEsperaBartender;
+              }
+              else {
+                horaDeEntrega = data.tiempoDeEsperaCocinero > data.tiempoDeEsperaBartender ? data.tiempoDeEsperaCocinero : data.tiempoDeEsperaBartender;
+              }
+
+              data.horaDeEntrega = horaDeEntrega;
+              this.tomarPedidoServ.SetearPedido(pedidoInfo.key, data);
+            });
           });
       }
     }
   }
 
-  verificarPedidoListo(pedido: Pedido) {
-    if (
-      (pedido.estadoBartender == diccionario.estados_pedidos.listo &&
-        pedido.estadoCocinero == diccionario.estados_pedidos.listo) ||
-      (pedido.estadoBartender == diccionario.estados_pedidos.listo &&
-        !this.tieneProductosDeTipo(pedido, "platos")) ||
-      (pedido.estadoCocinero == diccionario.estados_pedidos.listo &&
-        !this.tieneProductosDeTipo(pedido, "bebidas"))
-    )
-      this.tomarPedidoServ.PedidoListo(pedido.key);
+  verificarPedidoListo(pedidoparam: Pedido) {
+    this.tomarPedidoServ.TraerPedido(pedidoparam.key).subscribe(data => {
+      var pedido = data.data();
+      if (
+        (pedido.estadoBartender == diccionario.estados_pedidos.listo &&
+          pedido.estadoCocinero == diccionario.estados_pedidos.listo) ||
+        (pedido.estadoBartender == diccionario.estados_pedidos.listo &&
+          !this.tieneProductosDeTipo(pedido, "cocina")) ||
+        (pedido.estadoCocinero == diccionario.estados_pedidos.listo &&
+          !this.tieneProductosDeTipo(pedido, "barra"))
+      ) {
+        this.tomarPedidoServ.PedidoListo(pedidoparam.key);
+      }
+    })
   }
 
-  tieneProductosDeTipo(pedido: Pedido, tipo) {
+  tieneProductosDeTipo(pedido, tipo) {
     return pedido.productoPedido.some(function (producto) {
       return producto.tipo == tipo;
     });
@@ -75,9 +113,7 @@ export class ListaPedidosProductosPage implements OnInit {
   mostrarPedidos() {
     if (this.filtro == "pendientes") {
       this.tomarPedidoServ
-        .TraerPedidos(ref =>
-          ref.where("estado", "==", diccionario.estados_pedidos.aceptado)
-        )
+        .TraerPedidos()
         .subscribe(pedidos => {
           this.procesarPedidos(pedidos)
         });
@@ -109,21 +145,26 @@ export class ListaPedidosProductosPage implements OnInit {
   procesarPedidos(pedidos) {
     var usuario = this.usuario;
 
-    if (pedidos != null && pedidos.length != 0) {
+    if (pedidos.length == 0)
+      this.pedidos = pedidos;
+    else {
       pedidos.map(pedido => {
-        debugger
+        if (this.filtro == "pendientes")
+          return pedido.estado == diccionario.estados_pedidos.aceptado || pedido.estado == diccionario.estados_pedidos.en_preparacion
+      })
+      pedidos.map(pedido => {
         pedido.productoPedido = pedido.productoPedido.filter(function (producto) {
           if (usuario.puesto == 'cocinero')
             return producto.tipo == 'cocina';
           else if (usuario.puesto == 'bartender')
             return producto.tipo == 'barra';
         })
-        debugger
+
         this.mesasServ.TraerMesa(pedido.mesa).then(mesa => {
           pedido.numeroMesa = mesa.numero;
+          this.pedidos = pedidos;
         })
       })
-      this.pedidos = pedidos;
     }
   }
 

@@ -23,27 +23,16 @@
     </ion-item>
 
     <ion-list>
-      <div  style="border-bottom: 1px solid black" *ngFor="let pedido of pedidos">
-        <ion-item no-padding *ngIf='correspondeAlPerfil(pedido, usuario.puesto)'>
-          <ion-grid>
-            <ion-row>
-              <label>Mesa: <strong>{{pedido.numeroMesa}}</strong></label><br>
-            </ion-row>
-            <ion-row>
-              <ion-list>
-                <ion-item *ngFor='let item of pedido.productoPedido'>
-                  <ion-label>{{item.nombre}}</ion-label>
-                  <strong slot="end">Cant: {{item.cantidad}}</strong>
-                </ion-item>
-              </ion-list>
-            </ion-row>
-            <ion-button expand="full" *ngIf="filtro == 'pendientes'" color="warning" (click)="TomarPedido(pedido)">Tomar
-              pedido
-            </ion-button>
-            <ion-button expand="full" *ngIf="filtro == 'tomados'" color="warning" (click)="EntregarPedido(pedido)">
-              Entregar pedido
-            </ion-button>
-          </ion-grid>
+      <div style="border-bottom: 1px solid black" *ngFor="let pedido of pedidos">
+        <ion-item *ngIf='correspondeAlPerfil(pedido, usuario.puesto)'>
+          <label slot="start">Mesa: <strong>{{pedido.numeroMesa}}</strong></label>
+          <ion-button slot="end" *ngIf="filtro == 'pendientes'" color="warning" (click)="TomarPedido(pedido)">
+            Ver
+            pedido
+          </ion-button>
+          <ion-button slot="end" *ngIf="filtro == 'tomados'" color="warning" (click)="EntregarPedido(pedido)">
+            Entregar pedido
+          </ion-button>
         </ion-item>
       </div>
 

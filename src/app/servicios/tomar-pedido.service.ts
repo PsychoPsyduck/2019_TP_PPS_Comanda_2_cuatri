@@ -51,6 +51,10 @@ export class TomarPedidoService {
     });
   }
 
+  SetearPedido(pedidoDoc, pedido) {
+    return this.firebase.setear("/pedidos", pedidoDoc, pedido);
+  }
+
   EntregarPedidoCocinero(pedidoDoc) {
     return this.firebase.actualizar("/pedidos", pedidoDoc, {
       estadoCocinero: diccionario.estados_pedidos.listo
@@ -92,4 +96,8 @@ export class TomarPedidoService {
       estado: diccionario.estados_pedidos.listo
     });
   }
+
+  TraerPedido(pedidoDoc){
+    return this.firebase.TraerUnoPath('pedidos', pedidoDoc)
+ }
 }

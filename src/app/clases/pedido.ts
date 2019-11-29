@@ -14,4 +14,5 @@ export class Pedido {
          public responsableBartender: string;
          public tiempoDeEsperaCocinero: number;
          public tiempoDeEsperaBartender: number;
+         public horaDeEntrega: string;
        }

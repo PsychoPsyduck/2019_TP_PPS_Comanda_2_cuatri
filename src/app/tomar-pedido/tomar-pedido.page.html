@@ -23,7 +23,7 @@
       <ion-label>Tiempo de espera mínimo:</ion-label>
       <ion-input type="number" formControlName="tiempoDeEspera"></ion-input>
     </ion-item>
-    <h1>Pedido:</h1>
+    <h1>Pedido mesa {{pedido.numeroMesa}}:</h1>
     <ng-container *ngFor='let item of pedido.productoPedido'>
       <ion-list
         *ngIf="item.tipo == 'cocina' && usuario.puesto == 'cocinero' || item.tipo == 'barra' && usuario.puesto == 'bartender'"

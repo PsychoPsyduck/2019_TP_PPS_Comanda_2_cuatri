@@ -14,6 +14,7 @@ export class TomarPedidoPage implements OnInit {
   public puedeGuardar = false;
   public form: FormGroup;
   public pedido;
+
   usuario: any;
   constructor(
     public userServ: UsuariosService,
