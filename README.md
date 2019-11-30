@@ -13,7 +13,9 @@
   <li>Gastón Pesoa</li>
 </ul>
 <h3>Profesor</h3>
-<p>Maximiliano Neiner</p>
+<ul>
+  <li>Maximiliano Neiner</li>
+</ul>
 <hr>
 <br>
 <p>
