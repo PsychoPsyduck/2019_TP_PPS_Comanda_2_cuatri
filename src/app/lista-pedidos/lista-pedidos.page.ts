@@ -15,11 +15,11 @@ export class ListaPedidosPage implements OnInit {
     public tomarPedidoServ: TomarPedidoService,
     public authServ: AuthService,
     public mesasServ: MesasService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.tomarPedidoServ.TraerPedidos().subscribe(pedidos => {
-      if(pedidos != null && pedidos.length != 0){
+      if (pedidos != null && pedidos.length != 0) {
         pedidos.map(pedido => {
           this.mesasServ.TraerMesa(pedido.mesa).then(mesa => {
             pedido.numeroMesa = mesa.numero;
@@ -34,6 +34,10 @@ export class ListaPedidosPage implements OnInit {
     this.tomarPedidoServ.AceptarPedido(pedidoInfo.key).then(() => {
       console.log("Regreso del AceptarPedido");
     });
+  }
+
+  RechazarPedido(pedidoInfo) {
+    this.tomarPedidoServ.RechazarPedido(pedidoInfo.key)
   }
 
   EntregarPedido(pedidoInfo) {
@@ -51,9 +55,12 @@ export class ListaPedidosPage implements OnInit {
   CerrarPedido(pedidoInfo) {
     this.tomarPedidoServ.CerrarPedido(pedidoInfo.key).then(() => {
       console.log("Regreso del CerrarPedido");
-      this.mesasServ.LiberarMesa(pedidoInfo.mesa).then(() => {
-        console.log("Regreso del CerrarPedido");
-      });
+      this.mesasServ.TraerMesa(pedidoInfo.mesa).then(data => {
+        this.tomarPedidoServ.BorrarDeEspera(data.ocupante);
+        this.mesasServ.LiberarMesa(pedidoInfo.mesa).then(() => {
+          console.log("Regreso del CerrarPedido");
+        });
+      })
     });
   }
 }

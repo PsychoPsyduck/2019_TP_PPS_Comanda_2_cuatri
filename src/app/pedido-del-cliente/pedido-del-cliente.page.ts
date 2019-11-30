@@ -37,7 +37,7 @@ key;
       this.key=data[0].payload.doc.id;
       this.total=0;
       this.pedido.productoPedido.forEach((p)=>{
-        this.total= this.total + p.precio;
+        this.total= this.total + (p.precio * p.cantidad);
         console.log(p.entrega)
 
         let fecha =p.entrega.split(" "); 

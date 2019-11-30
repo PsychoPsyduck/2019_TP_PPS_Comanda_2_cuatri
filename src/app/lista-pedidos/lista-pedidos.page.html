@@ -28,15 +28,25 @@
                 </ion-item>
               </ion-list>
             </ion-row>
-              <div style="text-align: center;">
-              <ion-button expand="full" *ngIf="pedido.estado == 'solicitado'" color="warning" (click)="AceptarPedido(pedido)">Aceptar
-                pedido</ion-button>
-              <ion-button expand="full" *ngIf="pedido.estado == 'listo'" color="warning" (click)="EntregarPedido(pedido)">Entregar
-                pedido 
+            <div style="text-align: center;">
+              <ion-row *ngIf="pedido.estado == 'solicitado'">
+                <ion-col size="6">
+                  <ion-button expand="full" color="warning" (click)="AceptarPedido(pedido)">Aceptar
+                    pedido</ion-button>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-button expand="full" color="danger" (click)="RechazarPedido(pedido)">Rechazar
+                    pedido</ion-button>
+                </ion-col>
+              </ion-row>
+              <ion-button expand="full" *ngIf="pedido.estado == 'listo'" color="warning"
+                (click)="EntregarPedido(pedido)">Entregar
+                pedido
               </ion-button>
               <!-- <ion-button *ngIf="pedido.estado == 'cuenta'" color="warning" (click)="ConfirmarPago(pedido)">Confirmar pago
               </ion-button> -->
-              <ion-button expand="full" *ngIf="pedido.estado == 'pagado'" color="warning" (click)="CerrarPedido(pedido)">Cerrar pedido
+              <ion-button expand="full" *ngIf="pedido.estado == 'pagado'" color="warning"
+                (click)="CerrarPedido(pedido)">Cerrar pedido
               </ion-button>
             </div>
           </ion-grid>

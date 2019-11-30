@@ -6,7 +6,7 @@ export class ProductoPedido {
     public nombre: string;
     public precio: number;
     public tiempoElaboracion: string;
-    public entrega: any;
+    public entrega: any;    
 
     constructor(idProducto?, cantidad?, tipo?, estado?, nombre?, precio?, tiempo?, entrega?, idPedido?) {
         this.idProducto = idProducto;

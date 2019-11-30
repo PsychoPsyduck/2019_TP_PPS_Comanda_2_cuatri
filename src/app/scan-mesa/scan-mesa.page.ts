@@ -107,7 +107,7 @@ export class ScanMesaPage implements OnInit {
                   })
                 })
                 this.toast.confirmationToast("podes tomar tu reserva");
-                this.toast.errorToast("110")
+             
                 this.Navegar('/alta-pedido');
                
                 // this.AgregarPedido();
@@ -167,7 +167,11 @@ export class ScanMesaPage implements OnInit {
                       }
                       else {
                         console.log("hacer pedido")
+<<<<<<< HEAD
                         // this.toast.errorToast("169")
+=======
+                 
+>>>>>>> a6d663613a28687dfedf1807333f1e04794ca5dd
                         this.Navegar('/alta-pedido')
                         
                         // this.AgregarPedido();
@@ -200,7 +204,7 @@ export class ScanMesaPage implements OnInit {
                           this.toast.confirmationToast("Ocupaste la mesa que tenias reservada");
 
                           this.mesaServ.Ocupar(mesa, usuario).then(() => {
-                            this.toast.errorToast("200")
+                            
                             this.Navegar('/alta-pedido');
 
                             // this.AgregarPedido();
@@ -219,7 +223,11 @@ export class ScanMesaPage implements OnInit {
                       else {
                         this.toast.confirmationToast("Ocupaste la mesa");
                         this.mesaServ.Ocupar(mesa, usuario).then(() => {
+<<<<<<< HEAD
                           // this.toast.errorToast("219")
+=======
+                         
+>>>>>>> a6d663613a28687dfedf1807333f1e04794ca5dd
                           this.Navegar('/alta-pedido');
                           // this.AgregarPedido();
                         })

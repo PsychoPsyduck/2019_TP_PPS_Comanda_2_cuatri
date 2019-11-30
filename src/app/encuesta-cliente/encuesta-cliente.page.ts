@@ -19,6 +19,7 @@ export class EncuestaClientePage implements OnInit {
 
   array_fotos: string[];
   array_fotos_storage: string[];
+  encuesta:Encuesta;
 
 
   
@@ -29,7 +30,9 @@ export class EncuestaClientePage implements OnInit {
     private camera: Camera,
     private navCtrl: NavController
   ) { 
+    this.encuesta= new Encuesta();
     this.array_fotos= new Array<string>();
+    this.array_fotos_storage= new Array<string>();
   }
 
   primeraVez = new FormControl('', [
@@ -66,26 +69,24 @@ export class EncuestaClientePage implements OnInit {
 
   });
 
-  async GuardarEncuesta()
+   GuardarEncuesta()
   {
     this.spinner.showLoadingSpinner();
 
     if(this.array_fotos)
     {
-      await this.GuardarFoto(JSON.parse(sessionStorage.getItem("usuario")).id)
-    }
-
-    let encuesta = new Encuesta();
-    encuesta.comida = this.registroForm.value.comida;
-    encuesta.servicio = this.registroForm.value.servicio;
-    encuesta.primeraVez = this.registroForm.value.primeraVez;
-    encuesta.mesa = this.registroForm.value.mesa;
-    encuesta.comentario = this.registroForm.value.comentario;
-    encuesta.fotos = this.array_fotos_storage;
-    encuesta.fotos = this.array_fotos_storage;
+       this.GuardarFoto(JSON.parse(sessionStorage.getItem("usuario")).id).then(()=>{
+            //let encuesta = new Encuesta();
+    this.encuesta.comida = this.registroForm.value.comida;
+    this.encuesta.servicio = this.registroForm.value.servicio;
+    this.encuesta.primeraVez = this.registroForm.value.primeraVez;
+    this.encuesta.mesa = this.registroForm.value.mesa;
+    this.encuesta.comentario = this.registroForm.value.comentario;
+    this.encuesta.fotos = this.array_fotos_storage;
+    
 
 
-    this.encuestaSer.GuardarEncuesta(encuesta).then(()=>{
+    this.encuestaSer.GuardarEncuesta(this.encuesta).then(()=>{
 
       setTimeout(() => {
         this.spinner.hideLoadingSpinner();
@@ -102,7 +103,40 @@ export class EncuestaClientePage implements OnInit {
 
 this.registroForm.reset();
 
+      })
+    }
+    else{
 
+
+          //let encuesta = new Encuesta();
+    this.encuesta.comida = this.registroForm.value.comida;
+    this.encuesta.servicio = this.registroForm.value.servicio;
+    this.encuesta.primeraVez = this.registroForm.value.primeraVez;
+    this.encuesta.mesa = this.registroForm.value.mesa;
+    this.encuesta.comentario = this.registroForm.value.comentario;
+    //this.encuesta.fotos = this.array_fotos_storage;
+    
+
+
+    this.encuestaSer.GuardarEncuesta(this.encuesta).then(()=>{
+
+      setTimeout(() => {
+        this.spinner.hideLoadingSpinner();
+        this.toast.confirmationToast("encuesta enviada")
+
+      }, 2000);
+    }).catch(()=>{
+      setTimeout(() => {
+        this.spinner.hideLoadingSpinner();
+        this.toast.errorToast("No se guardo la encuesta");
+
+      }, 2000);
+    })
+
+this.registroForm.reset();
+    }
+
+ 
     
   }
 
@@ -115,13 +149,14 @@ this.registroForm.reset();
 async GuardarFoto(idUsuario)
 {
   
-
- await this.array_fotos.forEach(async f=>{
+//this.encuesta.fotos= new Array<string>()
+  this.array_fotos.forEach(async f=>{
   let filename = 'fotos_encuesta/'+ idUsuario + Date.now();
     await storage().ref(filename).putString(f,'data_url');
 
-    await firebase.storage().ref().child(filename).getDownloadURL().then(async (url)=>{
-      this.array_fotos_storage.push(url);
+    return firebase.storage().ref().child(filename).getDownloadURL().then(async (url)=>{
+      await this.array_fotos_storage.push(url);
+      //this.encuesta.fotos.push(url);
      
     }).catch((data)=>{
       console.log(data);
