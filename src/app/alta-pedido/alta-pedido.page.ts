@@ -59,7 +59,6 @@ export class AltaPedidoPage implements OnInit {
   ngOnInit() {
 
     // this.mesaDoc = this.route.snapshot.paramMap.get('mesa');
-
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.idUser = this.router.getCurrentNavigation().extras.state.user;
