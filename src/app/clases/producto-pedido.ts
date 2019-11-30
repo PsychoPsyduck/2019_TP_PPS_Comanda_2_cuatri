@@ -7,9 +7,8 @@ export class ProductoPedido {
     public precio: number;
     public tiempoElaboracion: string;
     public entrega: any;    
-    public descripcion: string;
 
-    constructor(idProducto?, cantidad?, tipo?, estado?, nombre?, precio?, tiempo?, entrega?, idPedido?, descripcion?) {
+    constructor(idProducto?, cantidad?, tipo?, estado?, nombre?, precio?, tiempo?, entrega?, idPedido?) {
         this.idProducto = idProducto;
         this.cantidad = cantidad;
         this.tipo = tipo;
@@ -18,6 +17,5 @@ export class ProductoPedido {
         this.precio = precio;
         this.tiempoElaboracion = tiempo;
         this.entrega = entrega;
-        this.descripcion = descripcion;
     }
 }
