@@ -1,8 +1,11 @@
 <h1>2019 - UTN FRA - 2 cuatrimestre - PPS -- La Comanda -- Equipo Gamma</h1>
 <h3>Para registrarse: https://forms.gle/MQudzzZkWsfpihy27</h3>
-***
+<hr>
+</br>
 <h1>La Comanda</h1>
-![La Comanda](./readme-imgs/icon.png "Logo La Comanda")
+<img src="./readme-imgs/icon.png" style="width:50%"/>
+<hr>
+<br>
 <h3>Integrantes</h3>
 <ul>
   <li>Augusto Morelli</li>
@@ -11,18 +14,20 @@
 </ul>
 <h3>Profesor</h3>
 <p>Maximiliano Neiner</p>
+<hr>
+<br>
 <p>
 Se utilizará github para el trabajo en equipo. Creando una rama para cada integrante que luego se fusionarán para integrar los cambios.</p>
 <p>La planificación y registro de tareas realizadas quedará registrado en este <a href="https://docs.google.com/spreadsheets/d/1Hso0U6gmNq-NEFsZ7tdsMgobRnvUpk5OAh_aCR_QS04/edit#gid=1587683816">Excel</a>.
 </p>
-***
+<hr>
+<br>
 <h3>Descripción del negocio:</h3>
 <p>Sistema de servicio de pedidos para restaurante, con dos sectores bien diferenciados:</p>
 <ul>
    <li>la barra de tragos y vinos</li>
    <li>cocina, donde se preparan todos los platos de comida</li>
 </ul>
-</hr>
 <p>Dentro del de trabajadores tenemos empleados diferenciados por</p>
 <ul>
    <li>socios/dueños​</li>
@@ -49,7 +54,6 @@ Se utilizará github para el trabajo en equipo. Creando una rama para cada integ
    <li>El cliente paga.</li>
    <li>El mozo confirma el pago, cierra el pedido y libera la mesa.</li>
 </ul>
-</hr>
 <p><b>La encuesta de satisfacción califica:</b></p>
 <ul>
    <li>El servicio</li>
@@ -57,8 +61,8 @@ Se utilizará github para el trabajo en equipo. Creando una rama para cada integ
    <li>La mesa</li>
 </ul>
 <p>Y un breve texto con comentarios adicionales.</p>
-</hr>
-***
+<hr>
+<br>
 <h3>Descripción técnica:</h3>
 <p>Aplicación móvil, desarrollada con Ionic Framework 4 integrado con Angular y plugins Cordova para agregar funcionalidad nativa. Como motor de base de datos se utiliza Firebase, para persistir la información.</p>
 <p>
@@ -109,7 +113,9 @@ Se utilizará github para el trabajo en equipo. Creando una rama para cada integ
    </li>
 </ul>
 <p>Para la instalación nativa en Android: <a href="https://github.com/gastonpesoa/2019_TP_PPS_Comanda_2_cuatri/blob/master/app-debug.apk">descargar apk</a> e instalar</p>
-***
+<hr>
+<br>
+
 <b>
 Sprint 1 26/10 - 2/11
 </b>
@@ -155,8 +161,9 @@ Sprint 1 26/10 - 2/11
     </ul>
   </li>
 </ol>
-</br>
-***
+<hr>
+<br>
+
 <b>
 Sprint 2 2/11 - 9/11
 </b>
@@ -172,7 +179,9 @@ Sprint 2 2/11 - 9/11
   <li>Notificación por mail al cliente confirmando ser aceptado o rechazado - Augusto Morelli - augustoBranch</li>
   <li>Validaciones de ingreso a la aplicación - Augusto Morelli - augustoBranch</li>
 </ol>
-***
+<hr>
+<br>
+
 <b>
 Sprint 3 9/11 - 16/11
 </b>
@@ -190,7 +199,9 @@ Sprint 3 9/11 - 16/11
   </li>
   <li>Hacer reservas agendadas - Augusto Morelli - augustoBranch</li>
 </ol>
-***
+<hr>
+<br>
+
 <b>
 Sprint 4 16/11 - 23/11 - Preentrega
 </b>
@@ -223,7 +234,9 @@ Sprint 4 16/11 - 23/11 - Preentrega
   </li>
   <li>Pruebas de funcionalidad del circuito general en conjunto</li>
 </ol>
-***
+<hr>
+<br>
+
 <b>
 Sprint 5 23/11 - 30/11 - Entrega
 </b>
@@ -243,5 +256,7 @@ Sprint 5 23/11 - 30/11 - Entrega
     <li>Pruebas de funcionalidad del circuito general en conjunto</li>
   </li>
 </ol>
-***
+<hr>
+<br>
+
 
