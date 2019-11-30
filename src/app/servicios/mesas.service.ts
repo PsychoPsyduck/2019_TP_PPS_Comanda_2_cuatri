@@ -119,7 +119,8 @@ export class MesasService {
 
   LiberarMesa(mesaDoc) {
     return this.firebase.actualizar("/mesas", mesaDoc, {
-      estado: diccionario.estados_mesas.libre
+      estado: diccionario.estados_mesas.libre,
+      ocupante: ''
     });
   }
 

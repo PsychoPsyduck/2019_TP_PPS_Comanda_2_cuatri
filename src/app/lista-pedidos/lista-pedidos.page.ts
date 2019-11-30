@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../servicios/auth.service";
 import { MesasService } from "../servicios/mesas.service";
 import { TomarPedidoService } from '../servicios/tomar-pedido.service';
+import { FirebaseService } from '../servicios/firebase.service';
 
 @Component({
   selector: "app-lista-pedidos",
@@ -12,6 +13,7 @@ export class ListaPedidosPage implements OnInit {
   public pedidos: any;
   public mostrarSpinner: boolean = false;
   constructor(
+    public fireServ: FirebaseService,
     public tomarPedidoServ: TomarPedidoService,
     public authServ: AuthService,
     public mesasServ: MesasService
@@ -56,10 +58,17 @@ export class ListaPedidosPage implements OnInit {
     this.tomarPedidoServ.CerrarPedido(pedidoInfo.key).then(() => {
       console.log("Regreso del CerrarPedido");
       this.mesasServ.TraerMesa(pedidoInfo.mesa).then(data => {
-        this.tomarPedidoServ.BorrarDeEspera(data.ocupante);
-        this.mesasServ.LiberarMesa(pedidoInfo.mesa).then(() => {
-          console.log("Regreso del CerrarPedido");
-        });
+
+        this.fireServ.traerUno('esperaMesa', 'idUsuario', data.ocupante).then(res => {
+          console.log('user lista espera', res)
+          console.log('user lista espera', res.id)
+          this.fireServ.borrar('esperaMesa', res.id)
+          // this.tomarPedidoServ.BorrarDeEspera(res.id);
+          this.mesasServ.LiberarMesa(pedidoInfo.mesa).then(() => {
+            console.log("Regreso del CerrarPedido");
+          });
+        })
+        
       })
     });
   }

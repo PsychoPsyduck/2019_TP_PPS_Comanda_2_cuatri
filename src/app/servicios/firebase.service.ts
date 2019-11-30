@@ -68,6 +68,7 @@ export class FirebaseService {
   }
 
   borrar(path: string, doc: string): void {
+    console.log('pah', path, "doc", doc)
     this.db
       .collection(path)
       .doc(doc)
