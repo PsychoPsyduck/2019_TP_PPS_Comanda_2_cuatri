@@ -95,14 +95,17 @@ Se utilizará github para el trabajo en equipo. Creando una rama para cada integ
 </p>
 <h3>Instalación:</h3>
 <ul>
+  <li>Instalar git<br>
+    <b>https://git-scm.com/</b>
+   </li>
    <li>Clonar proyecto con github<br>
     <b>git clone https://github.com/gastonpesoa/2019_TP_PPS_Comanda_2_cuatri.git</b>
    </li>
+  <li>Instalar Node.js</br>
+    <b>https://nodejs.org/en/</b>
+   </li>
    <li>Instalar Ionic y Cordova<br>
     <b>npm install -g ionic cordova</b>
-   </li>
-   <li>Instalar Node.js</br>
-    <b>https://nodejs.org/en/</b>
    </li>
    <li>Abrir el proyecto e instalar librerías</br>
       <b>npm install</b>
