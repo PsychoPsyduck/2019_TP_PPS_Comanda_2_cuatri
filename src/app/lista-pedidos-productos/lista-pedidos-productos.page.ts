@@ -111,6 +111,7 @@ export class ListaPedidosProductosPage implements OnInit {
   }
 
   mostrarPedidos() {
+    this.usuario = this.userServ.getUsuarioStorage();
     if (this.filtro == "pendientes") {
       this.tomarPedidoServ
         .TraerPedidos()
