@@ -93,6 +93,29 @@ Se utilizará github para el trabajo en equipo. Creando una rama para cada integ
    </li>
 </ul>
 </p>
+<h3>QRs</h3>
+<ul>
+   <li>
+      <p><b>Lista de espera</b></p>
+      <img src="./readme-imgs/qrs/lista_de_espera.png" style="width:50%"/>
+   </li>
+   <li>
+      <p><b>Mesa 1</b></p>
+      <img src="./readme-imgs/qrs/mesa1.png" style="width:50%"/>
+   </li>
+   <li>
+      <p><b>Mesa 2</b></p>
+      <img src="./readme-imgs/qrs/mesa2.png" style="width:50%"/>
+   </li>
+   <li>
+      <p><b>Mesa 3</b></p>
+      <img src="./readme-imgs/qrs/mesa3.png" style="width:50%"/>
+   </li>
+   <li>
+      <p><b>Mesa 4</b></p>
+      <img src="./readme-imgs/qrs/mesa4.png" style="width:50%"/>
+   </li>
+</ul>
 <h3>Instalación:</h3>
 <ul>
   <li>Instalar git<br>
@@ -263,5 +286,6 @@ Sprint 5 23/11 - 30/11 - Entrega
 </ol>
 <hr>
 <br>
+
 
 
