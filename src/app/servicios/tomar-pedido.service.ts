@@ -21,6 +21,10 @@ export class TomarPedidoService {
     this.usuario = this.userServ.getUsuarioStorage()
   }
 
+  BorrarDeEspera(doc: string){
+    return this.firebase.borrar('esperaMesa', doc)
+  }
+
   TraerPedidos(query: QueryFn = null) {
     return this.firebase.traerColeccion("/pedidos", query).pipe(
       map(accion => {
@@ -77,6 +81,10 @@ export class TomarPedidoService {
     return this.firebase.actualizar("/pedidos", pedidoDoc, {
       estado: diccionario.estados_pedidos.aceptado
     });
+  }
+
+  RechazarPedido(pedidoDoc) {
+    this.firebase.borrar("/pedidos", pedidoDoc);
   }
 
   // ConfirmarPago(pedidoDoc) {

@@ -6,9 +6,10 @@ export class ProductoPedido {
     public nombre: string;
     public precio: number;
     public tiempoElaboracion: string;
-    public entrega: any;
+    public entrega: any;    
+    public descripcion: string;
 
-    constructor(idProducto?, cantidad?, tipo?, estado?, nombre?, precio?, tiempo?, entrega?, idPedido?) {
+    constructor(idProducto?, cantidad?, tipo?, estado?, nombre?, precio?, tiempo?, entrega?, idPedido?, descripcion?) {
         this.idProducto = idProducto;
         this.cantidad = cantidad;
         this.tipo = tipo;
@@ -17,5 +18,6 @@ export class ProductoPedido {
         this.precio = precio;
         this.tiempoElaboracion = tiempo;
         this.entrega = entrega;
+        this.descripcion = descripcion;
     }
 }

@@ -144,7 +144,7 @@ export class ListaPedidosProductosPage implements OnInit {
 
   procesarPedidos(pedidos) {
     var usuario = this.usuario;
-
+    
     if (pedidos.length == 0)
       this.pedidos = pedidos;
     else {
