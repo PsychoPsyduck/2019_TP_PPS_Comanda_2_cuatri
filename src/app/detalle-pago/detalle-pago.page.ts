@@ -52,7 +52,7 @@ propina=0;
       console.log("propina: "+this.propina)
       this.pedido.productoPedido.forEach((producto) => {
  
-        this.total += parseInt(producto.precio);
+        this.total += (parseInt(producto.precio)*producto.cantidad);
         console.log(this.total);
         
       });
