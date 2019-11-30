@@ -93,23 +93,23 @@ Se utilizará github para el trabajo en equipo. Creando una rama para cada integ
 </p>
 <h3>Instalación:</h3>
 <ul>
-   <li>Clonar proyecto con github</br>
-    **git clone https://github.com/gastonpesoa/2019_TP_PPS_Comanda_2_cuatri.git**
+   <li>Clonar proyecto con github<br>
+    <b>git clone https://github.com/gastonpesoa/2019_TP_PPS_Comanda_2_cuatri.git</b>
    </li>
-   <li>Instalar Ionic y Cordova</br>
-    **npm install -g ionic cordova**
+   <li>Instalar Ionic y Cordova<br>
+    <b>npm install -g ionic cordova</b>
    </li>
    <li>Instalar Node.js</br>
-    **https://nodejs.org/en/**
+    <b>https://nodejs.org/en/</b>
    </li>
    <li>Abrir el proyecto e instalar librerías</br>
-    **npm install**
+      <b>npm install</b>
    </li>
    <li>Correr la aplicación en localhost</br>
-    **ionic serve**
+    <b>ionic serve</b>
    </li>
    <li>Dirigirse a</br>
-    **http://localhost:8100/**
+    <b>http://localhost:8100/</b>
    </li>
 </ul>
 <p>Para la instalación nativa en Android: <a href="https://github.com/gastonpesoa/2019_TP_PPS_Comanda_2_cuatri/blob/master/app-debug.apk">descargar apk</a> e instalar</p>
