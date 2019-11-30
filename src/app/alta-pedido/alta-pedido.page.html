@@ -18,13 +18,13 @@
     <ion-button [color]="bebidas?'success':'light'" (click)="filtrarProds(1)">Bebidas</ion-button>
   </section>
 
-  <ion-slides pager="false" [options]="slideOpts" #slides (ionSlideDidChange)="cambiaSlide($event)">
+  <ion-slides id="slide-cards" pager="false" [options]="slideOpts" #slides (ionSlideDidChange)="cambiaSlide($event)">
 
-    <ion-slide *ngFor="let producto of productos" [class]="producto.tipo">
+    <ion-slide *ngFor="let producto of productos" [class]="producto.tipo" [id]="'slide_'+producto.id+'_'+producto.tipo">
 
       <ion-card>
 
-        <ion-slides pager="true" [options]="slideOpts">
+        <ion-slides id="slide-photos" pager="true" [options]="slideOpts">
           <ion-slide *ngFor="let foto of producto.fotos">
             <img [src]="foto" />
           </ion-slide>

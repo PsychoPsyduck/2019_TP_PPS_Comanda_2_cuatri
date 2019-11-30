@@ -7,7 +7,7 @@ ion-content{
     width: 90%;
     height: 150px;
     border-radius: 10px;
-    background-color: rgba(149, 163, 164,0.9);
+    background-color: rgba(149, 163, 164,1);
     padding: 16px;
     margin: auto;
     margin-top: 2em;
@@ -21,7 +21,7 @@ ion-content{
     width: 90%;
     height: 80px;
     border-radius: 10px;
-    background-color: rgba(75, 129, 98,0.7);
+    background-color: rgba(75, 129, 98,1);
     margin: auto;
     margin-top: 2em;
     padding: 16px;
@@ -32,10 +32,8 @@ ion-content{
 .desc-home{
     width: 90%;
     height: 150px;
-    border-radius: 10px;
-    background-color: rgba(75, 129, 98,0.7);
     margin: auto;
-    margin-top: 2em;
+    margin-top: 3em;
     padding: 10px;
     color: white;
     font-weight: 500;

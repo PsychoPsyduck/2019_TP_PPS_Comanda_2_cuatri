@@ -15,8 +15,7 @@ import { SpinnerService } from '../servicios/spinner.service';
 })
 export class LoginPage implements OnInit {
 
-  // splash = true;
-  splash = false;
+  splash = true;
   correo: string;
   clave: string;
   usuarios: Usuario[];

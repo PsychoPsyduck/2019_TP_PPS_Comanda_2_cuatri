@@ -58,7 +58,7 @@ export class AltaPedidoPage implements OnInit {
 
   ngOnInit() {
 
-    this.mesaDoc = this.route.snapshot.paramMap.get('mesa');
+    // this.mesaDoc = this.route.snapshot.paramMap.get('mesa');
 
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -72,18 +72,8 @@ export class AltaPedidoPage implements OnInit {
 
     this.itemsPedido = new Array<ProductoPedido>();
 
-    // this.form = this.formBuilder.group({
-    //   cantidad: [
-    //     '',
-    //     Validators.compose([Validators.required, Validators.min(1)])
-    //   ],
-    //   mesa: ['', Validators.required],
-    //   producto: ['', Validators.required]
-    // });
-
     if (this.mesaDoc != undefined) {
       this.mesa = this.mesaDoc;
-      // this.form.patchValue({ mesa: this.mesaDoc });
     }
 
     this.productosServ.TraerTodosLosProductos().subscribe(productos => {
@@ -95,7 +85,6 @@ export class AltaPedidoPage implements OnInit {
   }
 
   cancel() {
-    // this.modalCtrl.dismiss();
     this.comidas = false;
     this.bebidas = false;
     this.todos = true;
@@ -124,13 +113,6 @@ export class AltaPedidoPage implements OnInit {
         this.router.navigate(['/home'])
         this.toast.confirmationToast("Pedido registrado, puede hacer el seguimiento del mismo volviendo a escanear el código QR de su mesa");
       });
-
-    // this.modalCtrl.dismiss({
-    //   productoPedido: this.itemsPedido,
-    //   mesa: this.form.get('mesa').value,
-    //   cliente: this.mesa.ocupante,
-    //   estado: diccionario.estados_pedidos.solicitado
-    // });
   }
 
   restarUnidad(id) {
@@ -154,8 +136,7 @@ export class AltaPedidoPage implements OnInit {
   }
 
   agregarItemAlPedido(id) {
-    // const idProducto = this.form.get('producto').value;
-    // const cantidad = parseInt(this.form.get('cantidad').value, 10);
+
     var inputValue = (<HTMLInputElement>document.getElementById("unidad_" + id)).value;
     const idProducto = id;
     const cantidad = parseInt(inputValue, 10);
@@ -195,15 +176,11 @@ export class AltaPedidoPage implements OnInit {
       }
       this.itemsPedido.push(productoAAgregar);
       console.info("se agrega producto ", productoAAgregar, "al los pedidos", this.itemsPedido);
-
-      
     }
     this.subtotal = 0;
     this.itemsPedido.forEach(item => {
       this.subtotal += (item.cantidad * item.precio);
     })
-
-    // this.form.patchValue({ producto: '', cantidad: '' });
     this.puedeGuardar = true;
   }
 
@@ -219,29 +196,15 @@ export class AltaPedidoPage implements OnInit {
     this.itemsPedido.forEach(item => {
       this.subtotal += (item.cantidad * item.precio);
     })
-    if (this.itemsPedido.length<1) {
+    if (this.itemsPedido.length < 1) {
       this.puedeGuardar = false;
     }
   }
 
-  puedeAgregarAlPedido() {
-    return (
-      this.form.get('cantidad').value != '' &&
-      this.form.get('producto').value != ''
-    );
-  }
-
-  public escanearQr() {
-
-  }
-
   cambiaSlide(event) {
-    this.slides.getActiveIndex().then(res => {
-      // console.info("indexxxx", res)
-      if (this.comidas) {
-
-      }
-    })
+    // if (event.target.id === 'slide-cards') {
+    //   console.log("target", (event.target.children[0]).children)
+    // }
   }
 
   filtrarProds(tipo) {

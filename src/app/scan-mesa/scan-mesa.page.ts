@@ -167,7 +167,7 @@ export class ScanMesaPage implements OnInit {
                       }
                       else {
                         console.log("hacer pedido")
-                        this.toast.errorToast("169")
+                        // this.toast.errorToast("169")
                         this.Navegar('/alta-pedido')
                         
                         // this.AgregarPedido();
@@ -219,7 +219,7 @@ export class ScanMesaPage implements OnInit {
                       else {
                         this.toast.confirmationToast("Ocupaste la mesa");
                         this.mesaServ.Ocupar(mesa, usuario).then(() => {
-                          this.toast.errorToast("219")
+                          // this.toast.errorToast("219")
                           this.Navegar('/alta-pedido');
                           // this.AgregarPedido();
                         })
