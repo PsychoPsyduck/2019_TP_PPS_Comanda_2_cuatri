@@ -118,9 +118,9 @@ Se utilizará github para el trabajo en equipo. Creando una rama para cada integ
 <hr>
 <br>
 
-<b>
+<h3>
 Sprint 1 26/10 - 2/11
-</b>
+</h3>
 <ol>
   <li>Generación de repositorio</li>
   <li>Creación de estructura general de la aplicacion - Augusto Morelli - master</li>
@@ -166,9 +166,9 @@ Sprint 1 26/10 - 2/11
 <hr>
 <br>
 
-<b>
+<h3>
 Sprint 2 2/11 - 9/11
-</b>
+</h3>
 <ol>
   <li>Correcciones primer sprint
     <ul>
@@ -184,9 +184,9 @@ Sprint 2 2/11 - 9/11
 <hr>
 <br>
 
-<b>
+<h3>
 Sprint 3 9/11 - 16/11
-</b>
+</h3>
 <ol>
 <li>Ingreso anónimo - Augusto Morelli - augustoBranch</li>
   <img src="./readme-imgs/ing-anon.png" style="width:50%"/>
@@ -204,9 +204,9 @@ Sprint 3 9/11 - 16/11
 <hr>
 <br>
 
-<b>
+<h3>
 Sprint 4 16/11 - 23/11 - Preentrega
-</b>
+</h3>
 <ol>
   <li>Gestión
     <ul>
@@ -239,9 +239,9 @@ Sprint 4 16/11 - 23/11 - Preentrega
 <hr>
 <br>
 
-<b>
+<h3>
 Sprint 5 23/11 - 30/11 - Entrega
-</b>
+</h3>
 <ol>
 <li>Correcciones generales
     <ul>
